@@ -1,0 +1,5 @@
+# Introducción {.unnumbered}
+
+Este es un primer curso sobre las funcionalidades básicas de Python. Es un complemento al curso "Diseño de Cursos Interactivos con la Plataforma MACTI". 
+
+Los Jupyter Notebooks de este curso se pueden obtener en  <https://github.com/repomacti/macti/tutoriales/python_basico>.

@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.550">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Simulación Matemática de Yacimientos - 7&nbsp; Flujo Monofásico en 2D con Algoritmo de Thomas</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./08_Laplace_2D_SciPy.html" rel="next">
+<link href="./06_Conduccion_calor_solvers.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_Laplace_2D_Thomas.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Flujo Monofásico en 2D con Algoritmo de Thomas</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Simulación Matemática de Yacimientos</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Sol_Sist_Lineales_Intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Sistemas de ecuaciones lineales: introducción</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Sol_Sis_Lin_Iter_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Métodos iterativos para la solución de sistemas de ecuaciones lineales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Sol_Sis_Lin_Krylov.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Descenso del gradiente y Gradiente Conjugado.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Conduccion_estacionaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Conducción de Calor estaionaria en 2D.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Conduccion_NO_estacionaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Conducción de calor No estacionaria.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Conduccion_calor_solvers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Conducción de calor en 2D: algoritmos de solución de sistemas de ecuaciones.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Laplace_2D_Thomas.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Flujo Monofásico en 2D con Algoritmo de Thomas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_Laplace_2D_SciPy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Flujo Monofásico en 2D con SciPy</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#contenido" id="toc-contenido" class="nav-link active" data-scroll-target="#contenido"><span class="header-section-number">7.1</span> Contenido</a>
+  <ul class="collapse">
+  <li><a href="#modelo-físico-conceptual" id="toc-modelo-físico-conceptual" class="nav-link" data-scroll-target="#modelo-físico-conceptual"><span class="header-section-number">7.1.1</span> 1.1 Modelo físico conceptual</a></li>
+  <li><a href="#y-1.3-modelo-matemático-y-numérico" id="toc-y-1.3-modelo-matemático-y-numérico" class="nav-link" data-scroll-target="#y-1.3-modelo-matemático-y-numérico"><span class="header-section-number">7.1.2</span> 1.2 y 1.3 Modelo matemático y numérico</a></li>
+  <li><a href="#discretización-de-las-ecuaciones" id="toc-discretización-de-las-ecuaciones" class="nav-link" data-scroll-target="#discretización-de-las-ecuaciones"><span class="header-section-number">7.1.3</span> Discretización de las ecuaciones</a></li>
+  </ul></li>
+  <li><a href="#ejercicio-1---uso-de-condiciones-de-frontera-tipo-neumann" id="toc-ejercicio-1---uso-de-condiciones-de-frontera-tipo-neumann" class="nav-link" data-scroll-target="#ejercicio-1---uso-de-condiciones-de-frontera-tipo-neumann"><span class="header-section-number">7.2</span> Ejercicio 1 - uso de condiciones de frontera tipo Neumann</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">7.3</span> ———————————————————————————————————</a></li>
+  <li><a href="#ejercicio-2---condiciones-de-frontera-mixtas-neumann-dirichlet" id="toc-ejercicio-2---condiciones-de-frontera-mixtas-neumann-dirichlet" class="nav-link" data-scroll-target="#ejercicio-2---condiciones-de-frontera-mixtas-neumann-dirichlet"><span class="header-section-number">7.4</span> Ejercicio 2 - condiciones de frontera mixtas (Neumann + Dirichlet)</a>
+  <ul class="collapse">
+  <li><a href="#notas" id="toc-notas" class="nav-link" data-scroll-target="#notas"><span class="header-section-number">7.4.1</span> Notas:</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Flujo Monofásico en 2D con Algoritmo de Thomas</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Objetivo general</strong> - El alumno resolverá la ecuación de Laplace en dos dimensiones, la cual representa el flujo monofásico incompresible en estado estable, con propiedades del fluido y del medio constantes. Mediante la solución de esta ecuación, se conocerán los tipos de condiciones de frontera y los tipos de solvers que se aplican en la solución de problemas relacionados con la Simulación Matemática de Yacimientos (SMY).</p>
+<p><strong>Objetivos particulares</strong> - Conocer e identificar los tipos de condiciones a la frontera utilizadas en SMY. - Identificar la dirección del flujo de fluidos de acuerdo a las isobaras.</p>
+<p><strong>Trabajo realizado con el apoyo del Programa UNAM-DGAPA-PAPIME PE101922</strong></p>
+<section id="contenido" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="contenido"><span class="header-section-number">7.1</span> Contenido</h2>
+<ul>
+<li><a href="#1">1 - Resolución de un problema de ingeniería mediante matemática computacional</a></li>
+<li><a href="#2">2 - Condiciones de frontera</a>
+<ul>
+<li><a href="#2.1">2.1 - Primera clase (Neumann)</a></li>
+<li><a href="#2.2">2.2 - Segunda clase (Dirichlet)</a></li>
+<li><a href="#ej-1">Ejercicio 1.</a></li>
+</ul></li>
+<li><a href="#3">3 - Resolución del problema para flujo monofasico en 2D</a>
+<ul>
+<li><a href="#3.1">3.1 - Algoritmo de Thomas.</a></li>
+<li><a href="#ej-2">Ejercicio 2</a></li>
+</ul></li>
+</ul>
+<p><a name="1"></a> ## 1. Resolución de un problema de ingeniería mediante matemática computacional Se realiza la siguiente metodología: 1. Definir un modelo físico conceptual 2. Definir el modelo matemático 3. Definir el modelo numérico 4. Definir el modelo computacional (algoritmo de solución)</p>
+<section id="modelo-físico-conceptual" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="modelo-físico-conceptual"><span class="header-section-number">7.1.1</span> 1.1 Modelo físico conceptual</h3>
+<p>Se inyecta un fluido a presión constante (<strong>1,000 psi</strong>) y se produce a presión constante (<strong>500 psi</strong>), en un medio poroso bidimensional homogéneo (de longitud Lx = <strong>1,000 ft</strong> y Ly = <strong>500 ft</strong> con permeabilidad y porosidad constantes), así mismo las propiedades del fluido no dependen de la presión, adicionalmente el medio poroso se encuentra saturado completamente de este fluido, por lo que se desea conocer el gradiente de presión en estado permanente.</p>
+<ol type="1">
+<li>No se consideran los efectos de la fuerza de gravedad</li>
+<li>No hay fuentes ni sumideros</li>
+<li>El fluido es incompresible y la viscosidad constante</li>
+<li>El medio está inicialmente saturado del fluido</li>
+<li>Ya se ha llegado al estado estable o permanente</li>
+<li>Las permeabilidades en dirección <span class="math inline">\(x\)</span> y <span class="math inline">\(y\)</span> son iguales e invariantes en el espacio y tiempo</li>
+</ol>
+<p>Partiendo de la ecuacion general de balance de materia para flujo monofásico (de cualquier fluido <span class="math inline">\(\alpha\)</span>) en medios porosos se tiene:</p>
+<p><span class="math display">\[\frac{\partial \phi\rho_\alpha}{\partial t} - \nabla (\rho_\alpha \frac{k}{\mu}(\nabla\rho_\alpha - \rho_\alpha \delta\nabla z)) = q_\alpha\]</span></p>
+</section>
+<section id="y-1.3-modelo-matemático-y-numérico" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="y-1.3-modelo-matemático-y-numérico"><span class="header-section-number">7.1.2</span> 1.2 y 1.3 Modelo matemático y numérico</h3>
+<p>Tomando en cuenta las consideraciones del modelo físico se llega a: <span class="math display">\[\frac{\partial^2 \rho_\alpha}{\partial x^2} + \frac{\partial^2 \rho_\alpha}{\partial y^2} = 0\]</span></p>
+<p>Discretizando la ecuacion anterior en una malla bidimensional se llega a:</p>
+<p><span class="math display">\[AP_{i,j}p_i = AE_{i,j}p_{i+1, j}+ AW_{i,j}p_{i-1, j} + AN_{i,j}p_{i,j+1} + AS_{i,j}p_{i-1, j} + B_{i,j}\]</span></p>
+<p><span class="math display">\[i = 1,2,3,4,...,nx-2\]</span> <span class="math display">\[j = 1,2,3,4,...,ny-2\]</span></p>
+<div id="66c8d207" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ipywidgets <span class="im">as</span> widgets</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> funciones_personalizadas <span class="im">as</span> fp</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> animation, cm</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="7270fc87" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Considere una malla rectangular de 1,000 ft x 500 ft, en el eje x e y, respectivamente. Con 5 nodos en x y 4 en y.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>nodos_x, nodos_y <span class="op">=</span> <span class="dv">5</span>, <span class="dv">4</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>longitud_x, longitud_y <span class="op">=</span> <span class="dv">1000</span>, <span class="dv">500</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>nx_a_discretizar, ny_a_discretizar <span class="op">=</span> <span class="dv">1</span>,<span class="dv">1</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>fp.discretizacion_en_malla_rectangular(longitud_x, longitud_y, nodos_y, nodos_x, nx_a_discretizar, ny_a_discretizar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Laplace_2D_Thomas_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nodo discretizado: </code></pre>
+</div>
+</div>
+<div id="d6a24fea" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nodos_x, nodos_y <span class="op">=</span> <span class="dv">5</span>, <span class="dv">4</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>nodo_a_discretizar <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>fp.generar_matriz(nodos_x, nodos_y, nodo_a_discretizar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+<style type="text/css">
+#T_0e862_row0_col0, #T_0e862_row0_col1, #T_0e862_row0_col5, #T_0e862_row2_col1, #T_0e862_row2_col2, #T_0e862_row2_col3, #T_0e862_row2_col7, #T_0e862_row3_col2, #T_0e862_row3_col3, #T_0e862_row3_col4, #T_0e862_row3_col8, #T_0e862_row4_col3, #T_0e862_row4_col4, #T_0e862_row4_col9, #T_0e862_row5_col0, #T_0e862_row5_col5, #T_0e862_row5_col6, #T_0e862_row5_col10, #T_0e862_row6_col1, #T_0e862_row6_col5, #T_0e862_row6_col6, #T_0e862_row6_col7, #T_0e862_row6_col11, #T_0e862_row7_col2, #T_0e862_row7_col6, #T_0e862_row7_col7, #T_0e862_row7_col8, #T_0e862_row7_col12, #T_0e862_row8_col3, #T_0e862_row8_col7, #T_0e862_row8_col8, #T_0e862_row8_col9, #T_0e862_row8_col13, #T_0e862_row9_col4, #T_0e862_row9_col8, #T_0e862_row9_col9, #T_0e862_row9_col14, #T_0e862_row10_col5, #T_0e862_row10_col10, #T_0e862_row10_col11, #T_0e862_row10_col15, #T_0e862_row11_col6, #T_0e862_row11_col10, #T_0e862_row11_col11, #T_0e862_row11_col12, #T_0e862_row11_col16, #T_0e862_row12_col7, #T_0e862_row12_col11, #T_0e862_row12_col12, #T_0e862_row12_col13, #T_0e862_row12_col17, #T_0e862_row13_col8, #T_0e862_row13_col12, #T_0e862_row13_col13, #T_0e862_row13_col14, #T_0e862_row13_col18, #T_0e862_row14_col9, #T_0e862_row14_col13, #T_0e862_row14_col14, #T_0e862_row14_col19, #T_0e862_row15_col10, #T_0e862_row15_col15, #T_0e862_row15_col16, #T_0e862_row16_col11, #T_0e862_row16_col15, #T_0e862_row16_col16, #T_0e862_row16_col17, #T_0e862_row17_col12, #T_0e862_row17_col16, #T_0e862_row17_col17, #T_0e862_row17_col18, #T_0e862_row18_col13, #T_0e862_row18_col17, #T_0e862_row18_col18, #T_0e862_row18_col19, #T_0e862_row19_col14, #T_0e862_row19_col18, #T_0e862_row19_col19 {
+  color: dark;
+}
+#T_0e862_row0_col2, #T_0e862_row0_col3, #T_0e862_row0_col4, #T_0e862_row0_col6, #T_0e862_row0_col7, #T_0e862_row0_col8, #T_0e862_row0_col9, #T_0e862_row0_col10, #T_0e862_row0_col11, #T_0e862_row0_col12, #T_0e862_row0_col13, #T_0e862_row0_col14, #T_0e862_row0_col15, #T_0e862_row0_col16, #T_0e862_row0_col17, #T_0e862_row0_col18, #T_0e862_row0_col19, #T_0e862_row2_col0, #T_0e862_row2_col4, #T_0e862_row2_col5, #T_0e862_row2_col6, #T_0e862_row2_col8, #T_0e862_row2_col9, #T_0e862_row2_col10, #T_0e862_row2_col11, #T_0e862_row2_col12, #T_0e862_row2_col13, #T_0e862_row2_col14, #T_0e862_row2_col15, #T_0e862_row2_col16, #T_0e862_row2_col17, #T_0e862_row2_col18, #T_0e862_row2_col19, #T_0e862_row3_col0, #T_0e862_row3_col1, #T_0e862_row3_col5, #T_0e862_row3_col6, #T_0e862_row3_col7, #T_0e862_row3_col9, #T_0e862_row3_col10, #T_0e862_row3_col11, #T_0e862_row3_col12, #T_0e862_row3_col13, #T_0e862_row3_col14, #T_0e862_row3_col15, #T_0e862_row3_col16, #T_0e862_row3_col17, #T_0e862_row3_col18, #T_0e862_row3_col19, #T_0e862_row4_col0, #T_0e862_row4_col1, #T_0e862_row4_col2, #T_0e862_row4_col5, #T_0e862_row4_col6, #T_0e862_row4_col7, #T_0e862_row4_col8, #T_0e862_row4_col10, #T_0e862_row4_col11, #T_0e862_row4_col12, #T_0e862_row4_col13, #T_0e862_row4_col14, #T_0e862_row4_col15, #T_0e862_row4_col16, #T_0e862_row4_col17, #T_0e862_row4_col18, #T_0e862_row4_col19, #T_0e862_row5_col1, #T_0e862_row5_col2, #T_0e862_row5_col3, #T_0e862_row5_col4, #T_0e862_row5_col7, #T_0e862_row5_col8, #T_0e862_row5_col9, #T_0e862_row5_col11, #T_0e862_row5_col12, #T_0e862_row5_col13, #T_0e862_row5_col14, #T_0e862_row5_col15, #T_0e862_row5_col16, #T_0e862_row5_col17, #T_0e862_row5_col18, #T_0e862_row5_col19, #T_0e862_row6_col0, #T_0e862_row6_col2, #T_0e862_row6_col3, #T_0e862_row6_col4, #T_0e862_row6_col8, #T_0e862_row6_col9, #T_0e862_row6_col10, #T_0e862_row6_col12, #T_0e862_row6_col13, #T_0e862_row6_col14, #T_0e862_row6_col15, #T_0e862_row6_col16, #T_0e862_row6_col17, #T_0e862_row6_col18, #T_0e862_row6_col19, #T_0e862_row7_col0, #T_0e862_row7_col1, #T_0e862_row7_col3, #T_0e862_row7_col4, #T_0e862_row7_col5, #T_0e862_row7_col9, #T_0e862_row7_col10, #T_0e862_row7_col11, #T_0e862_row7_col13, #T_0e862_row7_col14, #T_0e862_row7_col15, #T_0e862_row7_col16, #T_0e862_row7_col17, #T_0e862_row7_col18, #T_0e862_row7_col19, #T_0e862_row8_col0, #T_0e862_row8_col1, #T_0e862_row8_col2, #T_0e862_row8_col4, #T_0e862_row8_col5, #T_0e862_row8_col6, #T_0e862_row8_col10, #T_0e862_row8_col11, #T_0e862_row8_col12, #T_0e862_row8_col14, #T_0e862_row8_col15, #T_0e862_row8_col16, #T_0e862_row8_col17, #T_0e862_row8_col18, #T_0e862_row8_col19, #T_0e862_row9_col0, #T_0e862_row9_col1, #T_0e862_row9_col2, #T_0e862_row9_col3, #T_0e862_row9_col5, #T_0e862_row9_col6, #T_0e862_row9_col7, #T_0e862_row9_col10, #T_0e862_row9_col11, #T_0e862_row9_col12, #T_0e862_row9_col13, #T_0e862_row9_col15, #T_0e862_row9_col16, #T_0e862_row9_col17, #T_0e862_row9_col18, #T_0e862_row9_col19, #T_0e862_row10_col0, #T_0e862_row10_col1, #T_0e862_row10_col2, #T_0e862_row10_col3, #T_0e862_row10_col4, #T_0e862_row10_col6, #T_0e862_row10_col7, #T_0e862_row10_col8, #T_0e862_row10_col9, #T_0e862_row10_col12, #T_0e862_row10_col13, #T_0e862_row10_col14, #T_0e862_row10_col16, #T_0e862_row10_col17, #T_0e862_row10_col18, #T_0e862_row10_col19, #T_0e862_row11_col0, #T_0e862_row11_col1, #T_0e862_row11_col2, #T_0e862_row11_col3, #T_0e862_row11_col4, #T_0e862_row11_col5, #T_0e862_row11_col7, #T_0e862_row11_col8, #T_0e862_row11_col9, #T_0e862_row11_col13, #T_0e862_row11_col14, #T_0e862_row11_col15, #T_0e862_row11_col17, #T_0e862_row11_col18, #T_0e862_row11_col19, #T_0e862_row12_col0, #T_0e862_row12_col1, #T_0e862_row12_col2, #T_0e862_row12_col3, #T_0e862_row12_col4, #T_0e862_row12_col5, #T_0e862_row12_col6, #T_0e862_row12_col8, #T_0e862_row12_col9, #T_0e862_row12_col10, #T_0e862_row12_col14, #T_0e862_row12_col15, #T_0e862_row12_col16, #T_0e862_row12_col18, #T_0e862_row12_col19, #T_0e862_row13_col0, #T_0e862_row13_col1, #T_0e862_row13_col2, #T_0e862_row13_col3, #T_0e862_row13_col4, #T_0e862_row13_col5, #T_0e862_row13_col6, #T_0e862_row13_col7, #T_0e862_row13_col9, #T_0e862_row13_col10, #T_0e862_row13_col11, #T_0e862_row13_col15, #T_0e862_row13_col16, #T_0e862_row13_col17, #T_0e862_row13_col19, #T_0e862_row14_col0, #T_0e862_row14_col1, #T_0e862_row14_col2, #T_0e862_row14_col3, #T_0e862_row14_col4, #T_0e862_row14_col5, #T_0e862_row14_col6, #T_0e862_row14_col7, #T_0e862_row14_col8, #T_0e862_row14_col10, #T_0e862_row14_col11, #T_0e862_row14_col12, #T_0e862_row14_col15, #T_0e862_row14_col16, #T_0e862_row14_col17, #T_0e862_row14_col18, #T_0e862_row15_col0, #T_0e862_row15_col1, #T_0e862_row15_col2, #T_0e862_row15_col3, #T_0e862_row15_col4, #T_0e862_row15_col5, #T_0e862_row15_col6, #T_0e862_row15_col7, #T_0e862_row15_col8, #T_0e862_row15_col9, #T_0e862_row15_col11, #T_0e862_row15_col12, #T_0e862_row15_col13, #T_0e862_row15_col14, #T_0e862_row15_col17, #T_0e862_row15_col18, #T_0e862_row15_col19, #T_0e862_row16_col0, #T_0e862_row16_col1, #T_0e862_row16_col2, #T_0e862_row16_col3, #T_0e862_row16_col4, #T_0e862_row16_col5, #T_0e862_row16_col6, #T_0e862_row16_col7, #T_0e862_row16_col8, #T_0e862_row16_col9, #T_0e862_row16_col10, #T_0e862_row16_col12, #T_0e862_row16_col13, #T_0e862_row16_col14, #T_0e862_row16_col18, #T_0e862_row16_col19, #T_0e862_row17_col0, #T_0e862_row17_col1, #T_0e862_row17_col2, #T_0e862_row17_col3, #T_0e862_row17_col4, #T_0e862_row17_col5, #T_0e862_row17_col6, #T_0e862_row17_col7, #T_0e862_row17_col8, #T_0e862_row17_col9, #T_0e862_row17_col10, #T_0e862_row17_col11, #T_0e862_row17_col13, #T_0e862_row17_col14, #T_0e862_row17_col15, #T_0e862_row17_col19, #T_0e862_row18_col0, #T_0e862_row18_col1, #T_0e862_row18_col2, #T_0e862_row18_col3, #T_0e862_row18_col4, #T_0e862_row18_col5, #T_0e862_row18_col6, #T_0e862_row18_col7, #T_0e862_row18_col8, #T_0e862_row18_col9, #T_0e862_row18_col10, #T_0e862_row18_col11, #T_0e862_row18_col12, #T_0e862_row18_col14, #T_0e862_row18_col15, #T_0e862_row18_col16, #T_0e862_row19_col0, #T_0e862_row19_col1, #T_0e862_row19_col2, #T_0e862_row19_col3, #T_0e862_row19_col4, #T_0e862_row19_col5, #T_0e862_row19_col6, #T_0e862_row19_col7, #T_0e862_row19_col8, #T_0e862_row19_col9, #T_0e862_row19_col10, #T_0e862_row19_col11, #T_0e862_row19_col12, #T_0e862_row19_col13, #T_0e862_row19_col15, #T_0e862_row19_col16, #T_0e862_row19_col17 {
+  color: green;
+}
+#T_0e862_row1_col0, #T_0e862_row1_col1, #T_0e862_row1_col2, #T_0e862_row1_col6 {
+  color: dark;
+  color: dark;
+  background-color: lightblue;
+}
+#T_0e862_row1_col3, #T_0e862_row1_col4, #T_0e862_row1_col5, #T_0e862_row1_col7, #T_0e862_row1_col8, #T_0e862_row1_col9, #T_0e862_row1_col10, #T_0e862_row1_col11, #T_0e862_row1_col12, #T_0e862_row1_col13, #T_0e862_row1_col14, #T_0e862_row1_col15, #T_0e862_row1_col16, #T_0e862_row1_col17, #T_0e862_row1_col18, #T_0e862_row1_col19 {
+  color: green;
+  color: green;
+  background-color: lightblue;
+}
+</style>
+
+<table id="T_0e862" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_0e862_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">0</th>
+<th id="T_0e862_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">1</th>
+<th id="T_0e862_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">2</th>
+<th id="T_0e862_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">3</th>
+<th id="T_0e862_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">4</th>
+<th id="T_0e862_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">5</th>
+<th id="T_0e862_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">6</th>
+<th id="T_0e862_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">7</th>
+<th id="T_0e862_level0_col8" class="col_heading level0 col8" data-quarto-table-cell-role="th">8</th>
+<th id="T_0e862_level0_col9" class="col_heading level0 col9" data-quarto-table-cell-role="th">9</th>
+<th id="T_0e862_level0_col10" class="col_heading level0 col10" data-quarto-table-cell-role="th">10</th>
+<th id="T_0e862_level0_col11" class="col_heading level0 col11" data-quarto-table-cell-role="th">11</th>
+<th id="T_0e862_level0_col12" class="col_heading level0 col12" data-quarto-table-cell-role="th">12</th>
+<th id="T_0e862_level0_col13" class="col_heading level0 col13" data-quarto-table-cell-role="th">13</th>
+<th id="T_0e862_level0_col14" class="col_heading level0 col14" data-quarto-table-cell-role="th">14</th>
+<th id="T_0e862_level0_col15" class="col_heading level0 col15" data-quarto-table-cell-role="th">15</th>
+<th id="T_0e862_level0_col16" class="col_heading level0 col16" data-quarto-table-cell-role="th">16</th>
+<th id="T_0e862_level0_col17" class="col_heading level0 col17" data-quarto-table-cell-role="th">17</th>
+<th id="T_0e862_level0_col18" class="col_heading level0 col18" data-quarto-table-cell-role="th">18</th>
+<th id="T_0e862_level0_col19" class="col_heading level0 col19" data-quarto-table-cell-role="th">19</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_0e862_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">0</td>
+<td id="T_0e862_row0_col0" class="data row0 col0">AP</td>
+<td id="T_0e862_row0_col1" class="data row0 col1">AE</td>
+<td id="T_0e862_row0_col2" class="data row0 col2">0</td>
+<td id="T_0e862_row0_col3" class="data row0 col3">0</td>
+<td id="T_0e862_row0_col4" class="data row0 col4">0</td>
+<td id="T_0e862_row0_col5" class="data row0 col5">AN</td>
+<td id="T_0e862_row0_col6" class="data row0 col6">0</td>
+<td id="T_0e862_row0_col7" class="data row0 col7">0</td>
+<td id="T_0e862_row0_col8" class="data row0 col8">0</td>
+<td id="T_0e862_row0_col9" class="data row0 col9">0</td>
+<td id="T_0e862_row0_col10" class="data row0 col10">0</td>
+<td id="T_0e862_row0_col11" class="data row0 col11">0</td>
+<td id="T_0e862_row0_col12" class="data row0 col12">0</td>
+<td id="T_0e862_row0_col13" class="data row0 col13">0</td>
+<td id="T_0e862_row0_col14" class="data row0 col14">0</td>
+<td id="T_0e862_row0_col15" class="data row0 col15">0</td>
+<td id="T_0e862_row0_col16" class="data row0 col16">0</td>
+<td id="T_0e862_row0_col17" class="data row0 col17">0</td>
+<td id="T_0e862_row0_col18" class="data row0 col18">0</td>
+<td id="T_0e862_row0_col19" class="data row0 col19">0</td>
+</tr>
+<tr class="even">
+<td id="T_0e862_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">1</td>
+<td id="T_0e862_row1_col0" class="data row1 col0">AW</td>
+<td id="T_0e862_row1_col1" class="data row1 col1">AP</td>
+<td id="T_0e862_row1_col2" class="data row1 col2">AE</td>
+<td id="T_0e862_row1_col3" class="data row1 col3">0</td>
+<td id="T_0e862_row1_col4" class="data row1 col4">0</td>
+<td id="T_0e862_row1_col5" class="data row1 col5">0</td>
+<td id="T_0e862_row1_col6" class="data row1 col6">AN</td>
+<td id="T_0e862_row1_col7" class="data row1 col7">0</td>
+<td id="T_0e862_row1_col8" class="data row1 col8">0</td>
+<td id="T_0e862_row1_col9" class="data row1 col9">0</td>
+<td id="T_0e862_row1_col10" class="data row1 col10">0</td>
+<td id="T_0e862_row1_col11" class="data row1 col11">0</td>
+<td id="T_0e862_row1_col12" class="data row1 col12">0</td>
+<td id="T_0e862_row1_col13" class="data row1 col13">0</td>
+<td id="T_0e862_row1_col14" class="data row1 col14">0</td>
+<td id="T_0e862_row1_col15" class="data row1 col15">0</td>
+<td id="T_0e862_row1_col16" class="data row1 col16">0</td>
+<td id="T_0e862_row1_col17" class="data row1 col17">0</td>
+<td id="T_0e862_row1_col18" class="data row1 col18">0</td>
+<td id="T_0e862_row1_col19" class="data row1 col19">0</td>
+</tr>
+<tr class="odd">
+<td id="T_0e862_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">2</td>
+<td id="T_0e862_row2_col0" class="data row2 col0">0</td>
+<td id="T_0e862_row2_col1" class="data row2 col1">AW</td>
+<td id="T_0e862_row2_col2" class="data row2 col2">AP</td>
+<td id="T_0e862_row2_col3" class="data row2 col3">AE</td>
+<td id="T_0e862_row2_col4" class="data row2 col4">0</td>
+<td id="T_0e862_row2_col5" class="data row2 col5">0</td>
+<td id="T_0e862_row2_col6" class="data row2 col6">0</td>
+<td id="T_0e862_row2_col7" class="data row2 col7">AN</td>
+<td id="T_0e862_row2_col8" class="data row2 col8">0</td>
+<td id="T_0e862_row2_col9" class="data row2 col9">0</td>
+<td id="T_0e862_row2_col10" class="data row2 col10">0</td>
+<td id="T_0e862_row2_col11" class="data row2 col11">0</td>
+<td id="T_0e862_row2_col12" class="data row2 col12">0</td>
+<td id="T_0e862_row2_col13" class="data row2 col13">0</td>
+<td id="T_0e862_row2_col14" class="data row2 col14">0</td>
+<td id="T_0e862_row2_col15" class="data row2 col15">0</td>
+<td id="T_0e862_row2_col16" class="data row2 col16">0</td>
+<td id="T_0e862_row2_col17" class="data row2 col17">0</td>
+<td id="T_0e862_row2_col18" class="data row2 col18">0</td>
+<td id="T_0e862_row2_col19" class="data row2 col19">0</td>
+</tr>
+<tr class="even">
+<td id="T_0e862_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">3</td>
+<td id="T_0e862_row3_col0" class="data row3 col0">0</td>
+<td id="T_0e862_row3_col1" class="data row3 col1">0</td>
+<td id="T_0e862_row3_col2" class="data row3 col2">AW</td>
+<td id="T_0e862_row3_col3" class="data row3 col3">AP</td>
+<td id="T_0e862_row3_col4" class="data row3 col4">AE</td>
+<td id="T_0e862_row3_col5" class="data row3 col5">0</td>
+<td id="T_0e862_row3_col6" class="data row3 col6">0</td>
+<td id="T_0e862_row3_col7" class="data row3 col7">0</td>
+<td id="T_0e862_row3_col8" class="data row3 col8">AN</td>
+<td id="T_0e862_row3_col9" class="data row3 col9">0</td>
+<td id="T_0e862_row3_col10" class="data row3 col10">0</td>
+<td id="T_0e862_row3_col11" class="data row3 col11">0</td>
+<td id="T_0e862_row3_col12" class="data row3 col12">0</td>
+<td id="T_0e862_row3_col13" class="data row3 col13">0</td>
+<td id="T_0e862_row3_col14" class="data row3 col14">0</td>
+<td id="T_0e862_row3_col15" class="data row3 col15">0</td>
+<td id="T_0e862_row3_col16" class="data row3 col16">0</td>
+<td id="T_0e862_row3_col17" class="data row3 col17">0</td>
+<td id="T_0e862_row3_col18" class="data row3 col18">0</td>
+<td id="T_0e862_row3_col19" class="data row3 col19">0</td>
+</tr>
+<tr class="odd">
+<td id="T_0e862_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">4</td>
+<td id="T_0e862_row4_col0" class="data row4 col0">0</td>
+<td id="T_0e862_row4_col1" class="data row4 col1">0</td>
+<td id="T_0e862_row4_col2" class="data row4 col2">0</td>
+<td id="T_0e862_row4_col3" class="data row4 col3">AW</td>
+<td id="T_0e862_row4_col4" class="data row4 col4">AP</td>
+<td id="T_0e862_row4_col5" class="data row4 col5">0</td>
+<td id="T_0e862_row4_col6" class="data row4 col6">0</td>
+<td id="T_0e862_row4_col7" class="data row4 col7">0</td>
+<td id="T_0e862_row4_col8" class="data row4 col8">0</td>
+<td id="T_0e862_row4_col9" class="data row4 col9">AN</td>
+<td id="T_0e862_row4_col10" class="data row4 col10">0</td>
+<td id="T_0e862_row4_col11" class="data row4 col11">0</td>
+<td id="T_0e862_row4_col12" class="data row4 col12">0</td>
+<td id="T_0e862_row4_col13" class="data row4 col13">0</td>
+<td id="T_0e862_row4_col14" class="data row4 col14">0</td>
+<td id="T_0e862_row4_col15" class="data row4 col15">0</td>
+<td id="T_0e862_row4_col16" class="data row4 col16">0</td>
+<td id="T_0e862_row4_col17" class="data row4 col17">0</td>
+<td id="T_0e862_row4_col18" class="data row4 col18">0</td>
+<td id="T_0e862_row4_col19" class="data row4 col19">0</td>
+</tr>
+<tr class="even">
+<td id="T_0e862_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">5</td>
+<td id="T_0e862_row5_col0" class="data row5 col0">AS</td>
+<td id="T_0e862_row5_col1" class="data row5 col1">0</td>
+<td id="T_0e862_row5_col2" class="data row5 col2">0</td>
+<td id="T_0e862_row5_col3" class="data row5 col3">0</td>
+<td id="T_0e862_row5_col4" class="data row5 col4">0</td>
+<td id="T_0e862_row5_col5" class="data row5 col5">AP</td>
+<td id="T_0e862_row5_col6" class="data row5 col6">AE</td>
+<td id="T_0e862_row5_col7" class="data row5 col7">0</td>
+<td id="T_0e862_row5_col8" class="data row5 col8">0</td>
+<td id="T_0e862_row5_col9" class="data row5 col9">0</td>
+<td id="T_0e862_row5_col10" class="data row5 col10">AN</td>
+<td id="T_0e862_row5_col11" class="data row5 col11">0</td>
+<td id="T_0e862_row5_col12" class="data row5 col12">0</td>
+<td id="T_0e862_row5_col13" class="data row5 col13">0</td>
+<td id="T_0e862_row5_col14" class="data row5 col14">0</td>
+<td id="T_0e862_row5_col15" class="data row5 col15">0</td>
+<td id="T_0e862_row5_col16" class="data row5 col16">0</td>
+<td id="T_0e862_row5_col17" class="data row5 col17">0</td>
+<td id="T_0e862_row5_col18" class="data row5 col18">0</td>
+<td id="T_0e862_row5_col19" class="data row5 col19">0</td>
+</tr>
+<tr class="odd">
+<td id="T_0e862_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">6</td>
+<td id="T_0e862_row6_col0" class="data row6 col0">0</td>
+<td id="T_0e862_row6_col1" class="data row6 col1">AS</td>
+<td id="T_0e862_row6_col2" class="data row6 col2">0</td>
+<td id="T_0e862_row6_col3" class="data row6 col3">0</td>
+<td id="T_0e862_row6_col4" class="data row6 col4">0</td>
+<td id="T_0e862_row6_col5" class="data row6 col5">AW</td>
+<td id="T_0e862_row6_col6" class="data row6 col6">AP</td>
+<td id="T_0e862_row6_col7" class="data row6 col7">AE</td>
+<td id="T_0e862_row6_col8" class="data row6 col8">0</td>
+<td id="T_0e862_row6_col9" class="data row6 col9">0</td>
+<td id="T_0e862_row6_col10" class="data row6 col10">0</td>
+<td id="T_0e862_row6_col11" class="data row6 col11">AN</td>
+<td id="T_0e862_row6_col12" class="data row6 col12">0</td>
+<td id="T_0e862_row6_col13" class="data row6 col13">0</td>
+<td id="T_0e862_row6_col14" class="data row6 col14">0</td>
+<td id="T_0e862_row6_col15" class="data row6 col15">0</td>
+<td id="T_0e862_row6_col16" class="data row6 col16">0</td>
+<td id="T_0e862_row6_col17" class="data row6 col17">0</td>
+<td id="T_0e862_row6_col18" class="data row6 col18">0</td>
+<td id="T_0e862_row6_col19" class="data row6 col19">0</td>
+</tr>
+<tr class="even">
+<td id="T_0e862_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">7</td>
+<td id="T_0e862_row7_col0" class="data row7 col0">0</td>
+<td id="T_0e862_row7_col1" class="data row7 col1">0</td>
+<td id="T_0e862_row7_col2" class="data row7 col2">AS</td>
+<td id="T_0e862_row7_col3" class="data row7 col3">0</td>
+<td id="T_0e862_row7_col4" class="data row7 col4">0</td>
+<td id="T_0e862_row7_col5" class="data row7 col5">0</td>
+<td id="T_0e862_row7_col6" class="data row7 col6">AW</td>
+<td id="T_0e862_row7_col7" class="data row7 col7">AP</td>
+<td id="T_0e862_row7_col8" class="data row7 col8">AE</td>
+<td id="T_0e862_row7_col9" class="data row7 col9">0</td>
+<td id="T_0e862_row7_col10" class="data row7 col10">0</td>
+<td id="T_0e862_row7_col11" class="data row7 col11">0</td>
+<td id="T_0e862_row7_col12" class="data row7 col12">AN</td>
+<td id="T_0e862_row7_col13" class="data row7 col13">0</td>
+<td id="T_0e862_row7_col14" class="data row7 col14">0</td>
+<td id="T_0e862_row7_col15" class="data row7 col15">0</td>
+<td id="T_0e862_row7_col16" class="data row7 col16">0</td>
+<td id="T_0e862_row7_col17" class="data row7 col17">0</td>
+<td id="T_0e862_row7_col18" class="data row7 col18">0</td>
+<td id="T_0e862_row7_col19" class="data row7 col19">0</td>
+</tr>
+<tr class="odd">
+<td id="T_0e862_level0_row8" class="row_heading level0 row8" data-quarto-table-cell-role="th">8</td>
+<td id="T_0e862_row8_col0" class="data row8 col0">0</td>
+<td id="T_0e862_row8_col1" class="data row8 col1">0</td>
+<td id="T_0e862_row8_col2" class="data row8 col2">0</td>
+<td id="T_0e862_row8_col3" class="data row8 col3">AS</td>
+<td id="T_0e862_row8_col4" class="data row8 col4">0</td>
+<td id="T_0e862_row8_col5" class="data row8 col5">0</td>
+<td id="T_0e862_row8_col6" class="data row8 col6">0</td>
+<td id="T_0e862_row8_col7" class="data row8 col7">AW</td>
+<td id="T_0e862_row8_col8" class="data row8 col8">AP</td>
+<td id="T_0e862_row8_col9" class="data row8 col9">AE</td>
+<td id="T_0e862_row8_col10" class="data row8 col10">0</td>
+<td id="T_0e862_row8_col11" class="data row8 col11">0</td>
+<td id="T_0e862_row8_col12" class="data row8 col12">0</td>
+<td id="T_0e862_row8_col13" class="data row8 col13">AN</td>
+<td id="T_0e862_row8_col14" class="data row8 col14">0</td>
+<td id="T_0e862_row8_col15" class="data row8 col15">0</td>
+<td id="T_0e862_row8_col16" class="data row8 col16">0</td>
+<td id="T_0e862_row8_col17" class="data row8 col17">0</td>
+<td id="T_0e862_row8_col18" class="data row8 col18">0</td>
+<td id="T_0e862_row8_col19" class="data row8 col19">0</td>
+</tr>
+<tr class="even">
+<td id="T_0e862_level0_row9" class="row_heading level0 row9" data-quarto-table-cell-role="th">9</td>
+<td id="T_0e862_row9_col0" class="data row9 col0">0</td>
+<td id="T_0e862_row9_col1" class="data row9 col1">0</td>
+<td id="T_0e862_row9_col2" class="data row9 col2">0</td>
+<td id="T_0e862_row9_col3" class="data row9 col3">0</td>
+<td id="T_0e862_row9_col4" class="data row9 col4">AS</td>
+<td id="T_0e862_row9_col5" class="data row9 col5">0</td>
+<td id="T_0e862_row9_col6" class="data row9 col6">0</td>
+<td id="T_0e862_row9_col7" class="data row9 col7">0</td>
+<td id="T_0e862_row9_col8" class="data row9 col8">AW</td>
+<td id="T_0e862_row9_col9" class="data row9 col9">AP</td>
+<td id="T_0e862_row9_col10" class="data row9 col10">0</td>
+<td id="T_0e862_row9_col11" class="data row9 col11">0</td>
+<td id="T_0e862_row9_col12" class="data row9 col12">0</td>
+<td id="T_0e862_row9_col13" class="data row9 col13">0</td>
+<td id="T_0e862_row9_col14" class="data row9 col14">AN</td>
+<td id="T_0e862_row9_col15" class="data row9 col15">0</td>
+<td id="T_0e862_row9_col16" class="data row9 col16">0</td>
+<td id="T_0e862_row9_col17" class="data row9 col17">0</td>
+<td id="T_0e862_row9_col18" class="data row9 col18">0</td>
+<td id="T_0e862_row9_col19" class="data row9 col19">0</td>
+</tr>
+<tr class="odd">
+<td id="T_0e862_level0_row10" class="row_heading level0 row10" data-quarto-table-cell-role="th">10</td>
+<td id="T_0e862_row10_col0" class="data row10 col0">0</td>
+<td id="T_0e862_row10_col1" class="data row10 col1">0</td>
+<td id="T_0e862_row10_col2" class="data row10 col2">0</td>
+<td id="T_0e862_row10_col3" class="data row10 col3">0</td>
+<td id="T_0e862_row10_col4" class="data row10 col4">0</td>
+<td id="T_0e862_row10_col5" class="data row10 col5">AS</td>
+<td id="T_0e862_row10_col6" class="data row10 col6">0</td>
+<td id="T_0e862_row10_col7" class="data row10 col7">0</td>
+<td id="T_0e862_row10_col8" class="data row10 col8">0</td>
+<td id="T_0e862_row10_col9" class="data row10 col9">0</td>
+<td id="T_0e862_row10_col10" class="data row10 col10">AP</td>
+<td id="T_0e862_row10_col11" class="data row10 col11">AE</td>
+<td id="T_0e862_row10_col12" class="data row10 col12">0</td>
+<td id="T_0e862_row10_col13" class="data row10 col13">0</td>
+<td id="T_0e862_row10_col14" class="data row10 col14">0</td>
+<td id="T_0e862_row10_col15" class="data row10 col15">AN</td>
+<td id="T_0e862_row10_col16" class="data row10 col16">0</td>
+<td id="T_0e862_row10_col17" class="data row10 col17">0</td>
+<td id="T_0e862_row10_col18" class="data row10 col18">0</td>
+<td id="T_0e862_row10_col19" class="data row10 col19">0</td>
+</tr>
+<tr class="even">
+<td id="T_0e862_level0_row11" class="row_heading level0 row11" data-quarto-table-cell-role="th">11</td>
+<td id="T_0e862_row11_col0" class="data row11 col0">0</td>
+<td id="T_0e862_row11_col1" class="data row11 col1">0</td>
+<td id="T_0e862_row11_col2" class="data row11 col2">0</td>
+<td id="T_0e862_row11_col3" class="data row11 col3">0</td>
+<td id="T_0e862_row11_col4" class="data row11 col4">0</td>
+<td id="T_0e862_row11_col5" class="data row11 col5">0</td>
+<td id="T_0e862_row11_col6" class="data row11 col6">AS</td>
+<td id="T_0e862_row11_col7" class="data row11 col7">0</td>
+<td id="T_0e862_row11_col8" class="data row11 col8">0</td>
+<td id="T_0e862_row11_col9" class="data row11 col9">0</td>
+<td id="T_0e862_row11_col10" class="data row11 col10">AW</td>
+<td id="T_0e862_row11_col11" class="data row11 col11">AP</td>
+<td id="T_0e862_row11_col12" class="data row11 col12">AE</td>
+<td id="T_0e862_row11_col13" class="data row11 col13">0</td>
+<td id="T_0e862_row11_col14" class="data row11 col14">0</td>
+<td id="T_0e862_row11_col15" class="data row11 col15">0</td>
+<td id="T_0e862_row11_col16" class="data row11 col16">AN</td>
+<td id="T_0e862_row11_col17" class="data row11 col17">0</td>
+<td id="T_0e862_row11_col18" class="data row11 col18">0</td>
+<td id="T_0e862_row11_col19" class="data row11 col19">0</td>
+</tr>
+<tr class="odd">
+<td id="T_0e862_level0_row12" class="row_heading level0 row12" data-quarto-table-cell-role="th">12</td>
+<td id="T_0e862_row12_col0" class="data row12 col0">0</td>
+<td id="T_0e862_row12_col1" class="data row12 col1">0</td>
+<td id="T_0e862_row12_col2" class="data row12 col2">0</td>
+<td id="T_0e862_row12_col3" class="data row12 col3">0</td>
+<td id="T_0e862_row12_col4" class="data row12 col4">0</td>
+<td id="T_0e862_row12_col5" class="data row12 col5">0</td>
+<td id="T_0e862_row12_col6" class="data row12 col6">0</td>
+<td id="T_0e862_row12_col7" class="data row12 col7">AS</td>
+<td id="T_0e862_row12_col8" class="data row12 col8">0</td>
+<td id="T_0e862_row12_col9" class="data row12 col9">0</td>
+<td id="T_0e862_row12_col10" class="data row12 col10">0</td>
+<td id="T_0e862_row12_col11" class="data row12 col11">AW</td>
+<td id="T_0e862_row12_col12" class="data row12 col12">AP</td>
+<td id="T_0e862_row12_col13" class="data row12 col13">AE</td>
+<td id="T_0e862_row12_col14" class="data row12 col14">0</td>
+<td id="T_0e862_row12_col15" class="data row12 col15">0</td>
+<td id="T_0e862_row12_col16" class="data row12 col16">0</td>
+<td id="T_0e862_row12_col17" class="data row12 col17">AN</td>
+<td id="T_0e862_row12_col18" class="data row12 col18">0</td>
+<td id="T_0e862_row12_col19" class="data row12 col19">0</td>
+</tr>
+<tr class="even">
+<td id="T_0e862_level0_row13" class="row_heading level0 row13" data-quarto-table-cell-role="th">13</td>
+<td id="T_0e862_row13_col0" class="data row13 col0">0</td>
+<td id="T_0e862_row13_col1" class="data row13 col1">0</td>
+<td id="T_0e862_row13_col2" class="data row13 col2">0</td>
+<td id="T_0e862_row13_col3" class="data row13 col3">0</td>
+<td id="T_0e862_row13_col4" class="data row13 col4">0</td>
+<td id="T_0e862_row13_col5" class="data row13 col5">0</td>
+<td id="T_0e862_row13_col6" class="data row13 col6">0</td>
+<td id="T_0e862_row13_col7" class="data row13 col7">0</td>
+<td id="T_0e862_row13_col8" class="data row13 col8">AS</td>
+<td id="T_0e862_row13_col9" class="data row13 col9">0</td>
+<td id="T_0e862_row13_col10" class="data row13 col10">0</td>
+<td id="T_0e862_row13_col11" class="data row13 col11">0</td>
+<td id="T_0e862_row13_col12" class="data row13 col12">AW</td>
+<td id="T_0e862_row13_col13" class="data row13 col13">AP</td>
+<td id="T_0e862_row13_col14" class="data row13 col14">AE</td>
+<td id="T_0e862_row13_col15" class="data row13 col15">0</td>
+<td id="T_0e862_row13_col16" class="data row13 col16">0</td>
+<td id="T_0e862_row13_col17" class="data row13 col17">0</td>
+<td id="T_0e862_row13_col18" class="data row13 col18">AN</td>
+<td id="T_0e862_row13_col19" class="data row13 col19">0</td>
+</tr>
+<tr class="odd">
+<td id="T_0e862_level0_row14" class="row_heading level0 row14" data-quarto-table-cell-role="th">14</td>
+<td id="T_0e862_row14_col0" class="data row14 col0">0</td>
+<td id="T_0e862_row14_col1" class="data row14 col1">0</td>
+<td id="T_0e862_row14_col2" class="data row14 col2">0</td>
+<td id="T_0e862_row14_col3" class="data row14 col3">0</td>
+<td id="T_0e862_row14_col4" class="data row14 col4">0</td>
+<td id="T_0e862_row14_col5" class="data row14 col5">0</td>
+<td id="T_0e862_row14_col6" class="data row14 col6">0</td>
+<td id="T_0e862_row14_col7" class="data row14 col7">0</td>
+<td id="T_0e862_row14_col8" class="data row14 col8">0</td>
+<td id="T_0e862_row14_col9" class="data row14 col9">AS</td>
+<td id="T_0e862_row14_col10" class="data row14 col10">0</td>
+<td id="T_0e862_row14_col11" class="data row14 col11">0</td>
+<td id="T_0e862_row14_col12" class="data row14 col12">0</td>
+<td id="T_0e862_row14_col13" class="data row14 col13">AW</td>
+<td id="T_0e862_row14_col14" class="data row14 col14">AP</td>
+<td id="T_0e862_row14_col15" class="data row14 col15">0</td>
+<td id="T_0e862_row14_col16" class="data row14 col16">0</td>
+<td id="T_0e862_row14_col17" class="data row14 col17">0</td>
+<td id="T_0e862_row14_col18" class="data row14 col18">0</td>
+<td id="T_0e862_row14_col19" class="data row14 col19">AN</td>
+</tr>
+<tr class="even">
+<td id="T_0e862_level0_row15" class="row_heading level0 row15" data-quarto-table-cell-role="th">15</td>
+<td id="T_0e862_row15_col0" class="data row15 col0">0</td>
+<td id="T_0e862_row15_col1" class="data row15 col1">0</td>
+<td id="T_0e862_row15_col2" class="data row15 col2">0</td>
+<td id="T_0e862_row15_col3" class="data row15 col3">0</td>
+<td id="T_0e862_row15_col4" class="data row15 col4">0</td>
+<td id="T_0e862_row15_col5" class="data row15 col5">0</td>
+<td id="T_0e862_row15_col6" class="data row15 col6">0</td>
+<td id="T_0e862_row15_col7" class="data row15 col7">0</td>
+<td id="T_0e862_row15_col8" class="data row15 col8">0</td>
+<td id="T_0e862_row15_col9" class="data row15 col9">0</td>
+<td id="T_0e862_row15_col10" class="data row15 col10">AS</td>
+<td id="T_0e862_row15_col11" class="data row15 col11">0</td>
+<td id="T_0e862_row15_col12" class="data row15 col12">0</td>
+<td id="T_0e862_row15_col13" class="data row15 col13">0</td>
+<td id="T_0e862_row15_col14" class="data row15 col14">0</td>
+<td id="T_0e862_row15_col15" class="data row15 col15">AP</td>
+<td id="T_0e862_row15_col16" class="data row15 col16">AE</td>
+<td id="T_0e862_row15_col17" class="data row15 col17">0</td>
+<td id="T_0e862_row15_col18" class="data row15 col18">0</td>
+<td id="T_0e862_row15_col19" class="data row15 col19">0</td>
+</tr>
+<tr class="odd">
+<td id="T_0e862_level0_row16" class="row_heading level0 row16" data-quarto-table-cell-role="th">16</td>
+<td id="T_0e862_row16_col0" class="data row16 col0">0</td>
+<td id="T_0e862_row16_col1" class="data row16 col1">0</td>
+<td id="T_0e862_row16_col2" class="data row16 col2">0</td>
+<td id="T_0e862_row16_col3" class="data row16 col3">0</td>
+<td id="T_0e862_row16_col4" class="data row16 col4">0</td>
+<td id="T_0e862_row16_col5" class="data row16 col5">0</td>
+<td id="T_0e862_row16_col6" class="data row16 col6">0</td>
+<td id="T_0e862_row16_col7" class="data row16 col7">0</td>
+<td id="T_0e862_row16_col8" class="data row16 col8">0</td>
+<td id="T_0e862_row16_col9" class="data row16 col9">0</td>
+<td id="T_0e862_row16_col10" class="data row16 col10">0</td>
+<td id="T_0e862_row16_col11" class="data row16 col11">AS</td>
+<td id="T_0e862_row16_col12" class="data row16 col12">0</td>
+<td id="T_0e862_row16_col13" class="data row16 col13">0</td>
+<td id="T_0e862_row16_col14" class="data row16 col14">0</td>
+<td id="T_0e862_row16_col15" class="data row16 col15">AW</td>
+<td id="T_0e862_row16_col16" class="data row16 col16">AP</td>
+<td id="T_0e862_row16_col17" class="data row16 col17">AE</td>
+<td id="T_0e862_row16_col18" class="data row16 col18">0</td>
+<td id="T_0e862_row16_col19" class="data row16 col19">0</td>
+</tr>
+<tr class="even">
+<td id="T_0e862_level0_row17" class="row_heading level0 row17" data-quarto-table-cell-role="th">17</td>
+<td id="T_0e862_row17_col0" class="data row17 col0">0</td>
+<td id="T_0e862_row17_col1" class="data row17 col1">0</td>
+<td id="T_0e862_row17_col2" class="data row17 col2">0</td>
+<td id="T_0e862_row17_col3" class="data row17 col3">0</td>
+<td id="T_0e862_row17_col4" class="data row17 col4">0</td>
+<td id="T_0e862_row17_col5" class="data row17 col5">0</td>
+<td id="T_0e862_row17_col6" class="data row17 col6">0</td>
+<td id="T_0e862_row17_col7" class="data row17 col7">0</td>
+<td id="T_0e862_row17_col8" class="data row17 col8">0</td>
+<td id="T_0e862_row17_col9" class="data row17 col9">0</td>
+<td id="T_0e862_row17_col10" class="data row17 col10">0</td>
+<td id="T_0e862_row17_col11" class="data row17 col11">0</td>
+<td id="T_0e862_row17_col12" class="data row17 col12">AS</td>
+<td id="T_0e862_row17_col13" class="data row17 col13">0</td>
+<td id="T_0e862_row17_col14" class="data row17 col14">0</td>
+<td id="T_0e862_row17_col15" class="data row17 col15">0</td>
+<td id="T_0e862_row17_col16" class="data row17 col16">AW</td>
+<td id="T_0e862_row17_col17" class="data row17 col17">AP</td>
+<td id="T_0e862_row17_col18" class="data row17 col18">AE</td>
+<td id="T_0e862_row17_col19" class="data row17 col19">0</td>
+</tr>
+<tr class="odd">
+<td id="T_0e862_level0_row18" class="row_heading level0 row18" data-quarto-table-cell-role="th">18</td>
+<td id="T_0e862_row18_col0" class="data row18 col0">0</td>
+<td id="T_0e862_row18_col1" class="data row18 col1">0</td>
+<td id="T_0e862_row18_col2" class="data row18 col2">0</td>
+<td id="T_0e862_row18_col3" class="data row18 col3">0</td>
+<td id="T_0e862_row18_col4" class="data row18 col4">0</td>
+<td id="T_0e862_row18_col5" class="data row18 col5">0</td>
+<td id="T_0e862_row18_col6" class="data row18 col6">0</td>
+<td id="T_0e862_row18_col7" class="data row18 col7">0</td>
+<td id="T_0e862_row18_col8" class="data row18 col8">0</td>
+<td id="T_0e862_row18_col9" class="data row18 col9">0</td>
+<td id="T_0e862_row18_col10" class="data row18 col10">0</td>
+<td id="T_0e862_row18_col11" class="data row18 col11">0</td>
+<td id="T_0e862_row18_col12" class="data row18 col12">0</td>
+<td id="T_0e862_row18_col13" class="data row18 col13">AS</td>
+<td id="T_0e862_row18_col14" class="data row18 col14">0</td>
+<td id="T_0e862_row18_col15" class="data row18 col15">0</td>
+<td id="T_0e862_row18_col16" class="data row18 col16">0</td>
+<td id="T_0e862_row18_col17" class="data row18 col17">AW</td>
+<td id="T_0e862_row18_col18" class="data row18 col18">AP</td>
+<td id="T_0e862_row18_col19" class="data row18 col19">AE</td>
+</tr>
+<tr class="even">
+<td id="T_0e862_level0_row19" class="row_heading level0 row19" data-quarto-table-cell-role="th">19</td>
+<td id="T_0e862_row19_col0" class="data row19 col0">0</td>
+<td id="T_0e862_row19_col1" class="data row19 col1">0</td>
+<td id="T_0e862_row19_col2" class="data row19 col2">0</td>
+<td id="T_0e862_row19_col3" class="data row19 col3">0</td>
+<td id="T_0e862_row19_col4" class="data row19 col4">0</td>
+<td id="T_0e862_row19_col5" class="data row19 col5">0</td>
+<td id="T_0e862_row19_col6" class="data row19 col6">0</td>
+<td id="T_0e862_row19_col7" class="data row19 col7">0</td>
+<td id="T_0e862_row19_col8" class="data row19 col8">0</td>
+<td id="T_0e862_row19_col9" class="data row19 col9">0</td>
+<td id="T_0e862_row19_col10" class="data row19 col10">0</td>
+<td id="T_0e862_row19_col11" class="data row19 col11">0</td>
+<td id="T_0e862_row19_col12" class="data row19 col12">0</td>
+<td id="T_0e862_row19_col13" class="data row19 col13">0</td>
+<td id="T_0e862_row19_col14" class="data row19 col14">AS</td>
+<td id="T_0e862_row19_col15" class="data row19 col15">0</td>
+<td id="T_0e862_row19_col16" class="data row19 col16">0</td>
+<td id="T_0e862_row19_col17" class="data row19 col17">0</td>
+<td id="T_0e862_row19_col18" class="data row19 col18">AW</td>
+<td id="T_0e862_row19_col19" class="data row19 col19">AP</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="discretización-de-las-ecuaciones" class="level3" data-number="7.1.3">
+<h3 data-number="7.1.3" class="anchored" data-anchor-id="discretización-de-las-ecuaciones"><span class="header-section-number">7.1.3</span> Discretización de las ecuaciones</h3>
+<p>Aplicando diferencias finitas centradas</p>
+<p><span class="math display">\[\frac{\partial^2 \rho_\alpha}{\partial x^2}+ \frac{\partial^2\rho_\alpha}{\partial y^2} =
+\frac{P_{i+1,j-1} - 2P_{i,j} + P_{i-1,j}}{hx^2}
++ \frac{P_{i,j+1} - 2P_{i,j} + P_{i,j-1}}{hy^2} = 0\]</span></p>
+<p>Despejando <span class="math inline">\(P_{i,j}\)</span> (donde P es el valor incognita)</p>
+<p><span class="math display">\[P_{i,j}(\frac{2}{hx^2} + \frac{2}{hy^2})  
+= \frac{P_{i+1,j}}{hx^2} + \frac{P_{i-1,j}}{hx^2} + \frac{P_{i,j+1}}{hy^2} + \frac{P_{i,j-1}}{hy^2}
+\]</span></p>
+<p>La ecuación anterior se puede reescribir como: <span class="math display">\[AP P_{i,j} = AE P_{i+1,j} + AW P_{i-1,j} + AN P_{i,j+1}
++ AS P_{i,j-1} + B_{i,j}\]</span></p>
+<p><span class="math inline">\(Donde:\)</span></p>
+<p><span class="math inline">\(AP = (\frac{2}{hx^2} + \frac{2}{hy^2})\)</span>, <span class="math inline">\(AE = \frac{1}{hx^2}\)</span>, <span class="math inline">\(AW = \frac{1}{hx^2}\)</span>, <span class="math inline">\(AN = \frac{1}{hy^2}\)</span>, <span class="math inline">\(AS = \frac{1}{hy^2}\)</span>,</p>
+<div id="541a52c6" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ecuaciones_discretizadas(lx, ly, nx, ny, hx, hy):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Esta funcion genera los coeficientes de la ecuacion de flujo monofasico discretizada. No se consideran las</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">    condiciones de frontera.</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Parametros</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">    lx, ly : entero o flotante.</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">        Longitud en el eje x e y.</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">    nx, ny : int, int.</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">        Nodos en de la malla rectangular.</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Retorna</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">    AP,AE,AW,AN,AS,B : ndarray. </span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">        Arreglos en 2D para generar una matriz pentadiagonal.</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># se definen los arreglos en dos dimensiones</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    AP <span class="op">=</span> np.zeros((nx,ny)) </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    AE <span class="op">=</span> np.zeros((nx,ny))</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    AW <span class="op">=</span> np.zeros((nx,ny))</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    AN <span class="op">=</span> np.zeros((nx,ny))</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    AS <span class="op">=</span> np.zeros((nx,ny))</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    B <span class="op">=</span> np.zeros((nx,ny))</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">1</span>,ny<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">1</span>,nx<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>            AP[i][j]<span class="op">=</span><span class="fl">2.0</span><span class="op">/</span>hx<span class="op">**</span><span class="fl">2.0</span><span class="op">+</span><span class="fl">2.0</span><span class="op">/</span>hy<span class="op">**</span><span class="fl">2.0</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>            AE[i][j]<span class="op">=</span><span class="fl">1.0</span><span class="op">/</span>hx<span class="op">**</span><span class="fl">2.0</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>            AW[i][j]<span class="op">=</span><span class="fl">1.0</span><span class="op">/</span>hx<span class="op">**</span><span class="fl">2.0</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>            AN[i][j]<span class="op">=</span><span class="fl">1.0</span><span class="op">/</span>hy<span class="op">**</span><span class="fl">2.0</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>            AS[i][j]<span class="op">=</span><span class="fl">1.0</span><span class="op">/</span>hy<span class="op">**</span><span class="fl">2.0</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>            B[i][j]<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> AP,AE,AW,AN,AS,B</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a name="2"></a> ## 2. Codiciones de frontera De acuerdo con la SEG Wiki, las condiciones de frontera se aplican en el término integral superficial de la ecuación integral de un campo y consiste en valores prescritos de la solución y de las derivadas de la solución en la frontera. Cuando los valores de campo se especifican las condiciones se denominan <strong>condiciones de Dirichlet</strong>. Cuando se especifican las derivadas las condiciones se llaman <strong>condiciones de Neumann</strong>.</p>
+<p><a name="2.1"></a> ### 2.1 Primera clase o Dirichlet Esta condición indica una funcion conocida que varia en el tiempo o un escalar dado (invariante en el tiempo) en las fronteras, es decir:</p>
+<p><span class="math display">\[p_1=f(t,y) \quad o \quad p1=cte_1 = 1,000 psi\]</span> <span class="math display">\[p_2=f(t,x) \quad o \quad p1=cte_2 = 500 psi\]</span> <span class="math display">\[p_3=f(t,y) \quad o \quad p1=cte_3 = 500 psi\]</span> <span class="math display">\[p_4=f(t,x) \quad o \quad p1=cte_4 = 500 psi\]</span></p>
+<p><strong>Implementación:</strong> 1. Identificar las fronteras y los puntos de la ecuacion discreta donde se implementará la condición 2. Llevar a cabo las sustituciones pertinenters en cada ecuación discreta, para este caso:</p>
+<p><span class="math display">\[AP_{i,j}P_i = AE P_{i+1,j} + AW P_{i-1,j} + AN P_{i,j+1}
++ AS P_{i,j-1} + B_{i,j}\]</span></p>
+<p>Considerando una malla con <strong>nx = 5x</strong> y <strong>ny = 4</strong>, se tiene la siguiente figura: <img src="./utils/figs/fronteras.png" width="500px"></p>
+<section id="para-la-frontera-sur" class="level4" data-number="7.1.3.1">
+<h4 data-number="7.1.3.1" class="anchored" data-anchor-id="para-la-frontera-sur"><span class="header-section-number">7.1.3.1</span> Para la frontera SUR:</h4>
+<p>Tomando en cuenta la figura anterior, se puede apreciar que no existe relacion con la presión <span class="math inline">\(Sur (i,j-1)\)</span>, por lo tanto, la ecuación se reduce a:</p>
+<p><span class="math display">\[AP_{i,j}p_{i} = AE P_{i+1,j} + AW P_{i-1,j} + AN P_{i,j+1}
++ B_{i,j}\]</span></p>
+<p>En este caso el valor de presión está definido, por lo que el sistema de ecuaciones de reduce a:</p>
+<p><span class="math display">\[AP_{i,j}P_i = B_i\]</span></p>
+<p><span class="math display">\[para \quad i=0,1,2,3,4 \quad j=0\]</span> <span class="math display">\[donde \quad AP_{i,j}=1 \quad y \quad B_{i,j}=Cte_2\]</span></p>
+<p><em>Todos los demás coeficientes se asignan a cero</em></p>
+<p>Para el resto de las fronteras se utiliza la misma lógica</p>
+<div id="e0990c47" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> condiciones_de_frontera_dirichlet(P1, P2, P3, P4, AP, AW, AE, AN, AS, B, nx, ny):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Esta función modifica los coeficientes y asigna las condiciones de frotera de primera clase. </span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">1</span>,nx<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        AP[i][<span class="dv">0</span>]<span class="op">=</span><span class="fl">1.0</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        AW[i][<span class="dv">0</span>]<span class="op">=</span><span class="fl">0.0</span>    </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        AE[i][<span class="dv">0</span>]<span class="op">=</span><span class="fl">0.0</span>      <span class="co">#Frontera sur</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        AN[i][<span class="dv">0</span>]<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        B[i][<span class="dv">0</span>]<span class="op">=</span>P2</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        AP[i][ny<span class="op">-</span><span class="dv">1</span>]<span class="op">=</span><span class="fl">1.0</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        AW[i][ny<span class="op">-</span><span class="dv">1</span>]<span class="op">=</span><span class="fl">0.0</span>    </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        AE[i][ny<span class="op">-</span><span class="dv">1</span>]<span class="op">=</span><span class="fl">0.0</span>    <span class="co">#Frontera norte</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        AS[i][ny<span class="op">-</span><span class="dv">1</span>]<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        B[i][ny<span class="op">-</span><span class="dv">1</span>]<span class="op">=</span>P4</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">0</span>,ny):</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        AP[<span class="dv">0</span>][j]<span class="op">=</span><span class="fl">1.0</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        AE[<span class="dv">0</span>][j]<span class="op">=</span><span class="fl">0.0</span>      <span class="co">#Frontera Oeste</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        AN[<span class="dv">0</span>][j]<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        AS[<span class="dv">0</span>][j]<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        B[<span class="dv">0</span>][j]<span class="op">=</span>P1</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        AP[nx<span class="op">-</span><span class="dv">1</span>][j]<span class="op">=</span><span class="fl">1.0</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        AW[nx<span class="op">-</span><span class="dv">1</span>][j]<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        AN[nx<span class="op">-</span><span class="dv">1</span>][j]<span class="op">=</span><span class="fl">0.0</span>   <span class="co">#Frontera Este</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        AS[nx<span class="op">-</span><span class="dv">1</span>][j]<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        B[nx<span class="op">-</span><span class="dv">1</span>][j]<span class="op">=</span>P3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a name="2.2"></a> ### 2.2 Fronteras de segunda clase Neumann (No flujo o frontera cerrada) Éstas especifican la derivada normal a la frontera para ser cero o constante.</p>
+<p><span class="math display">\[p_1=f(t,y) \quad o \quad p1=cte_1 = 1,000 psi\]</span></p>
+<p><span class="math display">\[ \frac{dp}{dy}\big|_{ 2} = f(t,x) \quad o \quad \frac{dp}{dy}\big|_{ 2} = 0.0\]</span></p>
+<p><span class="math display">\[p_3=f(t,y) \quad o \quad p1=cte_3 = 500 psi\]</span></p>
+<p><span class="math display">\[ \frac{dp}{dy}\big|_{ 4} = f(t,x) \quad o \quad \frac{dp}{dy}\big|_{ 4} = 0.0\]</span></p>
+<p>Discretización:</p>
+<p><strong>Frontera Sur:</strong> <span class="math display">\[\frac{dp}{dy}\big|_{ 2} = 0.0\]</span></p>
+<p>Sustituyendo una diferencia adelantada: <span class="math display">\[\frac{P_{i,j+1}-P_{i,j}}{hy} = 0\]</span></p>
+<p><span class="math display">\[P_{i,j+1} = P_{i,j}\]</span></p>
+<p><strong>Frontera Norte:</strong> <span class="math display">\[\frac{dp}{dy}\big|_{ 2} = 0.0\]</span></p>
+<p>Sustituyendo una diferencia atrasada: <span class="math display">\[\frac{P_{i,j}-P_{i,j-1}}{hy} = 0\]</span></p>
+<p><span class="math display">\[P_{i,j} = P_{i,j-1}\]</span></p>
+<div id="af676d14" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> condiciones_de_frontera_neumann(x, P1, P2, P3, P4, AP, AW, AE, AN, AS, B, nx, ny):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Esta función modifica los coeficientes de la matriz y asigna las condiciones de frontera de segunda clase. </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">1</span>, nx<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        AP[i][<span class="dv">0</span>]<span class="op">=</span><span class="fl">1.0</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        AW[i][<span class="dv">0</span>]<span class="op">=</span><span class="fl">0.0</span>    </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        AE[i][<span class="dv">0</span>]<span class="op">=</span><span class="fl">0.0</span>      <span class="co">#Frontera sur</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        AN[i][<span class="dv">0</span>]<span class="op">=</span><span class="fl">1.0</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        B[i][<span class="dv">0</span>]<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        AP[i][ny<span class="op">-</span><span class="dv">1</span>]<span class="op">=</span><span class="fl">1.0</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        AW[i][ny<span class="op">-</span><span class="dv">1</span>]<span class="op">=</span><span class="fl">0.0</span>    </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        AE[i][ny<span class="op">-</span><span class="dv">1</span>]<span class="op">=</span><span class="fl">0.0</span>    <span class="co">#Frontera norte</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        AS[i][ny<span class="op">-</span><span class="dv">1</span>]<span class="op">=</span><span class="fl">1.0</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        B[i][ny<span class="op">-</span><span class="dv">1</span>]<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">0</span>,ny):</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        AP[<span class="dv">0</span>][j]<span class="op">=</span><span class="fl">1.0</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        AE[<span class="dv">0</span>][j]<span class="op">=</span><span class="fl">0.0</span>      <span class="co">#Frontera Oeste</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        AN[<span class="dv">0</span>][j]<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        AS[<span class="dv">0</span>][j]<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        B[<span class="dv">0</span>][j]<span class="op">=</span>P1</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        AP[nx<span class="op">-</span><span class="dv">1</span>][j]<span class="op">=</span><span class="fl">1.0</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        AW[nx<span class="op">-</span><span class="dv">1</span>][j]<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        AN[nx<span class="op">-</span><span class="dv">1</span>][j]<span class="op">=</span><span class="fl">0.0</span>   <span class="co">#Frontera Este</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        AS[nx<span class="op">-</span><span class="dv">1</span>][j]<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        B[nx<span class="op">-</span><span class="dv">1</span>][j]<span class="op">=</span>P3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a name="3"></a> ## 3. Resolución del problema para flujo monofásico en 2D</p>
+<p>Los pasos para resolver el problema de flujo monofásico en 2D se presentan en el siguiente algoritmo: - Definir las variables del problema (nodos, longitudes, etc) - Implementar las ecuaciones discretizadas - Aplicar las condiciones de frontera - <strong>Resolver la matriz con algún solver</strong></p>
+<p>A continuación se mostraran una comparativa entre el algortimo de Thomas y las alternativas de SciPy.</p>
+<p><a name="3.1"></a> ### 3.1 Solución mediante el Algortimo de Thomas</p>
+<div id="3df664b6" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># variables del problema</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>nx, ny <span class="op">=</span> <span class="dv">10</span>, <span class="dv">10</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>lx, ly <span class="op">=</span> <span class="dv">500</span>, <span class="dv">500</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Generación de malla para graficar</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, lx, nx)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="dv">0</span>, ly, ny)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>malla_x, malla_y <span class="op">=</span> np.meshgrid(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="c1f20bf8" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> flujo_monofasico_2d_thomas(i):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Esta funcion aplica el algoritmo de Thomas para resolver el problema de flujo monofasico en 2D.</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">        |---P4(NORTE)---|</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">        |               |</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">    P1(OESTE)        P3(ESTE)</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">        |               |</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">        |----P2(SUR)----|</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">    donde P es presión (psi)</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    P1 <span class="op">=</span> <span class="dv">700</span><span class="op">+</span>(i<span class="op">*</span><span class="dv">10</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    P2, P3, P4  <span class="op">=</span> <span class="fl">500.0</span>, <span class="fl">500.0</span>, <span class="fl">500.0</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    Press <span class="op">=</span> np.zeros((nx,ny))</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># se calcula el espaciamiento entre nodos</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    hx <span class="op">=</span> lx<span class="op">/</span>(nx<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    hy <span class="op">=</span> ly<span class="op">/</span>(ny<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Llamar a la función para obtener los coeficientes</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    AP, AW, AE, AN, AS, B <span class="op">=</span> ecuaciones_discretizadas(lx, ly, nx, ny, hx, hy)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co">    Ejercicio 1 y Ejercicio 2</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="co">    Modificar -----.</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co">                   v</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Aplicar condiciones de frontera</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    condiciones_de_frontera_dirichlet(P1, P2, P3, P4, AP, AW, AE, AN, AS, B, nx, ny)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Resolver mediante Thomas</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    iteramax, eps <span class="op">=</span> <span class="dv">3000</span>, <span class="fl">1.0E-04</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    fp.algoritmo_thomas_2D(nx, ny, AP, AE, AW, AN, AS, B, Press, iteramax, eps)</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> np.zeros((nx,ny)) </span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> np.zeros((nx,ny)) </span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">1</span>,ny<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">1</span>,nx<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>            u[i][j]<span class="op">=-</span>(Press[i<span class="op">+</span><span class="dv">1</span>][j]<span class="op">-</span>Press[i<span class="op">-</span><span class="dv">1</span>][j])<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>hx)  <span class="co">#Discretizamos por DFC de primer orden</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>            v[i][j]<span class="op">=-</span>(Press[i][j<span class="op">+</span><span class="dv">1</span>]<span class="op">-</span>Press[i][j<span class="op">-</span><span class="dv">1</span>])<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>hy)</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Press,u,v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="17f9a9c7-50bb-4751-83fb-a06711c33784" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Press,u,v  <span class="op">=</span> flujo_monofasico_2d_thomas(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f624abf4-f0ff-472c-b364-ac57e9ae6647" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].contourf(malla_x, malla_y, Press.T, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].quiver(malla_x, malla_y, u.T,v.T)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Laplace_2D_Thomas_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="ejercicio-1---uso-de-condiciones-de-frontera-tipo-neumann" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="ejercicio-1---uso-de-condiciones-de-frontera-tipo-neumann"><span class="header-section-number">7.2</span> Ejercicio 1 - uso de condiciones de frontera tipo Neumann</h2>
+<p>En el script <strong>flujo_monofasico_2d_thomas(i)</strong>:</p>
+<pre><code>1.- Asigna 1,000 psi a la variable P3 y el resto de presiones en 500 psi
+
+2.- Sustituye la función que ejecuta las condiciones de frontera de primera clase (Dirichlet) e implementa las condiciones de segunda clase (Neumann). =&gt; condiciones_de_frontera_neumann(x, P1, P2, P3, P4, AP, AW, AE, AN, AS, B, nx, ny)
+
+3.- Ejecuta las celdas de codigo modificadas y visualiza los resultados</code></pre>
+</section>
+<section id="section" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="section"><span class="header-section-number">7.3</span> ———————————————————————————————————</h2>
+</section>
+<section id="ejercicio-2---condiciones-de-frontera-mixtas-neumann-dirichlet" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="ejercicio-2---condiciones-de-frontera-mixtas-neumann-dirichlet"><span class="header-section-number">7.4</span> Ejercicio 2 - condiciones de frontera mixtas (Neumann + Dirichlet)</h2>
+<p>En el script <strong>condiciones_de_frontera_mixtas(x, P1, P2, P3, P4, AP, AW, AE, AN, AS, B, nx, ny)</strong> (se ubica al final del ejercicio):</p>
+<pre><code>1.- Copia el contenido de la función =&gt; condiciones_de_frontera_neumann(x, P1, P2, P3, P4, AP, AW, AE, AN, AS, B, nx, ny)
+
+2.- En la frontera Norte asigna el codigo que aplica las condiciones de primera clase (Dirichlet)</code></pre>
+<p>En el script <strong>flujo_monofasico_2d_thomas(lx, ly, nx, ny)</strong>:</p>
+<pre><code>3.- Sustituye la función condiciones_de_frontera_neumann(x, P1, P2, P3, P4, AP, AW, AE, AN, AS, B, nx, ny) por =&gt; condiciones_de_frontera_mixtas(x, P1, P2, P3, P4, AP, AW, AE, AN, AS, B, nx, ny)
+
+4.- Modifica los nodos de la malla a 40 en nx y 40 en ny
+
+4.- Ejecuta las celdas de codigo modificadas y visualiza los resultados</code></pre>
+<section id="notas" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="notas"><span class="header-section-number">7.4.1</span> Notas:</h3>
+<p>En el ejericio 2, al aumentar a 40 el numero de nodos de la malla, el tiempo de computo aumenta significativamente. Para disminuir este tiempo se propone el uso de SciPy…</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./06_Conduccion_calor_solvers.html" class="pagination-link" aria-label="Conducción de calor en 2D: algoritmos de solución de sistemas de ecuaciones.">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Conducción de calor en 2D: algoritmos de solución de sistemas de ecuaciones.</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./08_Laplace_2D_SciPy.html" class="pagination-link" aria-label="Flujo Monofásico en 2D con SciPy">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Flujo Monofásico en 2D con SciPy</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

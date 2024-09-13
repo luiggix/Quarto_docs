@@ -1,0 +1,285 @@
+---
+title: "Introducción a Python"
+author: "Luis Miguel de la Cruz Salas"
+institute: "Depto. de Recursos Naturales, IGEF-UNAM"
+date: "8/22/24"
+format:
+  revealjs:
+    incremental: false
+    theme: default
+    code-block-height: 250px
+    preview-links: true
+    transition: none
+    slide-number: c/t
+    show-slide-number: all
+---
+
+## Motivación. 
+
+::: {.incremental}
+
+- La programación es útil y te puede ayudar en todos las labores que realizas día con día. 
+
+- Hace 10 años no era tan importante, además de que era más difícil.
+
+- Hoy en día es más sencilla y con las herramientas de IA generativa ya no programas solo.
+
+- Periodistas, especialistas en marketing, inversionistas, administrativos, docentes, entre otros, encuentran muy útil escribir pequeños códigos.
+:::
+
+## ¿Por qué Python?
+
+- Es uno de los lenguajes de programación más demandados en la industria tecnológica actual. 
+
+- [TIOBE Index](https://www.tiobe.com/tiobe-index/) (“The Importance Of Being Earnest”).
+
+- [Octoverse](https://octoverse.github.com/) : The state of open source and rise of AI in 2023.
+
+. . .
+
+![](https://github.blog/wp-content/uploads/2023/11/github-top-programming-languages-by-usage.png?w=1536){fig-align="center"  width=50% .lightbox}
+
+## 
+:::: {.columns}
+
+::: {.column width="50%"}
+[Top 14 Python Applications For The Real World.](https://hackr.io/blog/python-applications)
+![](https://cdn.hackr.io/uploads/posts/attachments/1691659103EqrCAr4xSr.webp){fig-align="center"  width=50% .lightbox}
+:::
+
+::: {.column width="50%"}
+[Why Python Is The Best Language For App Development](https://www.apptunix.com/blog/why-python-is-the-best-language-for-app-development/)
+
+![](https://cdn-hjokj.nitrocdn.com/xKvPrJeRKcMfBVHKpjbxbYMvqmxtHXge/assets/images/optimized/rev-e6f3536/www.apptunix.com/blog/wp-content/uploads/sites/3/2021/08/popular-apps-doveloped-with-python.jpg){fig-align="center"  width=90% .lightbox}
+:::
+
+::::
+
+## Incepción y cualidades de Pyhton. {.scrollable}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](https://upload.wikimedia.org/wikipedia/commons/6/66/Guido_van_Rossum_OSCON_2006.jpg){width=75%}
+:::
+
+::: {.column width="50%"}
+- Creado por Guido van Rossum en 1991.
+- Python es un lenguaje de programación de alto nivel, 
+- interpretado, 
+- de propósito general,
+- con una **sintaxis muy clara y legible**, 
+- portable entre diferentes sistemas operativos,
+- **con baterías incluidas**.
+:::
+
+::::
+
+## {.scrollable}
+
+- **Objetivo.**
+    - Capacitar a los participantes en el uso de las herramientas básicas del lenguaje de programación Python.
+
+- **Requisitos de ingreso.**
+    - Conocimientos básicos de computación. 
+    - Contar con una computadora con un navegador web actualizado, de preferencia Firefox o Chrome.
+    - Contar con una cuenta en [GitHub](https://github.com/).
+    - Recomendable: contar con una cuenta en [ChatGPT](https://chatgpt.com/).
+
+- **Perfil de egreso.**
+    - Al finalizar el curso, el participante conocerá los fundamentos del lenguaje de programación Python así como las herramientas básicas con que cuenta y con ellas implementará algoritmos sencillos para resolver problemas de la vida real, buscando siempre soluciones efectivas, eficientes e incorporando códigos de otros autores (reutilización) proporcionando los créditos correspondientes.
+
+## Material pedagógico e infraestructura.{.scrollable}
+
+- Todos nuestros materiales serán proporcionados a través de un repositorio en GitHub.
+
+- Los materiales están desarrollados en *Jupyter Notebooks* y presentaciones interactivas.
+
+**Ejemplo**.
+
+```{.python code-line-numbers="6-20"}
+archivo = open("Don_Quijote.txt")           # Archivo
+total_palabras = 0                          # Número entero
+total_letras = 0                            # Número entero
+vocal = {'a':0, 'e':0, 'i':0, 'o':0, 'u':0} # Diccionario
+texto = []                                  # Lista vacía
+
+# Lee línea por línea
+for línea in archivo:
+    # Cuenta las palabras
+    for palabra in línea.split():
+        total_palabras += 1
+        # Cuenta las letras
+        for letra in palabra:
+            total_letras += 1
+            # Cuenta vocales
+            vocal['a'] += 1 if letra == 'a' else 0
+            vocal['e'] += 1 if letra == 'e' else 0
+            vocal['i'] += 1 if letra == 'i' else 0
+            vocal['o'] += 1 if letra == 'o' else 0
+            vocal['u'] += 1 if letra == 'u' else 0
+    texto.append(línea)
+
+print("-"*40 + "\n{:^40s}\n".format("Resultado") + "-"*40)
+print(f'Total palabras = {total_palabras}')
+print(f'Total letras = {total_letras}')
+
+# Imprime el total de vocales y calcula el porcentaje
+[print(f'{k} = {vocal[k]}, ({vocal[k] / total_letras:5.3%})') for k in vocal]
+print("-"*40 + "\n{:^40s}\n".format("Texto") + "-"*40)
+# Imprime el texto
+[print(línea, end="") for línea in texto]
+ 
+archivo.close()
+```
+
+## Material pedagógico e infraestructura.{.scrollable}
+
+- Haremos uso de la plataforma MACTI. 
+
+{{< video https://youtu.be/Jl9SN8HLeU8 width="50%" height="50%" >}}
+
+- Se proporcionará una cuenta a cada participante, que podrá usar durante el curso y hasta un mes después de finalizado el mismo.
+
+## Temario y objetivos de aprendizaje.{.scrollable}
+
+::: {.panel-tabset}
+
+### Tema 1.
+
+1. Introducción.
+    * Encuadre y presentación del curso.
+    * Visita guiada a la plataforma MACTI.
+        - ¿Cómo registrarse?
+        - Ambiente de Moodle.
+        - Ambiente de JupyterLab.
+
+
+**Objetivos de aprendizaje.**
+Al concluir esta unidad el participante conocerá la manera de ingresar a su cuenta en la plataforma MACTI y se familiarizará con los ambientes de Moodle y Jupyterlab donde realizará sus prácticas.
+
+**Evaluación:** Quiz 1. (Moodle)
+
+**Indicadores.**
+
+- Se verifica en el sistema que el participante accedió a su cuenta en MACTI.
+- Obtener un puntaje de al menos 80% en el quiz del módulo.
+
+### Tema 2.
+
+2. Manejo de versiones.
+    * Comandos básicos de git.
+    * Enlazando con Github.
+
+**Objetivos de aprendizaje.**
+Al concluir esta unidad el participante será capaz de clonar repositorios públicos en su cuenta de MACTI, además generará un repositorio local  para almacenar su proyecto y lo enlazará con un repositorio remoto en Github.
+
+**Evaluación:** Quiz  2. (Moodle)
+
+**Indicadores.**
+
+- Obtener un puntaje de al menos el 80% en el quiz del módulo.
+
+### Tema 3.
+
+3. Herramientas básicas de Python. 
+    * Variables y objetos.
+    * Tipos básicos.
+        - Tipos numéricos.
+        - Tipos lógicos.
+    * Operadores.
+        - Operadores aritméticos
+        - Operadores relacionales
+        - Operaciones lógicas.
+        - Conversión entre tipos.
+    * Expresiones y declaraciones.
+
+
+
+**Objetivos de aprendizaje.**
+Al concluir esta unidad el participante entenderá los conceptos de variable, objeto, tipos básicos y sus operadores; aplicará estos conceptos para realizar correctamente al menos el 90% de los ejercicios del módulo; realizará una primera versión del proyecto final.
+
+**Evaluación:**
+
+* Ejercicios. (Jupyter Notebook)
+* Proyecto: parte 1. (Jupyter Notebook)
+
+**Indicadores.**
+
+- Obtener el 90% de los ejercicios correctos en la notebook del módulo.
+- Obtener un puntaje del 90% en la evaluación del proyecto, el cual se evalúa con una notebook.
+
+### Tema 4.
+
+3. Herramientas básicas de Python. (cont.) 
+    * Cadenas
+    * Entrada y salida estándar: input,  print
+    * Control de flujo: 
+        - while
+        - if, elif, else
+        - for
+        - break, continue, else, pass.
+
+**Objetivos de aprendizaje.**
+Al concluir esta unidad el participante entenderá los conceptos de cadenas, entrada y salida estándar y herramientas para control de flujo; aplicará estos conceptos para realizar correctamente al menos el 90% de los ejercicios del módulo; realizará una segunda versión del proyecto final.
+
+**Evaluación:**
+
+* Ejercicios. (Jupyter Notebook)
+* Proyecto: parte 2. (Jupyter Notebook)
+
+**Indicadores.**
+
+- Obtener el 90% de los ejercicios correctos en la notebook del módulo.
+- Obtener un puntaje del 90% en la evaluación del proyecto, el cual se evalúa con una notebook.
+
+### Tema 5.
+
+3. Herramientas básicas de Python. (cont.) 
+    * Estructura de datos: 
+        - Listas 
+        - Tuplas
+        - Conjuntos
+        - Diccionarios.
+    * Recorriendo las secuencias.
+    * Un primer vistazo a las funciones.
+    * Importando bibliotecas (math, random, statistics).
+    * Acelerando tu aprendizaje con IA Generativa.
+
+**Objetivos de aprendizaje.**
+Al concluir esta unidad el participante entenderá las estructuras de datos básicas como listas, tuplas, conjuntos, diccionarios y será capaz de crearlas, recorrerlas y modificarla para realizar códigos más especializados. También aprenderá a generar funciones simples y a utilizar módulos de la biblioteca estándar para comenzar a crear códigos usando programación estructurada. Aplicará estos conocimientos para realizar correctamente el 90% de los ejercicios del módulo. Realizará la versión final del proyecto.
+
+**Evaluación:**
+
+* Ejercicios. (Jupyter Notebook)
+* Proyecto: Final. (Jupyter Notebook)
+
+**Indicadores.**
+
+- Obtener el 90% de los ejercicios correctos en la notebook del módulo.
+- Obtener un puntaje del 90% en la evaluación del proyecto, el cual se evalúa con una notebook.
+
+:::
+
+## Duración, Modalidad, Costo y Cupo.
+
+* **Duración** : 10 h, 5 días 2 h diarias.
+
+* **Modalidad** : Síncrono en línea.
+
+* **Costos** : 
+    - Público general: $1000.00 MXN (IVA incluido)
+    - Académicos: $500.00 MXN (IVA incluido)
+    - Estudiantes: $500.00 MXN (IVA incluido)
+
+* **Cupo máximo** : 25 personas con equipo de cómputo.
+
+* **Fecha de impartición** : por definir.
+
+## {.scrollable}
+
+|Tema|Tiempo (h)|Requisitos|
+|---|:-:|---|
+|Introducción| 2 | Conexión zoom. Acceso a la Plataforma MACTI (profesor y participantes).|
+|Herramientas básicas de Python| 8 | Conexión zoom. Acceso a la Plataforma MACTI (profesor y participantes). |
+: Cronograma

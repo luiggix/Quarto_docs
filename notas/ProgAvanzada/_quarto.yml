@@ -1,0 +1,29 @@
+project:
+  type: book
+
+book:
+  title: "Programación Avanzada"
+  image: mactiR.png
+  author: "Luis Miguel de la Cruz Salas"
+  date: "1/12/2023"
+  page-navigation: true
+  chapters:
+    - index.qmd
+    - 01_Espacios_Vectoriales.ipynb
+    - 02_Producto_Escalar.ipynb
+    - 03_CLineal_BOrtonormal.ipynb
+    - 04_Normas_Vectoriales.ipynb
+    - 05_Matrices_Normas_Eigen.ipynb
+    - 06_Sol_Sist_Lineales_Intro.ipynb
+    - 07_Sol_Sis_Lin_Iter_1.ipynb
+    - 08_Sol_Sis_Lin_Krylov.ipynb
+
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

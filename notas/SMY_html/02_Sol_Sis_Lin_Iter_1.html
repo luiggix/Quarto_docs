@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.550">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Simulación Matemática de Yacimientos - 2&nbsp; Métodos iterativos para la solución de sistemas de ecuaciones lineales</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03_Sol_Sis_Lin_Krylov.html" rel="next">
+<link href="./01_Sol_Sist_Lineales_Intro.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02_Sol_Sis_Lin_Iter_1.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Métodos iterativos para la solución de sistemas de ecuaciones lineales</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Simulación Matemática de Yacimientos</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Sol_Sist_Lineales_Intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Sistemas de ecuaciones lineales: introducción</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Sol_Sis_Lin_Iter_1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Métodos iterativos para la solución de sistemas de ecuaciones lineales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Sol_Sis_Lin_Krylov.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Descenso del gradiente y Gradiente Conjugado.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Conduccion_estacionaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Conducción de Calor estaionaria en 2D.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Conduccion_NO_estacionaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Conducción de calor No estacionaria.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Conduccion_calor_solvers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Conducción de calor en 2D: algoritmos de solución de sistemas de ecuaciones.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Laplace_2D_Thomas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Flujo Monofásico en 2D con Algoritmo de Thomas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_Laplace_2D_SciPy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Flujo Monofásico en 2D con SciPy</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#cruce-de-dos-rectas." id="toc-cruce-de-dos-rectas." class="nav-link active" data-scroll-target="#cruce-de-dos-rectas."><span class="header-section-number">3</span> Cruce de dos rectas.</a>
+  <ul class="collapse">
+  <li><a href="#definición-y-gráfica-de-las-rectas" id="toc-definición-y-gráfica-de-las-rectas" class="nav-link" data-scroll-target="#definición-y-gráfica-de-las-rectas"><span class="header-section-number">3.1</span> Definición y gráfica de las rectas</a></li>
+  <li><a href="#ejercicio-1." id="toc-ejercicio-1." class="nav-link" data-scroll-target="#ejercicio-1."><span class="header-section-number">3.2</span> <strong>Ejercicio 1.</strong></a></li>
+  <li><a href="#sistemas-lineales." id="toc-sistemas-lineales." class="nav-link" data-scroll-target="#sistemas-lineales."><span class="header-section-number">3.3</span> Sistemas lineales.</a></li>
+  <li><a href="#ejemplo-1." id="toc-ejemplo-1." class="nav-link" data-scroll-target="#ejemplo-1."><span class="header-section-number">3.4</span> <strong>Ejemplo 1.</strong></a></li>
+  </ul></li>
+  <li><a href="#método-de-jacobi" id="toc-método-de-jacobi" class="nav-link" data-scroll-target="#método-de-jacobi"><span class="header-section-number">4</span> Método de Jacobi</a>
+  <ul class="collapse">
+  <li><a href="#algoritmo-jacobi." id="toc-algoritmo-jacobi." class="nav-link" data-scroll-target="#algoritmo-jacobi."><span class="header-section-number">4.1</span> Algoritmo Jacobi.</a></li>
+  <li><a href="#implementación." id="toc-implementación." class="nav-link" data-scroll-target="#implementación."><span class="header-section-number">4.2</span> Implementación.</a></li>
+  <li><a href="#ejemplo-3.-aplicación-del-método-de-jacobi." id="toc-ejemplo-3.-aplicación-del-método-de-jacobi." class="nav-link" data-scroll-target="#ejemplo-3.-aplicación-del-método-de-jacobi."><span class="header-section-number">4.3</span> <strong>Ejemplo 3. Aplicación del método de Jacobi.</strong></a></li>
+  <li><a href="#cálculo-del-error" id="toc-cálculo-del-error" class="nav-link" data-scroll-target="#cálculo-del-error"><span class="header-section-number">4.4</span> Cálculo del error</a></li>
+  </ul></li>
+  <li><a href="#método-de-gauss-seidel" id="toc-método-de-gauss-seidel" class="nav-link" data-scroll-target="#método-de-gauss-seidel"><span class="header-section-number">5</span> Método de Gauss-Seidel</a>
+  <ul class="collapse">
+  <li><a href="#algoritmo-gauss-seidel." id="toc-algoritmo-gauss-seidel." class="nav-link" data-scroll-target="#algoritmo-gauss-seidel."><span class="header-section-number">5.1</span> Algoritmo Gauss-Seidel.</a></li>
+  <li><a href="#implementación.-1" id="toc-implementación.-1" class="nav-link" data-scroll-target="#implementación.-1"><span class="header-section-number">5.2</span> Implementación.</a></li>
+  <li><a href="#ejercicio-2." id="toc-ejercicio-2." class="nav-link" data-scroll-target="#ejercicio-2."><span class="header-section-number">5.3</span> <strong>Ejercicio 2.</strong></a></li>
+  </ul></li>
+  <li><a href="#método-de-sobrerrelajación-sucesiva-successive-overrelaxation-sor" id="toc-método-de-sobrerrelajación-sucesiva-successive-overrelaxation-sor" class="nav-link" data-scroll-target="#método-de-sobrerrelajación-sucesiva-successive-overrelaxation-sor"><span class="header-section-number">6</span> Método de Sobrerrelajación sucesiva (<em>Successive Overrelaxation</em>, SOR)</a>
+  <ul class="collapse">
+  <li><a href="#implementación-3." id="toc-implementación-3." class="nav-link" data-scroll-target="#implementación-3."><span class="header-section-number">6.1</span> Implementación 3.</a></li>
+  <li><a href="#ejercicio-3." id="toc-ejercicio-3." class="nav-link" data-scroll-target="#ejercicio-3."><span class="header-section-number">6.2</span> <strong>Ejercicio 3.</strong></a></li>
+  <li><a href="#ejercicio-4." id="toc-ejercicio-4." class="nav-link" data-scroll-target="#ejercicio-4."><span class="header-section-number">6.3</span> <strong>Ejercicio 4.</strong></a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Métodos iterativos para la solución de sistemas de ecuaciones lineales</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Objetivo.</strong></p>
+<p>Describir e implementar los algoritmos de Jacobi, Gauss-Seidel y SOR para la solución de sistemas de ecuaciones lineales.</p>
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">
+<a property="dct:title" rel="cc:attributionURL" href="https://github.com/repomacti/macti/tree/main/notebooks/Algebra_Lineal_01">MACTI-Algebra_Lineal_01</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.macti.unam.mx">Luis M. de la Cruz</a> is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution-ShareAlike 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a>
+</p>
+<p>Trabajo realizado con el apoyo del Programa UNAM-DGAPA-PAPIME PE101922</p>
+<div id="cell-1" class="cell" data-tags="[]" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ipywidgets <span class="im">as</span> widgets</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> macti.visual <span class="im">as</span> mvis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="cruce-de-dos-rectas." class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Cruce de dos rectas.</h1>
+<p>Las siguientes dos rectas se cruzan en algún punto.</p>
+<p><span class="math display">\[
+\begin{array}{ccc}
+3x + 2y &amp; = &amp;2 \\
+2x + 6y &amp; = &amp;-8
+\end{array}
+\]</span></p>
+<p>Las ecuaciones de las rectas se pueden escribir como:</p>
+<p><span class="math display">\[
+\begin{array}{ccc}
+\dfrac{3}{2}x + y &amp; = &amp; 1 \\
+\dfrac{2}{6}x + y &amp; = &amp; -\dfrac{8}{6}
+\end{array} \Longrightarrow
+\begin{array}{ccc}
+y = m_1 x + b_1 \\
+y = m_2 x + b_2
+\end{array} \text{ donde }
+\begin{array}{ccc}
+m_1 = -\dfrac{3}{2} &amp; b_1 = 1 \\
+m_2 = -\dfrac{2}{6} &amp; b_2 = -\dfrac{8}{6}
+\end{array}
+\]</span></p>
+<p>Ahora realizaremos la gráfica de las rectas:</p>
+<section id="definición-y-gráfica-de-las-rectas" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="definición-y-gráfica-de-las-rectas"><span class="header-section-number">3.1</span> Definición y gráfica de las rectas</h2>
+</section>
+<section id="ejercicio-1." class="level2 alert alert-success" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="ejercicio-1."><span class="header-section-number">3.2</span> <strong>Ejercicio 1.</strong></h2>
+<p><font color="Black"> En la siguiente celda se define el domino <span class="math inline">\(x\)</span> para las líneas rectas, los parámetros para construir la línea recta 1 y su construcción. De la misma manera define los parámetros y construye la recta 2. Si todo lo hiciste correctamente, la celda de graficación mostrará las gráficas de las líneas rectas.</font></p>
+</section>
+<div id="cell-5" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> macti.evaluation <span class="im">import</span> FileAnswer, Quizz</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#file_anser = FileAnswer()</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#quizz = Quizz()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-6" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-d0239a6a16514f5f&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-tags="[]" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dominio</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">10</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Línea recta 1</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>m1 <span class="op">=</span> <span class="op">-</span><span class="dv">3</span><span class="op">/</span><span class="dv">2</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>b1 <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>y1 <span class="op">=</span> m1 <span class="op">*</span> x <span class="op">+</span> b1</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Línea recta 2</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># m2 = ...</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># b2 = ...</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># y2 = ...</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>m2 <span class="op">=</span> <span class="op">-</span><span class="dv">2</span><span class="op">/</span><span class="dv">6</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>b2 <span class="op">=</span> <span class="op">-</span><span class="dv">8</span><span class="op">/</span><span class="dv">6</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>y2 <span class="op">=</span> m2 <span class="op">*</span> x <span class="op">+</span> b2</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#file_answer('1', m2, 'm2 incorrecta revisa el valor del parámetro.')</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#file_answer('2', b2, 'b2 incorrecta revisa el valor del parámetro.')</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">#file_answer('3', y2, 'y2 no está definida correctamente.')</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-7" class="cell" data-tags="[]" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#quizz.eval_numeric('1', m2)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#quizz.eval_numeric('2', b2)</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#quizz.eval_numeric('3', y2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Gráfica de las líneas rectas.</strong></p>
+<div id="cell-9" class="cell" data-tags="[]" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> mvis.Plotter(<span class="dv">1</span>,<span class="dv">1</span>,[<span class="bu">dict</span>(aspect<span class="op">=</span><span class="st">'equal'</span>)],title<span class="op">=</span><span class="st">'Cruce de rectas'</span>) </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>v.set_coordsys(<span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, x, y1, lw <span class="op">=</span> <span class="dv">3</span>, c <span class="op">=</span> <span class="st">'seagreen'</span>, label <span class="op">=</span> <span class="st">'$3x+2y=2$'</span>) <span class="co"># Línea recta 1</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, x, y2, lw <span class="op">=</span> <span class="dv">3</span>, c <span class="op">=</span> <span class="st">'mediumorchid'</span>,label <span class="op">=</span> <span class="st">'$2x+6y=-8$'</span>) <span class="co"># Línea recta 2</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>v.legend(ncol <span class="op">=</span> <span class="dv">1</span>, frameon<span class="op">=</span><span class="va">True</span>, loc<span class="op">=</span><span class="st">'best'</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.75</span>, <span class="fl">1.05</span>))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>v.grid()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>v.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_Sol_Sis_Lin_Iter_1_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="sistemas-lineales." class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sistemas-lineales."><span class="header-section-number">3.3</span> Sistemas lineales.</h2>
+<p>Las ecuaciones de las rectas se pueden escribir en forma de un sistema lineal:</p>
+<p><span class="math display">\[
+\left[
+\begin{array}{cc}
+3 &amp; 2 \\
+2 &amp; 6
+\end{array} \right]
+\left[
+\begin{array}{c}
+x_{0} \\
+x_{1}
+\end{array} \right] =
+\left[
+\begin{array}{c}
+2 \\
+-8
+\end{array} \right]
+\tag{1}
+\]</span></p>
+<p>Podemos calcular el cruce de las rectas resolviendo el sistema lineal:</p>
+</section>
+<section id="ejemplo-1." class="level2 alert alert-info" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="ejemplo-1."><span class="header-section-number">3.4</span> <strong>Ejemplo 1.</strong></h2>
+<p><font color="Black"> Definir el sistema lineal y resolverlo. Posteriomente graficar las rectas y el punto solución.</font></p>
+</section>
+<p>El sistema lineal se puede resolver directamente con la función <code>np.linalg.solve()</code> como sigue:</p>
+<div id="cell-12" class="cell" data-tags="[]" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">3</span>, <span class="dv">2</span>],[<span class="dv">2</span>,<span class="dv">6</span>]] )</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="dv">2</span>,<span class="op">-</span><span class="dv">8</span>]])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Matriz A : </span><span class="ch">\n</span><span class="st">"</span>,A)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Vector b : </span><span class="ch">\n</span><span class="st">"</span>, b)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> np.linalg.solve(A,b[<span class="dv">0</span>]) <span class="co"># Función del módulo linalg para resolver el sistema</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Solución del sistema: "</span>, sol)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Matriz A : 
+ [[3 2]
+ [2 6]]
+Vector b : 
+ [[ 2 -8]]
+Solución del sistema:  [ 2. -2.]</code></pre>
+</div>
+</div>
+<p><strong>Gráfica de las líneas rectas y el punto de cruce (solución).</strong></p>
+<div id="cell-14" class="cell" data-tags="[]" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> mvis.Plotter(<span class="dv">1</span>,<span class="dv">1</span>,[<span class="bu">dict</span>(aspect<span class="op">=</span><span class="st">'equal'</span>)],title<span class="op">=</span><span class="st">'Cruce de rectas'</span>) </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>v.set_coordsys(<span class="dv">1</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, x, y1, lw <span class="op">=</span> <span class="dv">3</span>, c <span class="op">=</span> <span class="st">'seagreen'</span>, label <span class="op">=</span> <span class="st">'$3x+2y=2$'</span>) <span class="co"># Línea recta 1</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, x, y2, lw <span class="op">=</span> <span class="dv">3</span>, c <span class="op">=</span> <span class="st">'mediumorchid'</span>, label <span class="op">=</span> <span class="st">'$2x+6y=-8$'</span>) <span class="co"># Línea recta 2</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>v.scatter(<span class="dv">1</span>, sol[<span class="dv">0</span>], sol[<span class="dv">1</span>], fc<span class="op">=</span><span class="st">'sandybrown'</span>, ec<span class="op">=</span><span class="st">'k'</span>, s <span class="op">=</span> <span class="dv">75</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=</span><span class="dv">5</span>, label<span class="op">=</span><span class="st">'Sol. final'</span>) <span class="co"># Solución</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>v.legend(ncol <span class="op">=</span> <span class="dv">1</span>, frameon<span class="op">=</span><span class="va">True</span>, loc<span class="op">=</span><span class="st">'best'</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.75</span>, <span class="fl">1.05</span>))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>v.grid()</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>v.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_Sol_Sis_Lin_Iter_1_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>En general, un sistema de ecuaciones lineales de <span class="math inline">\(n \times n\)</span> se escribe como sigue:</p>
+<p><span class="math display">\[
+\begin{array}{ccccccc}
+a_{11}x_1 &amp; + &amp; a_{12}x_2 &amp; +  \dots  + &amp; a_{1n}x_n &amp; = &amp; b_1 \\
+a_{21}x_1 &amp; + &amp; a_{22}x_2 &amp; +  \dots + &amp; a_{2n}x_n &amp; = &amp; b_2 \\
+\vdots &amp; &amp; \vdots &amp;  &amp; \vdots &amp; &amp; \vdots \\
+a_{i1}x_1 &amp; + &amp; a_{i2}x_2 &amp; +  \dots + &amp; a_{in}x_n &amp; = &amp; b_i \\
+\vdots &amp; &amp; \vdots &amp;  &amp; \vdots &amp; &amp; \vdots \\
+a_{n1}x_1 &amp; + &amp; a_{n2}x_2 &amp; + \dots + &amp; a_{nn}x_n &amp; = &amp; b_n
+\end{array}
+\]</span></p>
+<p>Es posible usar diferentes métodos para resolver este tipo de sistemas. Veamos tres de ellos.</p>
+</section>
+<section id="método-de-jacobi" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Método de Jacobi</h1>
+<ul>
+<li><p>En este método, de la primera ecuación se despeja <span class="math inline">\(x_1\)</span>; de la segunda ecuación se despeja <span class="math inline">\(x_2\)</span>; y a sí sucesivamente, de tal manera que obtenemos: <span class="math display">\[
+\begin{eqnarray*}
+  x_1 &amp; = &amp;\left( b_1 - (a_{12}x_2 +  \dots  + a_{1n}x_n) \right) / a_{11}  \\
+  x_2 &amp; = &amp;\left( b_2 - (a_{21}x_1 +  \dots  + a_{2n}x_n) \right) / a_{22} \\
+  \vdots &amp; &amp; \vdots \\
+  x_i &amp; = &amp;\left( b_i - (a_{i1}x_1 +  \dots  + a_{in}x_n) \right) / a_{ii} \\
+  \vdots &amp; &amp; \vdots \\
+  x_n &amp; = &amp;\left( b_n - (a_{n1}x_1 +  \dots  + a_{nn-1}x_{n-1}) \right) / a_{nn}
+\end{eqnarray*}
+\]</span></p></li>
+<li><p>Suponemos ahora que tenemos una solución inicial aproximada <span class="math inline">\(\mathbf{x}^0 = [x_1^0, \dots, x_n^0]\)</span>. Usando esta solución inicial, es posible hacer una nueva aproximación para obtener <span class="math inline">\(\mathbf{x}^1 = [x_1^1, \dots, x_n^1]\)</span> como sigue:</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{eqnarray*}
+    x_1^1 &amp; = &amp;\left( b_1 - (a_{12}x_2^0 +  \dots  + a_{1n}x_n^0) \right) / a_{11}  \\
+    x_2^1 &amp; = &amp;\left( b_2 - (a_{21}x_1^0 +  \dots  + a_{2n}x_n^0) \right) / a_{22} \\
+    \vdots &amp; &amp; \vdots \\
+    x_i^1 &amp; = &amp;\left( b_i - (a_{i1}x_1^0 +  \dots  + a_{in}x_n^0) \right) / a_{ii} \\
+    \vdots &amp; &amp; \vdots \\
+    x_n^1 &amp; = &amp;\left( b_n - (a_{n1}x_1^0 +  \dots  + a_{nn-1}x_{n-1}^0) \right) / a_{nn}
+\end{eqnarray*}
+\]</span></p>
+<ul>
+<li>En general para <span class="math inline">\(i = 1, \dots, n\)</span> y <span class="math inline">\(k = 1, 2, \dots\)</span> tenemos:</li>
+</ul>
+<p><span class="math display">\[
+x_i^k = \frac{1}{a_{i,i}} \left(b_i -  \sum_{j \neq i} a_{i,j} x_j^{k-1} \right)
+\]</span></p>
+<ul>
+<li>En términos de matrices, la <strong>iteración de Jacobi</strong> se escribe: <span class="math display">\[
+\mathbf{x}^k = -\mathbf{D}^{-1} \mathbf{B}\mathbf{x}^{k-1} + \mathbf{D}^{-1} \mathbf{b}
+\]</span></li>
+</ul>
+<p>donde <span class="math inline">\(\mathbf{D}\)</span> es la matriz diagonal y <span class="math inline">\(\mathbf{B} = \mathbf{A} - \mathbf{D}\)</span>.</p>
+<ul>
+<li>El cálculo de cada componente <span class="math inline">\(x_i^k\)</span> es independiente de las otras componentes, por lo que este método se conoce también como de <em>desplazamientos simultáneos</em>.</li>
+</ul>
+<section id="algoritmo-jacobi." class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="algoritmo-jacobi."><span class="header-section-number">4.1</span> Algoritmo Jacobi.</h2>
+En general, podemos definir el siguiente algoritmo para el método de Jacobi.
+<center>
+<img src="./Jacobi.png" width="500px">
+</center>
+<div class="alert alert-info">
+<p>Observa que en este algoritmo hay un ciclo <code>while</code> el cual termina cuando el error es menor o igual que una tolerancia <code>tol</code> o se ha alcanzado un número máximo de iteraciones <code>kmax</code>. En la línea <strong>11</strong> se calcula el error, que en términos matemáticos se define como <span class="math inline">\(error = || \mathbf{x}^k - \mathbf{x}||\)</span> donde <span class="math inline">\(\mathbf{x}^k\)</span> es la aproximación de la iteración <span class="math inline">\(k\)</span>-ésima y <span class="math inline">\(\mathbf{x}\)</span> es la solución exacta. En muchas ocasiones no se tiene acceso a la solución exacta por lo que se compara con la solución de la iteración anterior, es decir <span class="math inline">\(error = || \mathbf{x}^k - \mathbf{x}^{k-1}||\)</span>. En los ejemplos que siguen si tenemos la solución exacta, por lo que haremos la comparación con ella.</p>
+</div>
+</section>
+<section id="implementación." class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="implementación."><span class="header-section-number">4.2</span> Implementación.</h2>
+<div id="cell-18" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-bcbf62f6c782b10b&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-tags="[]" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi(A,b,tol,kmax,xi, yi):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(b[<span class="dv">0</span>])</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    xnew <span class="op">=</span> np.zeros(N)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    xold <span class="op">=</span> np.zeros(N)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>]) <span class="co"># Solución exacta</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Solución inicial</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    xold[<span class="dv">0</span>] <span class="op">=</span> xi</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    xold[<span class="dv">1</span>] <span class="op">=</span> yi</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    xs <span class="op">=</span> [xi]</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    ys <span class="op">=</span> [yi]</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    e <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    error <span class="op">=</span> [] </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{:^2}</span><span class="st"> </span><span class="sc">{:^10}</span><span class="st"> </span><span class="sc">{:^12}</span><span class="st"> </span><span class="sc">{:^12}</span><span class="st">'</span>.<span class="bu">format</span>(<span class="st">' i '</span>, <span class="st">'Error'</span>, <span class="st">'x0'</span>, <span class="st">'x1'</span>))</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span>(e <span class="op">&gt;</span> tol <span class="kw">and</span> k <span class="op">&lt;</span> kmax) :</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,N): <span class="co"># se puede hacer en paralelo</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,i):</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>                xnew[i] <span class="op">+=</span> A[i,j] <span class="op">*</span> xold[j]</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i<span class="op">+</span><span class="dv">1</span>,N):</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>                xnew[i] <span class="op">+=</span> A[i,j] <span class="op">*</span> xold[j]                </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> (b[<span class="dv">0</span>,i] <span class="op">-</span> xnew[i]) <span class="op">/</span> A[i,i]</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Almacenamos la solución actual</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>        xs.append(xnew[<span class="dv">0</span>])</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>        ys.append(xnew[<span class="dv">1</span>])</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>        e <span class="op">=</span> np.linalg.norm(xnew<span class="op">-</span>x, <span class="dv">2</span>) <span class="co"># Cálculo del error</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>        error.append(e)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>        k <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>        xold[:] <span class="op">=</span> xnew[:]</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'</span><span class="sc">{:2d}</span><span class="st"> </span><span class="sc">{:10.9f}</span><span class="st"> (</span><span class="sc">{:10.9f}</span><span class="st">, </span><span class="sc">{:10.9f}</span><span class="st">)'</span>.<span class="bu">format</span>(k, e, xnew[<span class="dv">0</span>], xnew[<span class="dv">1</span>]))</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xnew, np.array(xs), np.array(ys), error, k</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ejemplo-3.-aplicación-del-método-de-jacobi." class="level2 alert alert-info" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="ejemplo-3.-aplicación-del-método-de-jacobi."><span class="header-section-number">4.3</span> <strong>Ejemplo 3. Aplicación del método de Jacobi.</strong></h2>
+<p><font color="Black"> Haciendo uso de la función <code>jacobi</code> definida en la celda anterior, aproxima la solución del sistema de ecuaciones (1). Utiliza la solución inicial <code>(xi, yi)</code> = <span class="math inline">\((-2, 2)\)</span>, una tolerancia <code>tol</code> = <span class="math inline">\(1 \times 10^{-5}\)</span> y <code>kmax</code> = <span class="math inline">\(50\)</span> iteraciones.</font></p>
+</section>
+<div id="cell-20" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-a36ade6364fb9e6d&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-outputid="efc32185-d095-4312-d95b-9bd83e74725a" data-tags="[]" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solución inicial</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>(xi, yi) <span class="op">=</span> (<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-5</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>kmax <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejecución del método de Jacobi</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>solJ, xs, ys, eJ, itJ <span class="op">=</span> jacobi(A, b, tol, kmax, xi, yi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> i    Error         x0           x1     
+ 1 2.981423970 (-0.666666667, -0.666666667)
+ 2 1.257078722 (1.111111111, -1.111111111)
+ 3 0.662538660 (1.407407407, -1.703703704)
+ 4 0.279350827 (1.802469136, -1.802469136)
+ 5 0.147230813 (1.868312757, -1.934156379)
+ 6 0.062077962 (1.956104252, -1.956104252)
+ 7 0.032717959 (1.970736168, -1.985368084)
+ 8 0.013795103 (1.990245389, -1.990245389)
+ 9 0.007270657 (1.993496926, -1.996748463)
+10 0.003065578 (1.997832309, -1.997832309)
+11 0.001615702 (1.998554873, -1.999277436)
+12 0.000681240 (1.999518291, -1.999518291)
+13 0.000359045 (1.999678861, -1.999839430)
+14 0.000151387 (1.999892954, -1.999892954)
+15 0.000079788 (1.999928636, -1.999964318)
+16 0.000033641 (1.999976212, -1.999976212)
+17 0.000017731 (1.999984141, -1.999992071)
+18 0.000007476 (1.999994714, -1.999994714)</code></pre>
+</div>
+</div>
+<div class="alert alert-info">
+<p>Observa que la función <code>jacobi()</code> regresa 5 valores: * <code>solJ</code> la solución obtenida, * <code>xs</code> y <code>ys</code> componentes de las soluciones aproximadas en cada paso, * <code>eJ</code> el error con respecto a la solución exacta e * <code>itJ</code> el número de iteraciones realizadas.</p>
+</div>
+<p>A continuación graficamos como es que la solución se va aproximando con este método.</p>
+<div id="cell-22" class="cell" data-tags="[]" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> mvis.Plotter(<span class="dv">1</span>,<span class="dv">1</span>,[<span class="bu">dict</span>(aspect<span class="op">=</span><span class="st">'equal'</span>)],title<span class="op">=</span><span class="st">'Cruce de rectas'</span>) </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>v.set_coordsys(<span class="dv">1</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, x, y1, lw <span class="op">=</span> <span class="dv">3</span>, c <span class="op">=</span> <span class="st">'seagreen'</span>, label <span class="op">=</span> <span class="st">'$3x+2y=2$'</span>) <span class="co"># Línea recta 1</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, x, y2, lw <span class="op">=</span> <span class="dv">3</span>, c <span class="op">=</span> <span class="st">'mediumorchid'</span>, label <span class="op">=</span> <span class="st">'$2x+6y=-8$'</span>) <span class="co"># Línea recta 2</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>v.scatter(<span class="dv">1</span>, sol[<span class="dv">0</span>], sol[<span class="dv">1</span>], fc<span class="op">=</span><span class="st">'sandybrown'</span>, ec<span class="op">=</span><span class="st">'k'</span>, s <span class="op">=</span> <span class="dv">75</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=</span><span class="dv">5</span>, label<span class="op">=</span><span class="st">'Sol. final'</span>) <span class="co"># Solución</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficamos los pasos</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>v.scatter(<span class="dv">1</span>, xs[<span class="dv">0</span>], ys[<span class="dv">0</span>], fc<span class="op">=</span><span class="st">'yellow'</span>, ec<span class="op">=</span><span class="st">'k'</span>, s <span class="op">=</span> <span class="dv">75</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=</span><span class="dv">8</span>, label<span class="op">=</span><span class="st">'Sol. inicial'</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>v.scatter(<span class="dv">1</span>, xs[<span class="dv">1</span>:], ys[<span class="dv">1</span>:], c<span class="op">=</span><span class="st">'navy'</span>, s <span class="op">=</span> <span class="dv">10</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, zorder<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, xs, ys, c<span class="op">=</span><span class="st">'grey'</span>, ls <span class="op">=</span> <span class="st">'--'</span>, lw<span class="op">=</span><span class="fl">1.0</span>, zorder<span class="op">=</span><span class="dv">8</span>, label<span class="op">=</span><span class="st">'Pasos de Jacobi'</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>v.legend(ncol <span class="op">=</span> <span class="dv">1</span>, frameon<span class="op">=</span><span class="va">True</span>, loc<span class="op">=</span><span class="st">'best'</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.80</span>, <span class="fl">1.01</span>))</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>v.grid()</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>v.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_Sol_Sis_Lin_Iter_1_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="cálculo-del-error" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="cálculo-del-error"><span class="header-section-number">4.4</span> Cálculo del error</h2>
+<ul>
+<li><p>Definimos <span class="math inline">\(e_i^k = x_i^k - x_i\)</span> como la diferencia entre la <span class="math inline">\(i\)</span>-ésima componente de la solución exacta y la <span class="math inline">\(i\)</span>-ésima componente de la <span class="math inline">\(k\)</span>-ésima iteración, de tal manera que <span class="math inline">\(\mathbf{e} = [e_1, \dots, e_n]^T\)</span> es el vector error.</p></li>
+<li><p>Aplicando una vez la iteración de Jacobi para <span class="math inline">\(x_i\)</span> y <span class="math inline">\(x_i^{k+1}\)</span> podemos escribir la diferencia como sigue:</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{eqnarray*}
+\left| e_i^{k+1} \right| &amp; = &amp;\left| x_i^{k+1} - x_i  \right| \\
+\left| e_i^{k+1} \right| &amp; = &amp; \left|
+\frac{1}{a_{i,i}} \left(b_i - \sum_{j \neq i} a_{i,j} x_j^{k} \right) -
+\frac{1}{a_{i,i}} \left(b_i - \sum_{j \neq i} a_{i,j} x_j \right) \right| \\
+\left| e_i^{k+1} \right| &amp; = &amp; \left| -\sum_{j \neq i} \frac{a_{i,j}}{a_{i,i}} (x_j^k - x_j)\right| \\
+\left| e_i^{k+1} \right| &amp; = &amp; \left| -\sum_{j \neq i} \frac{a_{i,j}}{a_{i,i}} e_j^k \right|
+\le \sum_{j \neq i} \left| \frac{a_{i,j}}{a_{i,i}} \right| || \mathbf{e}^k ||_\infty, \qquad \forall i, k .
+\end{eqnarray*}
+\]</span></p>
+<ul>
+<li><p>En particular: <span class="math display">\[
+\max_{1 \le i \le n} \left( \left| e_i^{k+1} \right| \right) =  || \mathbf{e}^{k+1} ||_\infty
+\le \sum_{j \neq i} \left| \frac{a_{i,j}}{a_{i,i}} \right| || \mathbf{e}^k ||_\infty
+\]</span></p></li>
+<li><p>Definimos <span class="math inline">\(\displaystyle K = \max_{1 \le i \le n} \sum_{j \neq i} \left| \frac{a_{i,j}}{a_{i,i}} \right|\)</span> entonces:</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{eqnarray*}
+|| \mathbf{e}^{k+1} ||_\infty &amp; \le &amp;  K || \mathbf{e}^{k} ||_\infty \le K \left( K || \mathbf{e}^{k-1} ||_\infty \right) \le
+\dots \le K^k || \mathbf{e}^{1} ||_\infty \\
+|| \mathbf{e}^{k+1} ||_\infty &amp; \le &amp;  K^k || \mathbf{e}^{1} ||_\infty
+\end{eqnarray*}
+\]</span></p>
+<ul>
+<li><p>Si <span class="math inline">\(K &lt; 1\)</span> entonces <span class="math inline">\(\mathbf{e}^{k} \rightarrow 0\)</span> cuando <span class="math inline">\(k \rightarrow \infty\)</span></p></li>
+<li><p>La condición <span class="math inline">\(K &lt; 1\)</span> implica: <span class="math display">\[
+\sum_{j \neq i} |a_{i,j}| &lt; |a_{i,i}|, \forall i
+\]</span></p></li>
+</ul>
+<p>A continuación graficamos el error que se va obteniendo en cada paso del método:</p>
+<div id="cell-24" class="cell" data-tags="[]" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista con el número de las iteraciones</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>l_itJ <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>,itJ<span class="op">+</span><span class="dv">1</span>)) </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros para los ejes</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>a_p <span class="op">=</span> <span class="bu">dict</span>(yscale<span class="op">=</span><span class="st">'log'</span>, xlabel<span class="op">=</span><span class="st">'Iteraciones'</span>, xticks <span class="op">=</span> l_itJ)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica del error</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> mvis.Plotter(<span class="dv">1</span>,<span class="dv">1</span>,[a_p]) </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>v.axes(<span class="dv">1</span>).set_title(<span class="st">'Error'</span>, loc<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, l_itJ, eJ, marker<span class="op">=</span><span class="st">'.'</span>, label<span class="op">=</span><span class="st">'Jacobi'</span>) <span class="co"># Error eJ</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>v.legend()</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>v.grid()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_Sol_Sis_Lin_Iter_1_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="método-de-gauss-seidel" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Método de Gauss-Seidel</h1>
+<ul>
+<li><p>La principal diferencia con el método de Jacobi es que las ecuaciones se analizan en un orden determinado.</p></li>
+<li><p>Por ejemplo, si realizamos el cálculo en orden ascendente y ya hemos evaluado <span class="math inline">\(x_1\)</span> y <span class="math inline">\(x_2\)</span>, para evaluar <span class="math inline">\(x_3\)</span> haríamos lo siguiente:} <span class="math display">\[
+\begin{eqnarray*}
+\underline{x_1^1} &amp; = &amp;\left( b_1 - (a_{12}x_2^0 + a_{13} x_3^0 + \dots  + a_{1n}x_n^0) \right) / a_{11}  \\
+\underline{x_2^1} &amp; = &amp;\left( b_2 - (a_{21}\underline{x_1^1} + a_{23}x_3^0 + \dots  + a_{2n}x_n^0) \right) / a_{22} \\
+x_3 &amp; = &amp;\left( b_3 - (a_{31}\underline{x_1^1} + a_{32}\underline{x_2^1} + \dots  + a_{3n}x_n^0)\right) / a_{22}
+\end{eqnarray*}
+\]</span></p></li>
+<li><p>En general la fórmula del método es como sigue: $$ x_i^k = (b_i - <em>{j &lt; i} a</em>{i,j} </p></li>
+<li><p><em>{j &gt; i} a</em>{i,j} x_j^{k-1} ) $$</p></li>
+<li><p>Este algoritmo es serial dado que cada componente depende de que las componentes previas se hayan calculado (<em>desplazamientos sucesivos</em>).</p></li>
+<li><p>El valor de la nueva iteración <span class="math inline">\(\mathbf{x}^k\)</span> depende del orden en que se examinan las componentes. Si se cambia el orden, el valor de <span class="math inline">\(\mathbf{x}^k\)</span> cambia.</p></li>
+</ul>
+<section id="algoritmo-gauss-seidel." class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="algoritmo-gauss-seidel."><span class="header-section-number">5.1</span> Algoritmo Gauss-Seidel.</h2>
+<p>En general, podemos definir el siguiente algoritmo para el método de Gauss-Seidel.</p>
+<center>
+<img src="./Gauss_Seidel.png" width="500px">
+</center>
+<div class="alert alert-info">
+<p>Se aplican los mismo comentarios que para el algoritmo de Jacobi.</p>
+</div>
+</section>
+<section id="implementación.-1" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="implementación.-1"><span class="header-section-number">5.2</span> Implementación.</h2>
+<div id="cell-27" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-ad9e472a46931664&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-tags="[]" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gauss_seidel(A,b,tol,kmax,xi,yi):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(b[<span class="dv">0</span>])</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    xnew <span class="op">=</span> np.zeros(N)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    xold <span class="op">=</span> np.zeros(N)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>]) <span class="co"># Solución exacta</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Solución inicial</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    xold[<span class="dv">0</span>] <span class="op">=</span> xi</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    xold[<span class="dv">1</span>] <span class="op">=</span> yi</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    xs <span class="op">=</span> [xi]</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    ys <span class="op">=</span> [yi]</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    e <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    error <span class="op">=</span> [] </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{:^2}</span><span class="st"> </span><span class="sc">{:^10}</span><span class="st"> </span><span class="sc">{:^12}</span><span class="st"> </span><span class="sc">{:^12}</span><span class="st">'</span>.<span class="bu">format</span>(<span class="st">' i '</span>, <span class="st">'Error'</span>, <span class="st">'x0'</span>, <span class="st">'x1'</span>))</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span>(e <span class="op">&gt;</span> tol <span class="kw">and</span> k <span class="op">&lt;</span> kmax) :</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,N): <span class="co"># se puede hacer en paralelo</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,i):</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>                xnew[i] <span class="op">+=</span> A[i,j] <span class="op">*</span> xnew[j]</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i<span class="op">+</span><span class="dv">1</span>,N):</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>                xnew[i] <span class="op">+=</span> A[i,j] <span class="op">*</span> xold[j]                </span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> (b[<span class="dv">0</span>,i] <span class="op">-</span> xnew[i]) <span class="op">/</span> A[i,i]</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Almacenamos la solución actual</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>        xs.append(xnew[<span class="dv">0</span>])</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>        ys.append(xnew[<span class="dv">1</span>])</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>        e <span class="op">=</span> np.linalg.norm(xnew<span class="op">-</span>x,<span class="dv">2</span>) <span class="co"># Cálculo del error</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>        error.append(e)</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>        k <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>        xold[:] <span class="op">=</span> xnew[:]</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'</span><span class="sc">{:2d}</span><span class="st"> </span><span class="sc">{:10.9f}</span><span class="st"> (</span><span class="sc">{:10.9f}</span><span class="st">, </span><span class="sc">{:10.9f}</span><span class="st">)'</span>.<span class="bu">format</span>(k, e, xnew[<span class="dv">0</span>], xnew[<span class="dv">1</span>]))</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xnew, np.array(xs), np.array(ys), error, k</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ejercicio-2." class="level2 alert alert-success" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="ejercicio-2."><span class="header-section-number">5.3</span> <strong>Ejercicio 2.</strong></h2>
+<p><font color="Black">Haciendo uso de la función <code>gauss_seidel()</code> definida en la celda anterior, aproxima la solución del sistema de ecuaciones del Ejemplo 1. Utiliza la solución inicial <code>(xi, yi) =</code> <span class="math inline">\((-2, 2)\)</span>, una tolerancia <code>tol</code> = <span class="math inline">\(1 \times 10^{-5}\)</span> y <code>kmax</code> = <span class="math inline">\(50\)</span> iteraciones. Utiliza las variables <code>solG</code>, <code>xs</code>, <code>ys</code>, <code>eG</code> e <code>itG</code> para almacenar la salida de la función <code>gauss_seidel()</code>. Posteriormente grafica las rectas y cómo se va calculando la solución con este método (puedes usar el mismo código que en el caso de Jacobi). Grafica también los errores para el método de Jacobi y para el de Gauss-Seidel, deberías obtener una imagen como la siguiente:</font></p><font color="Black">
+</font><p><font color="Black"><img src="error_JGS.png" width="450px" height="auto"> </font></p>
+</section>
+<p><strong>Cálculo de la solución con Gauss-Seidel</strong></p>
+<div id="cell-30" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-97076304ca7ed9a8&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-outputid="7c53bde7-4bf1-4117-a763-004082033c37" data-tags="[]" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solución inicial</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># xi, yi = </span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># tol = </span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># kmax = </span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Método de Gauss-Seidel</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Solución inicial</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>xi, yi <span class="op">=</span> <span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-5</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>kmax <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Método de Gauss-Seidel</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>solG, xs, ys, eG, itG <span class="op">=</span> gauss_seidel(A, b, tol, kmax, xi, yi)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">#file_answer.write('4', solG, 'solG es incorrecta: revisa la llamada y ejecución de la función gauss_seidel() así como sus parámetros de entrada.')</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co">#file_answer.write('5', eG[-1], 'eG[-1] es incorrecto: revisa la llamada y ejecución de la función gauss_seidel() así como sus parámetros de entrada.')</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">#file_answer.write('6', itG, 'itG es incorrector: revisa la llamada y ejecución de la función gauss_seidel() así como sus parámetros de entrada.')</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> i    Error         x0           x1     
+ 1 2.810913476 (-0.666666667, -1.111111111)
+ 2 0.624647439 (1.407407407, -1.802469136)
+ 3 0.138810542 (1.868312757, -1.956104252)
+ 4 0.030846787 (1.970736168, -1.990245389)
+ 5 0.006854842 (1.993496926, -1.997832309)
+ 6 0.001523298 (1.998554873, -1.999518291)
+ 7 0.000338511 (1.999678861, -1.999892954)
+ 8 0.000075225 (1.999928636, -1.999976212)
+ 9 0.000016717 (1.999984141, -1.999994714)
+10 0.000003715 (1.999996476, -1.999998825)</code></pre>
+</div>
+</div>
+<div id="cell-31" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-cc83bed7ddfd9adf&quot;,&quot;locked&quot;:true,&quot;points&quot;:1,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-tags="[]" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#quizz.eval_numeric('4', solG)</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#quizz.eval_numeric('5', eG[-1])</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#quizz.eval_numeric('6', itG)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Gráfica de las rectas, la solución y los pasos realizados</strong></p>
+<div id="cell-33" class="cell" data-tags="[]" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Puedes usar el mismo código que en el caso anterior.</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> mvis.Plotter(<span class="dv">1</span>,<span class="dv">1</span>,[<span class="bu">dict</span>(aspect<span class="op">=</span><span class="st">'equal'</span>)],title<span class="op">=</span><span class="st">'Cruce de rectas'</span>) </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>v.set_coordsys(<span class="dv">1</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, x, y1, lw <span class="op">=</span> <span class="dv">3</span>, c <span class="op">=</span> <span class="st">'seagreen'</span>, label <span class="op">=</span> <span class="st">'$3x+2y=2$'</span>) <span class="co"># Línea recta 1</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, x, y2, lw <span class="op">=</span> <span class="dv">3</span>, c <span class="op">=</span> <span class="st">'mediumorchid'</span>, label <span class="op">=</span> <span class="st">'$2x+6y=-8$'</span>) <span class="co"># Línea recta 2</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficamos los pasos</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>v.scatter(<span class="dv">1</span>, xs[<span class="dv">0</span>], ys[<span class="dv">0</span>], fc<span class="op">=</span><span class="st">'yellow'</span>, ec<span class="op">=</span><span class="st">'k'</span>, s <span class="op">=</span> <span class="dv">75</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=</span><span class="dv">8</span>, label<span class="op">=</span><span class="st">'Sol. inicial'</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>v.scatter(<span class="dv">1</span>, xs[<span class="dv">1</span>:], ys[<span class="dv">1</span>:], c<span class="op">=</span><span class="st">'navy'</span>, s <span class="op">=</span> <span class="dv">10</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, zorder<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, xs, ys, c<span class="op">=</span><span class="st">'grey'</span>, ls <span class="op">=</span> <span class="st">'--'</span>, lw<span class="op">=</span><span class="fl">1.0</span>, zorder<span class="op">=</span><span class="dv">8</span>, label<span class="op">=</span><span class="st">'Pasos de Gauss-Seidel'</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>v.legend(ncol <span class="op">=</span> <span class="dv">1</span>, frameon<span class="op">=</span><span class="va">True</span>, loc<span class="op">=</span><span class="st">'best'</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">2.05</span>, <span class="fl">1.01</span>))</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>v.grid()</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>v.show()</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_Sol_Sis_Lin_Iter_1_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Graficación de los errores de Jacobi y Gauss-Seidel</strong></p>
+<div id="cell-35" class="cell" data-tags="[]" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Utiliza el código del caso anterior adaptado para que pueda graficar ambos errores.</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista con el número de las iteraciones máxima</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>it_max <span class="op">=</span> <span class="bu">max</span>(itJ, itG)<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>l_it_max <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>,it_max)) </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Listas con el número de las iteraciones para cada algoritmo</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>l_itJ <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>,itJ<span class="op">+</span><span class="dv">1</span>)) </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>l_itG <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>,itG<span class="op">+</span><span class="dv">1</span>)) </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros para los ejes</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>a_p <span class="op">=</span> <span class="bu">dict</span>(yscale<span class="op">=</span><span class="st">'log'</span>, xlabel<span class="op">=</span><span class="st">'Iteraciones'</span>, xticks <span class="op">=</span> l_it_max)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráficas del error</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> mvis.Plotter(<span class="dv">1</span>,<span class="dv">1</span>,[a_p]) </span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>v.axes(<span class="dv">1</span>).set_title(<span class="st">'Error'</span>, loc<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, l_itJ, eJ, marker<span class="op">=</span><span class="st">'.'</span>, label<span class="op">=</span><span class="st">'Jacobi'</span>)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, l_itG, eG, marker<span class="op">=</span><span class="st">'.'</span>, label<span class="op">=</span><span class="st">'Gauss-Seidel'</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>v.legend()</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>v.grid()</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_Sol_Sis_Lin_Iter_1_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="método-de-sobrerrelajación-sucesiva-successive-overrelaxation-sor" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Método de Sobrerrelajación sucesiva (<em>Successive Overrelaxation</em>, SOR)</h1>
+<ul>
+<li><p>Se obtiene apicando una extrapolación a la iteración de Gauss-Seidel.</p></li>
+<li><p>Esta extrapolación es un promedio pesado entre la iteración actual y la anterior: <span class="math display">\[
+x_i^k = \omega \bar{x}_i^k + (1-\omega)x_i^{k-1}
+\]</span> donde <span class="math inline">\(\bar{x}\)</span> denota una iteración de Gauss-Seidel y <span class="math inline">\(\omega\)</span> es el factor de extrapolación.</p></li>
+<li><p>En términos de matrices tenemos: $$ ^k = ( - )^{-1}( + (1 - ))^{k-1}</p></li>
+<li><p>( - )^{-1} $$</p></li>
+<li><p>Elegir la <span class="math inline">\(\omega\)</span> óptima no es simple, aunque se sabe que si <span class="math inline">\(\omega\)</span> está fuera del intervalo <span class="math inline">\((0,2)\)</span> el método falla.</p></li>
+</ul>
+<section id="implementación-3." class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="implementación-3."><span class="header-section-number">6.1</span> Implementación 3.</h2>
+<div id="cell-37" class="cell" data-tags="[]" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sor(A,b,tol,kmax,w,xi,yi):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(b[<span class="dv">0</span>])</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    xnew <span class="op">=</span> np.zeros(N)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    xold <span class="op">=</span> np.zeros(N)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>]) <span class="co"># Solución exacta</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Solución inicial</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    xold[<span class="dv">0</span>] <span class="op">=</span> xi</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    xold[<span class="dv">1</span>] <span class="op">=</span> yi</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    xs <span class="op">=</span> [xi]</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    ys <span class="op">=</span> [yi]</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    e <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    error <span class="op">=</span> [] </span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span>(e <span class="op">&gt;</span> tol <span class="kw">and</span> k <span class="op">&lt;</span> kmax) :</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,N): <span class="co"># se puede hacer en paralelo</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>            sigma <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,i):</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>                sigma <span class="op">+=</span> A[i,j] <span class="op">*</span> xnew[j]</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i<span class="op">+</span><span class="dv">1</span>,N):</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>                sigma <span class="op">+=</span> A[i,j] <span class="op">*</span> xold[j]                </span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>            sigma <span class="op">=</span> (b[<span class="dv">0</span>,i] <span class="op">-</span> sigma) <span class="op">/</span> A[i,i]</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> xold[i] <span class="op">+</span> w <span class="op">*</span> (sigma <span class="op">-</span>xold[i])</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Almacenamos la solución actual</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>        xs.append(xnew[<span class="dv">0</span>])</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>        ys.append(xnew[<span class="dv">1</span>])</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>        e <span class="op">=</span> np.linalg.norm(xnew<span class="op">-</span>x, <span class="dv">2</span>) <span class="co"># Cálculo del error</span></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>        error.append(e)</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>        k <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>        xold[:] <span class="op">=</span> xnew[:]</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'</span><span class="sc">{:2d}</span><span class="st"> </span><span class="sc">{:10.9f}</span><span class="st"> (</span><span class="sc">{:10.9f}</span><span class="st">, </span><span class="sc">{:10.9f}</span><span class="st">)'</span>.<span class="bu">format</span>(k, e, xnew[<span class="dv">0</span>], xnew[<span class="dv">1</span>]))</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xnew, np.array(xs), np.array(ys), error, k</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ejercicio-3." class="level2 alert alert-success" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="ejercicio-3."><span class="header-section-number">6.2</span> <strong>Ejercicio 3.</strong></h2>
+<p><font color="Black">Haciendo uso de la función <code>sor()</code> definida en la celda anterior, aproxima la solución del sistema de ecuaciones del Ejercicio 1. Utiliza la solución inicial <code>(xi, yi) =</code> <span class="math inline">\((-2, 2)\)</span>, una tolerancia <code>tol</code> = <span class="math inline">\(1 \times 10^{-5}\)</span> y <code>kmax</code> = <span class="math inline">\(50\)</span> iteraciones. Elije el valor de <span class="math inline">\(\omega = 1.09\)</span>. Utiliza las variables <code>solSOR</code>, <code>xs</code>, <code>ys</code>, <code>eSOR</code> e <code>itSOR</code> para almacenar la salida de la función <code>gauss_seidel()</code>. Posteriormente grafica las rectas y cómo se va calculando la solución con este método (puedes usar el mismo código que en el caso de Jacobi). Grafica también los errores para los tres métodos (Jacobi, Gauss-Seidel y SOR).</font></p><font color="Black">
+<p><img src="error_JGSSOR.png" width="450px" height="auto"></p>
+</font><p><font color="Black"></font></p>
+</section>
+<p><strong>Cálculo de la solución con SOR</strong></p>
+<div id="cell-40" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-b6b28a69f555324f&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-tags="[]" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solución inicial</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># xi, yi = </span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># tol = </span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># kmax = </span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Método de SOR, probar con w = 1.09, 1.8, 1.99, 2.0</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># w = ...</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Solución inicial</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>xi, yi <span class="op">=</span> <span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-5</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>kmax <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Método de SOR, probar con w = 1.09, 1.8, 1.99, 2.0</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="fl">1.09</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>solSOR, xs, ys, eSOR, itSOR <span class="op">=</span> sor(A, b, tol, kmax, w, xi, yi)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="co">#file_answer.write('7', solSOR, 'solSOR es incorrecta: revisa la llamada y ejecución de la función sor() así como sus parámetros de entrada.')</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="co">#file_answer.write('8', eSOR[-1], 'eSOR[-1] es incorrecto: revisa la llamada y ejecución de la función sor() así como sus parámetros de entrada.')</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="co">#file_answer.write('9', itSOR, 'itSOR es incorrector: revisa la llamada y ejecución de la función sor() así como sus parámetros de entrada.')</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> 1 2.608651498 (-0.546666667, -1.434711111)
+ 2 0.182203110 (1.818423407, -1.984903171)
+ 3 0.006309667 (2.005371531, -2.003310371)
+ 4 0.001963366 (2.001922098, -2.000400429)
+ 5 0.000118187 (2.000117990, -2.000006831)
+ 6 0.000006254 (1.999994345, -1.999997330)</code></pre>
+</div>
+</div>
+<div id="cell-41" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-3dcd7677d74b3a4d&quot;,&quot;locked&quot;:true,&quot;points&quot;:1,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-tags="[]" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#quizz.eval_numeric('7', solSOR)</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#quizz.eval_numeric('8', eSOR[-1])</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#quizz.eval_numeric('9', itSOR)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Gráfica de las rectas, la solución y los pasos realizados</strong></p>
+<div id="cell-43" class="cell" data-tags="[]" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Puedes usar el mismo código que en el caso anterior.</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> mvis.Plotter(<span class="dv">1</span>,<span class="dv">1</span>,[<span class="bu">dict</span>(aspect<span class="op">=</span><span class="st">'equal'</span>)],title<span class="op">=</span><span class="st">'Cruce de rectas'</span>) </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>v.set_coordsys(<span class="dv">1</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, x, y1, lw <span class="op">=</span> <span class="dv">3</span>, c <span class="op">=</span> <span class="st">'seagreen'</span>, label <span class="op">=</span> <span class="st">'$3x+2y=2$'</span>) <span class="co"># Línea recta 1</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, x, y2, lw <span class="op">=</span> <span class="dv">3</span>, c <span class="op">=</span> <span class="st">'mediumorchid'</span>, label <span class="op">=</span> <span class="st">'$2x+6y=-8$'</span>) <span class="co"># Línea recta 2</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>v.scatter(<span class="dv">1</span>, sol[<span class="dv">0</span>], sol[<span class="dv">1</span>], fc<span class="op">=</span><span class="st">'sandybrown'</span>, ec<span class="op">=</span><span class="st">'k'</span>, s <span class="op">=</span> <span class="dv">75</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=</span><span class="dv">5</span>, label<span class="op">=</span><span class="st">'Sol. final'</span>) <span class="co"># Solución</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficamos los pasos</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>v.scatter(<span class="dv">1</span>, xs[<span class="dv">0</span>], ys[<span class="dv">0</span>], fc<span class="op">=</span><span class="st">'yellow'</span>, ec<span class="op">=</span><span class="st">'k'</span>, s <span class="op">=</span> <span class="dv">75</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=</span><span class="dv">8</span>, label<span class="op">=</span><span class="st">'Sol. inicial'</span>)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>v.scatter(<span class="dv">1</span>, xs[<span class="dv">1</span>:], ys[<span class="dv">1</span>:], c<span class="op">=</span><span class="st">'navy'</span>, s <span class="op">=</span> <span class="dv">10</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, zorder<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, xs, ys, c<span class="op">=</span><span class="st">'grey'</span>, ls <span class="op">=</span> <span class="st">'--'</span>, lw<span class="op">=</span><span class="fl">1.0</span>, zorder<span class="op">=</span><span class="dv">8</span>, label<span class="op">=</span><span class="st">'Pasos del SOR'</span>)</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>v.legend(ncol <span class="op">=</span> <span class="dv">1</span>, frameon<span class="op">=</span><span class="va">True</span>, loc<span class="op">=</span><span class="st">'best'</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.78</span>, <span class="fl">1.01</span>))</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>v.grid()</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>v.show()</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_Sol_Sis_Lin_Iter_1_files/figure-html/cell-21-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-44" class="cell" data-tags="[]" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Utiliza el código del caso anterior adaptado para que pueda graficar los tres errores.</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista con el número de las iteraciones máxima</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>it_max <span class="op">=</span> <span class="bu">max</span>(itJ, itG, itSOR)<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>l_it_max <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>,it_max)) </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Listas con el número de las iteraciones para cada algoritmo</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>l_itJ <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>,itJ<span class="op">+</span><span class="dv">1</span>)) </span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>l_itG <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>,itG<span class="op">+</span><span class="dv">1</span>)) </span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>l_itSOR <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>,itSOR<span class="op">+</span><span class="dv">1</span>)) </span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros para los ejes</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>a_p <span class="op">=</span> <span class="bu">dict</span>(yscale<span class="op">=</span><span class="st">'log'</span>, xlabel<span class="op">=</span><span class="st">'Iteraciones'</span>, xticks <span class="op">=</span> l_it_max)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráficas del error</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> mvis.Plotter(<span class="dv">1</span>,<span class="dv">1</span>,[a_p]) </span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>v.axes(<span class="dv">1</span>).set_title(<span class="st">'Error'</span>, loc<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, l_itJ, eJ, marker<span class="op">=</span><span class="st">'.'</span>, label<span class="op">=</span><span class="st">'Jacobi'</span>)</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, l_itG, eG, marker<span class="op">=</span><span class="st">'.'</span>, label<span class="op">=</span><span class="st">'Gauss-Seidel'</span>)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>v.plot(<span class="dv">1</span>, l_itSOR, eSOR, marker<span class="op">=</span><span class="st">'.'</span>, label<span class="op">=</span><span class="st">'SOR'</span>)</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>v.legend()</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>v.grid()</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_Sol_Sis_Lin_Iter_1_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="ejercicio-4." class="level2 alert alert-success" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="ejercicio-4."><span class="header-section-number">6.3</span> <strong>Ejercicio 4.</strong></h2>
+<p><font color="Black">Almacena los errores de los tres métodos en los archivos: <code>errorJacobi.npy</code>, <code>errorGaussSeidel.npy</code> y <code>errorSOR.npy</code> usando la función <code>np.save()</code>, checa la documentación <a href="https://numpy.org/doc/stable/reference/generated/numpy.save.html">aquí</a>. </font></p>
+</section>
+<div class="alert alert-info">
+<p><font color="Black"></font></p><font color="Black">
+<p>Prueba que tu código funciona usando:</p>
+<pre><code>print('Error Jacobi = \n{}\n'.format(np.load('errorJacobi.npy')))
+print('Error Gauss-Seidel = \n{}\n'.format(np.load('errorGaussSeidel.npy')))
+print('Error SOR = \n{}\n'.format(np.load('errorSOR.npy')))
+</code></pre>
+<p><br>La salida debería ser:</p>
+<pre><code>Error Jacobi = 
+[2.98142397e+00 1.25707872e+00 ...]
+
+Error Gauss-Seidel = 
+[2.81091348e+00 6.24647439e-01 ...]
+
+Error SOR = 
+[2.60865150e+00 1.82203110e-01 ...]</code></pre>
+</font><p><font color="Black"></font></p>
+</div>
+<div id="cell-46" class="cell" data-tags="[]" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># np.save( ... )</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>np.save(<span class="st">'errorJacobi.npy'</span>,eJ)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>np.save(<span class="st">'errorGaussSeidel.npy'</span>, eG)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>np.save(<span class="st">'errorSOR.npy'</span>, eSOR)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-47" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Error Jacobi = </span><span class="ch">\n</span><span class="sc">{}</span><span class="ch">\n</span><span class="st">'</span>.<span class="bu">format</span>(np.load(<span class="st">'errorJacobi.npy'</span>)))</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Error Gauss-Seidel = </span><span class="ch">\n</span><span class="sc">{}</span><span class="ch">\n</span><span class="st">'</span>.<span class="bu">format</span>(np.load(<span class="st">'errorGaussSeidel.npy'</span>)))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Error SOR = </span><span class="ch">\n</span><span class="sc">{}</span><span class="ch">\n</span><span class="st">'</span>.<span class="bu">format</span>(np.load(<span class="st">'errorSOR.npy'</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Error Jacobi = 
+[2.98142397e+00 1.25707872e+00 6.62538660e-01 2.79350827e-01
+ 1.47230813e-01 6.20779616e-02 3.27179585e-02 1.37951026e-02
+ 7.27065745e-03 3.06557835e-03 1.61570166e-03 6.81239633e-04
+ 3.59044812e-04 1.51386585e-04 7.97877361e-05 3.36414634e-05
+ 1.77306080e-05 7.47588075e-06]
+
+Error Gauss-Seidel = 
+[2.81091348e+00 6.24647439e-01 1.38810542e-01 3.08467871e-02
+ 6.85484158e-03 1.52329813e-03 3.38510695e-04 7.52245990e-05
+ 1.67165775e-05 3.71479501e-06]
+
+Error SOR = 
+[2.60865150e+00 1.82203110e-01 6.30966741e-03 1.96336589e-03
+ 1.18187146e-04 6.25365681e-06]
+</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01_Sol_Sist_Lineales_Intro.html" class="pagination-link" aria-label="Sistemas de ecuaciones lineales: introducción">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Sistemas de ecuaciones lineales: introducción</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03_Sol_Sis_Lin_Krylov.html" class="pagination-link" aria-label="Descenso del gradiente y Gradiente Conjugado.">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Descenso del gradiente y Gradiente Conjugado.</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

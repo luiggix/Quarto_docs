@@ -1,0 +1,34 @@
+project:
+  type: book
+
+book:
+  title: "Geofísica Matemática y Computacional"
+  image: mactiR.png
+  author: "Luis Miguel de la Cruz Salas"
+  date: "1/12/2023"
+  page-navigation: true
+  chapters:
+    - index.qmd
+    - 01_ejercicios_derivadas.ipynb
+    - 02_aproximacion_de_derivada.ipynb
+    - 03_derivadas_numericas.ipynb
+    - 04_derivadas_numericas_aplicacion.ipynb
+    - 05_Ecuacion_de_calor_1D.ipynb
+    - 06_Calibracion1.ipynb
+    - 07_Calibracion2.ipynb
+    - 08_ConductividadNoUniforme.ipynb
+    - 09_Conduccion_estacionaria.ipynb
+    - 10_Conduccion_NO_estacionaria.ipynb
+    - 11_Conduccion_calor_solvers.ipynb
+    - 12_Flujo_Calor_SistemasTerrestres.ipynb
+    - 13_Flujo_Cominante_AguasSubterraneas.ipynb
+
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

@@ -1,0 +1,20 @@
+{
+  "index.qmd": {
+    "index.html": "2dcd9b4e"
+  },
+  "01_Anscombe.ipynb": {
+    "01_Anscombe.html": "62238054"
+  },
+  "02_precios_producto.ipynb": {
+    "02_precios_producto.html": "a48e7130"
+  },
+  "03_precios_graficas_storytelling.ipynb": {
+    "03_precios_graficas_storytelling.html": "7deb4bc1"
+  },
+  "04_Fertilidad_mundial.ipynb": {
+    "04_Fertilidad_mundial.html": "ffb5e42f"
+  },
+  "05_Minimos_cuadrados.ipynb": {
+    "05_Minimos_cuadrados.html": "b434c994"
+  }
+}

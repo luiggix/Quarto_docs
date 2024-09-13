@@ -1,0 +1,29 @@
+project:
+  type: book
+
+book:
+  title: "Simulación Matemática de Yacimientos"
+  image: mactiR.png
+  author: "Luis Miguel de la Cruz Salas"
+  date: "1/12/2023"
+  page-navigation: true
+  chapters:
+    - index.qmd
+    - 01_Sol_Sist_Lineales_Intro.ipynb
+    - 02_Sol_Sis_Lin_Iter_1.ipynb
+    - 03_Sol_Sis_Lin_Krylov.ipynb
+    - 04_Conduccion_estacionaria.ipynb
+    - 05_Conduccion_NO_estacionaria.ipynb
+    - 06_Conduccion_calor_solvers.ipynb
+    - 07_Laplace_2D_Thomas.ipynb
+    - 08_Laplace_2D_SciPy.ipynb
+
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

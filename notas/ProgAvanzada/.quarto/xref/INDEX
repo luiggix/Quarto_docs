@@ -1,0 +1,29 @@
+{
+  "index.qmd": {
+    "index.html": "d390ca1b"
+  },
+  "01_Espacios_Vectoriales.ipynb": {
+    "01_Espacios_Vectoriales.html": "e4ded155"
+  },
+  "02_Producto_Escalar.ipynb": {
+    "02_Producto_Escalar.html": "813ab12c"
+  },
+  "03_CLineal_BOrtonormal.ipynb": {
+    "03_CLineal_BOrtonormal.html": "6d41f58c"
+  },
+  "04_Normas_Vectoriales.ipynb": {
+    "04_Normas_Vectoriales.html": "3896ce66"
+  },
+  "05_Matrices_Normas_Eigen.ipynb": {
+    "05_Matrices_Normas_Eigen.html": "86134e0b"
+  },
+  "06_Sol_Sist_Lineales_Intro.ipynb": {
+    "06_Sol_Sist_Lineales_Intro.html": "65ca7b69"
+  },
+  "07_Sol_Sis_Lin_Iter_1.ipynb": {
+    "07_Sol_Sis_Lin_Iter_1.html": "5444c51d"
+  },
+  "08_Sol_Sis_Lin_Krylov.ipynb": {
+    "08_Sol_Sis_Lin_Krylov.html": "34459667"
+  }
+}

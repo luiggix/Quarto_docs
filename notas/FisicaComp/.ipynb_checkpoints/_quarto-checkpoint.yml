@@ -1,0 +1,31 @@
+project:
+  type: book
+
+book:
+  title: "Física Computacional"
+  image: mactiR.png
+  author: "Luis Miguel de la Cruz Salas"
+  date: "1/12/2023"
+  page-navigation: true
+  chapters:
+    - index.qmd
+    - 01_AritmeticaDePuntoFlotante.ipynb
+    - 02_ejercicios_derivadas.ipynb
+    - 03_aproximacion_de_derivada.ipynb
+    - 04_derivadas_numericas.ipynb
+    - 05_derivadas_numericas_aplicacion.ipynb
+    - 06_ForwardEuler.ipynb
+    - 07_BackwardEuler.ipynb
+    - 08_Comparación_EulerFB.ipynb
+    - 09_Conduccion_estacionaria.ipynb
+    - 10_Conduccion_NO_estacionaria.ipynb
+    - 11_Conduccion_calor_solvers.ipynb
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

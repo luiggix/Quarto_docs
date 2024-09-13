@@ -1,0 +1,25 @@
+project:
+  type: book
+
+book:
+  title: "Visualización de la Información"
+  image: mactiR.png
+  author: "Luis Miguel de la Cruz Salas"
+  date: "1/12/2023"
+  page-navigation: true
+  chapters:
+    - index.qmd
+    - 01_Anscombe.ipynb
+    - 02_precios_producto.ipynb
+    - 03_precios_graficas_storytelling.ipynb
+    - 04_Fertilidad_mundial.ipynb
+    - 05_Minimos_cuadrados.ipynb
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

@@ -1,0 +1,246 @@
+---
+title: "Pensamiento Computacional con Python"
+author: "Luis Miguel de la Cruz Salas"
+institute: "Depto. de Recursos Naturales, IGEF-UNAM"
+date: "8/22/24"
+format:
+  revealjs:
+    incremental: false
+    theme: default
+    code-block-height: 250px
+    preview-links: true
+    transition: none
+    slide-number: c/t
+    show-slide-number: all
+---
+
+## Motivación. {.incremental}
+
+:::: {.columns}
+::: {.column width="30%"}
+Pensamiento Computacional
+![Computational Thinking](PC.png){width=300px .lightbox}
+:::
+
+::: {.column width="70%"}
+- Es un conjunto de habilidades que te permite descomponer problemas complejos en tareas más manejables.
+- Estas habilidades son valiosas en una amplia gama de disciplinas y en la vida cotidiana.
+- Python es un lenguaje de programación ideal para aprender pensamiento computacional.
+:::
+
+::::
+
+## ¿Qué aprenderás en este curso?
+
+- **Fundamentos del Pensamiento Computacional**: Explicaremos los conceptos básicos, como la descomposición, el reconocimiento de patrones, la abstracción y los algoritmos.
+
+- **Programación con Python**: Aprenderás a implementar tus ideas y resolver problemas mediante la programación en Python.
+
+- **Resolución de Problemas**: Te enfrentarás a una variedad de desafíos y proyectos que te permitirán aplicar las técnicas de pensamiento computacional para encontrar soluciones efectivas.
+
+
+## {.scrollable}
+
+- **Objetivo.**
+    - El participante tendrá las habilidades fundamentales para resolver problemas de manera sistemática y eficiente mediante el Pensamiento Computacional y usando el lenguaje de programación Python.
+
+- **Requisitos de ingreso.**
+    - Haber acreditado el curso **Introducción a Python** o tener los conocimientos equivalentes.
+    - Contar con una computadora con un navegador web actualizado, de preferencia Firefox o Chrome.
+    - Contar con una cuenta en [GitHub](https://github.com/).
+    - Recomendable: contar con una cuenta en [ChatGPT](https://chatgpt.com/).
+
+- **Perfil de egreso.**
+    - Al finalizar el curso el participante tendrá habilidades sólidas en pensamiento computacional y programación avanzada en Python, con las cuales será capaz de descomponer problemas complejos en subproblemas, identificar patrones, abstraer conceptos y diseñar algoritmos eficientes para dar solución a los problemas originalmente planteados.
+
+## Material pedagógico e infraestructura.{.scrollable}
+
+- Todos nuestros materiales serán proporcionados a través de un repositorio en GitHub.
+
+- Los materiales están desarrollados en *Jupyter Notebooks* y presentaciones interactivas.
+
+**Ejemplo**.
+
+```{.python}
+# Esta función recibe un conjunto de argumentos variable
+# para construir un polinomio de cualquier grado.
+# Regresa la función que implementa el polinomio.
+def polinomioFactory(*coeficientes):
+
+    def polinomio(x):
+        res = 0
+        for i, coef in enumerate(coeficientes):
+            res += coef * x ** i
+        return res
+    
+    return polinomio
+
+# Se generan 4 polinomios de diferente grado
+p1 = polinomioFactory(5)           # a_0 = 5
+p2 = polinomioFactory(2, 4)        # 4 x + 2
+p3 = polinomioFactory(-1, 2, 1)    # x^2 + 2x - 1
+p4 = polinomioFactory(0, 3, -1, 1) # x^3 - x^2 + 3x + 0
+
+# Evaluación de los polinomios en el intervalo
+# (-2,2) con pasos de 1
+for x in range(-2, 2, 1):
+    print(f'x = {x:3d} \t p1(x) = {p1(x):3d} \t p2(x) = {p2(x):3d} \t p3(x) = {p3(x):3d} \t p4(x) = {p4(x):3d}')
+```
+
+## Material pedagógico e infraestructura.{.scrollable}
+
+- Haremos uso de la plataforma MACTI. 
+
+{{< video https://youtu.be/Jl9SN8HLeU8 width="50%" height="50%" >}}
+
+- Se proporcionará una cuenta a cada participante, que podrá usar durante el curso y hasta un mes después de finalizado el mismo.
+
+## Temario y objetivos de aprendizaje.{.scrollable}
+
+::: {.panel-tabset}
+
+### Tema 1.
+1. Introducción 
+    * Encuadre y presentación del curso.
+    * Revisión de requisitos
+        - Cuenta en MACTI.
+        - Cuenta en GitHub.
+        - Revisión de las herramientas básicas de Python.
+
+**Objetivos de aprendizaje.**
+Al concluir esta unidad el participante conocerá la manera de ingresar a su cuenta en la plataforma MACTI y se familiarizará con los ambientes de Moodle y Jupyterlab donde realizará sus prácticas. Recordará los conceptos básicos de Python.
+
+**Evaluación:** 
+
+* Quiz 1. (Moodle)
+* Ejercicios de diagnóstico. (Jupyter Notebook).
+
+**Indicadores.**
+
+- Se verifica en el sistema que el participante accedió a su cuenta en MACTI.
+- Obtener un puntaje de al menos el 80% en el quiz del módulo.
+- Obtener el 90% de los ejercicios correctos en la notebook de diagnóstico sobre conceptos básicos de Python.
+
+### Tema 2.
+
+2. Pensamiento computacional
+    * Identificar el contexto de un problema
+    * Descomposición del problema.
+    * Reconocimiento de patrones.
+    * Abstracción.
+    * Creación de Algoritmos.
+
+**Objetivos de aprendizaje.**
+Al concluir esta unidad el participante conocerá y pondrá en práctica los conceptos del Pensamiento Computacional. Además planteará la solución de un problema usando esta metodología.
+
+**Evaluación:** 
+
+* Quiz 2. (Moodle)
+* Proyecto: definición. (Moodle)
+
+**Indicadores.**
+
+- Obtener un puntaje de al menos el 80% en el quiz del módulo.
+- Obtener un puntaje de 80% en la rúbrica de evaluación del problema a resolver.
+
+### Tema 3.
+
+3. Funcionalidades intermedias de Python.
+    * Programación estructurada.
+        - Funciones.
+        - Ámbitos.
+        - Retorno de una función.
+        - Parámetros por omisión.
+        - Argumentos posicionales y keyword.
+        - Número variable de parámetros.
+        - Funciones como parámetros de otras funciones.
+        - Funciones que regresan otra función.
+    * Documentación con docstring.
+    * Manejo de excepciones: try, except, finally.
+    * Manejo de archivos.
+
+**Objetivos de aprendizaje.**
+Al concluir esta unidad el participante entenderá los conceptos de funciones simples, funciones con distintos tipos de argumentos y valores de regreso, y sabrá cómo documentarlas usando docstring; también entenderá como manejar excepciones para controlar errores; aplicará estos conceptos para realizar correctamente al menos el 90% de los ejercicios del módulo; realizará una primera versión del proyecto final.
+
+**Evaluación:** 
+
+* Ejercicios. (Jupyter Notebook)
+* Proyecto: descomposición, reconocimiento de patrones, abstracción e implementación de algoritmos. (Moodle)
+
+**Indicadores.**
+
+- Obtener el 90% de los ejercicios correctos en la notebook de ejercicios.
+- Obtener un puntaje del 90% en la evaluación del proyecto, el cual se evalúa con una rúbrica.
+
+### Tema 4.
+
+4. Funcionalidades avanzadas de python.
+    * Iterables, Mapeo y Filtrado
+    * Lambda expressions
+    * Comprehensions
+    * Iteradores y generadores
+    * Decoradores
+    * Introducción a la Programación Orientada a Objetos.
+
+**Objetivos de aprendizaje.**
+Al concluir esta unidad el participante entenderá los conceptos avanzados de la programación en Python y los conceptos básicos de la Programación Orientada a Objetos; aplicará estos conceptos para realizar correctamente al menos el 90% de los ejercicios del módulo; realizará una segunda versión del proyecto final.
+
+**Evaluación:** 
+
+* Ejercicios. (Jupyter Notebook)
+* Proyecto: organizaciónd el código. (Jupyter Notebook)
+
+**Indicadores.**
+
+- Obtener el 90% de los ejercicios correctos en la notebook de ejercicios.
+- Obtener un puntaje del 90% en la evaluación del proyecto, el cual se evalúa en una notebook.
+
+
+### Tema 5.
+
+5. Breve tour por algunas bibliotecas.
+    * Servicios: os, platform, shutil, sys, time, datatime, glob, urllib 
+    * Cómputo numérico y ciencia de datos: numpy, matplotlib, pandas.
+
+**Objetivos de aprendizaje.**
+Al concluir esta unidad el participante conocerá cómo hacer uso de bibliotecas desarrolladas por otros usuarios y a integrarlas en sus códigos. Aplicará estos conocimientos para realizar correctamente el 90% de los ejercicios del módulo. Realizará la versión final del proyecto.
+
+**Evaluación:** 
+
+* Ejercicios. (Jupyter Notebook)
+* Proyecto: final. (Jupyter Notebook)
+
+**Indicadores.**
+
+- Obtener el 90% de los ejercicios correctos en la notebook de ejercicios.
+- Obtener un puntaje del 90% en la evaluación del proyecto, el cual se evalúa en una notebook.
+
+
+:::
+
+## Duración, Modalidad, Costo y Cupo.
+
+* **Duración** : 20 h, 10 días 2 h diarias.
+
+* **Modalidad** : Síncrono en línea.
+
+* **Costos** : 
+    - Público general: $1500.00 MXN (IVA incluido)
+    - Académicos: $750.00 MXN (IVA incluido)
+    - Estudiantes: $750.00 MXN (IVA incluido)
+
+* **Cupo máximo** : 25 personas con equipo de cómputo.
+
+* **Fecha de impartición** : por definir.
+
+
+## {.scrollable}
+
+|Tema|Tiempo (h)|Requisitos|
+|---|:-:|---|
+|Introducción| 2 | Conexión zoom. Acceso a la Plataforma MACTI (profesor y participantes).|
+|Pensamiento Computacional| 2 | Conexión zoom. Acceso a la Plataforma MACTI (profesor y participantes). |
+|Funcionalidades **intermedias** de Python| 8 | Conexión zoom. Acceso a la Plataforma MACTI (profesor y participantes). |
+|Funcionalidades **avanzadas** de Python| 8 | Conexión zoom. Acceso a la Plataforma MACTI (profesor y participantes). |
+
+: Cronograma

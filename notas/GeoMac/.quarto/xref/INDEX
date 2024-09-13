@@ -1,0 +1,44 @@
+{
+  "index.qmd": {
+    "index.html": "26abc8b1"
+  },
+  "01_ejercicios_derivadas.ipynb": {
+    "01_ejercicios_derivadas.html": "8545a016"
+  },
+  "02_aproximacion_de_derivada.ipynb": {
+    "02_aproximacion_de_derivada.html": "36ee3a87"
+  },
+  "03_derivadas_numericas.ipynb": {
+    "03_derivadas_numericas.html": "4f1516fc"
+  },
+  "04_derivadas_numericas_aplicacion.ipynb": {
+    "04_derivadas_numericas_aplicacion.html": "3f1646c1"
+  },
+  "05_Ecuacion_de_calor_1D.ipynb": {
+    "05_Ecuacion_de_calor_1D.html": "59772e1e"
+  },
+  "07_Calibracion2.ipynb": {
+    "07_Calibracion2.html": "402e0ef4"
+  },
+  "08_ConductividadNoUniforme.ipynb": {
+    "08_ConductividadNoUniforme.html": "cad03164"
+  },
+  "09_Conduccion_estacionaria.ipynb": {
+    "09_Conduccion_estacionaria.html": "1e22b56e"
+  },
+  "10_Conduccion_NO_estacionaria.ipynb": {
+    "10_Conduccion_NO_estacionaria.html": "f6298329"
+  },
+  "11_Conduccion_calor_solvers.ipynb": {
+    "11_Conduccion_calor_solvers.html": "4b8582b3"
+  },
+  "06_Calibracion1.ipynb": {
+    "06_Calibracion1.html": "d426e5bc"
+  },
+  "12_Flujo_Calor_SistemasTerrestres.ipynb": {
+    "12_Flujo_Calor_SistemasTerrestres.html": "ca89c79a"
+  },
+  "13_Flujo_Cominante_AguasSubterraneas.ipynb": {
+    "13_Flujo_Cominante_AguasSubterraneas.html": "8bf2e69c"
+  }
+}

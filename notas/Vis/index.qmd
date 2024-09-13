@@ -1,0 +1,7 @@
+# Introducción {.unnumbered}
+
+Cuadernos interactivos para la asignatura de Visualización de la Información.
+
+Los Jupyter Notebooks de este curso se pueden obtener en  <https://github.com/repomacti/macti/notebooks/>.
+
+

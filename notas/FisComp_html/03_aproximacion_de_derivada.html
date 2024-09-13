@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.550">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Física Computacional - 3&nbsp; La derivada de una función y su aproximación</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./04_derivadas_numericas.html" rel="next">
+<link href="./02_ejercicios_derivadas.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03_aproximacion_de_derivada.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">La derivada de una función y su aproximación</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Física Computacional</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_AritmeticaDePuntoFlotante.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Aritmética de Punto flotante</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_ejercicios_derivadas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Repaso de cálculo: derivadas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_aproximacion_de_derivada.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">La derivada de una función y su aproximación</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_derivadas_numericas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Diferencias finitas: cálculo del error</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_derivadas_numericas_aplicacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Derivadas numéricas: aplicación</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_ForwardEuler.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Euler hacia adelante</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_BackwardEuler.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Método de Euler hacia atrás.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_Comparación_EulerFB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Comparación de método de Euler hacia atrás y hacia adelante.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Conduccion_estacionaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Conducción de Calor estaionaria en 2D.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_Conduccion_NO_estacionaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Conducción de calor No estacionaria.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_Conduccion_calor_solvers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Conducción de calor en 2D: algoritmos de solución de sistemas de ecuaciones.</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ejemplo-1.-qué-pasa-cuando-h-to-0-para-diferentes-valores-de-s." id="toc-ejemplo-1.-qué-pasa-cuando-h-to-0-para-diferentes-valores-de-s." class="nav-link active" data-scroll-target="#ejemplo-1.-qué-pasa-cuando-h-to-0-para-diferentes-valores-de-s."><span class="header-section-number">3.0.1</span> Ejemplo 1. ¿Qué pasa cuando <span class="math inline">\(h \to 0\)</span> para diferentes valores de <span class="math inline">\(S\)</span>?.</a></li>
+  <li><a href="#ejercicio-1." id="toc-ejercicio-1." class="nav-link" data-scroll-target="#ejercicio-1."><span class="header-section-number">3.0.2</span> Ejercicio 1.</a></li>
+  <li><a href="#ejemplo-2.-aproximación-de-la-derivada-hacia-adelante-y-hacia-atrás." id="toc-ejemplo-2.-aproximación-de-la-derivada-hacia-adelante-y-hacia-atrás." class="nav-link" data-scroll-target="#ejemplo-2.-aproximación-de-la-derivada-hacia-adelante-y-hacia-atrás."><span class="header-section-number">3.0.3</span> Ejemplo 2. Aproximación de la derivada hacia adelante y hacia atrás.</a></li>
+  <li><a href="#ejercicio-3.-derivada-analítica-hacia-atrás." id="toc-ejercicio-3.-derivada-analítica-hacia-atrás." class="nav-link" data-scroll-target="#ejercicio-3.-derivada-analítica-hacia-atrás."><span class="header-section-number">3.0.4</span> Ejercicio 3. Derivada analítica hacia atrás.</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">La derivada de una función y su aproximación</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Objetivo</strong>. - Revisar el concepto de derivada usando herramientas visuales que permitan comprender su sentido geométrico y comprender lo que significa el cambio instantáneo.</p>
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">
+<a property="dct:title" rel="cc:attributionURL" href="https://github.com/repomacti/macti/tree/main/notebooks/Analisis_Numerico_01">MACTI-Analisis_Numerico_01</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.macti.unam.mx">Luis M. de la Cruz</a> is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution-ShareAlike 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a>
+</p>
+<p>Trabajo realizado con el apoyo del Programa UNAM-DGAPA-PAPIME PE101922</p>
+<div id="a845ea45-d17a-4b48-a6ee-d50c688cce08" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-2e82af6118297b04&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importamos todas las bibliotecas</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sy</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> macti.visual</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> macti.evaluation <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="ca6498de-2be0-4ca5-9d65-2c21eea816fb" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>quizz <span class="op">=</span> Quizz(<span class="st">'q2'</span>, <span class="st">'notebooks'</span>, <span class="st">'local'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a name="1"></a> ## Introducción</p>
+<p>Si revisamos con cuidado, algunas definiciones matemáticas utilizan un tipo de figura literaria conocida como <a href="https://es.wikipedia.org/wiki/Ox%C3%ADmoron"><em>oxímoron</em></a>. En términos simples, un oxímoron consiste en usar dos conceptos de significado opuesto y con ello generar un tercer concepto.</p>
+<p>Por ejemplo: <strong>La razón de cambio instantáneo</strong>. - Cuando se habla de un <em>cambio</em>, se requiere de la comparación entre dos o más estados y con ello analizar las diferencias entre un estado y otro; - por otro lado, la palabra <em>instantáneo</em> tiene que ver con algo que dura un solo instante, es decir un tiempo puntal.</p>
+<p>Entonces el concepto “<strong>cambio instantáneo</strong>” representa un oxímoron. Pero ¿cuál es su significado? ¿Será importante este concepto en nuestra vida diaria?</p>
+<p>En lo que sigue veremos que la razón de cambio instantáneo tiene que ver con un concepto muy importante en Cálculo: <strong>la derivada</strong>.</p>
+<p><a name="2"></a> ## La curva del olvido.</p>
+<p>Un estudiante de lenguas participará en un concurso internacional cuyo principal reto es el conocimiento del vocabulario de un cierto idioma. Por ello, es importante que el estudiante utilice un método de estudio adecuado para recordar el significado del mayor número de palabras posible.</p>
+<p>La <a href="https://es.wikipedia.org/wiki/Curva_del_olvido">curva del olvido</a> puede ayudar al estudiante a generar un plan de estudio adecuado. La función que define esta curva es la siguiente:</p>
+<p><span class="math display">\[
+R(t) = e^{-t/S}
+\]</span></p>
+<p>donde <span class="math inline">\(R\)</span> es cuanto recordamos, <span class="math inline">\(S\)</span> es la intensidad del recuerdo y <span class="math inline">\(t\)</span> el tiempo. Podemos definir <span class="math inline">\(S \in (0,1]\)</span>, donde <span class="math inline">\(1\)</span> es la máxima intensidad de recuerdo y un valor cercano a <span class="math inline">\(0\)</span> corresponde a algo que no nos interesa nada.</p>
+<p><strong>Observación</strong>: <span class="math inline">\(S\)</span> no puede ser exactamente <span class="math inline">\(0\)</span> por que en ese caso la función <span class="math inline">\(R(t)\)</span> no está definida.</p>
+<p>La siguiente gráfica muestra cómo decrecen nuestros recuerdos con el paso del tiempo.</p>
+<div id="35941f88" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-1a899f195f61c7b7&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Primero definimos la función del olvido</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> R(t, S<span class="op">=</span><span class="fl">0.9</span>):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.exp(<span class="op">-</span>t<span class="op">/</span>S)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Dominio de tiempo (hasta 7 días).</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">7</span>,<span class="dv">100</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Tres curvas del olvido para tres valores de S</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>plt.plot(t, R(t,<span class="fl">0.1</span>), lw<span class="op">=</span><span class="dv">3</span>, c<span class="op">=</span><span class="st">'C3'</span>, label<span class="op">=</span><span class="st">'</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(<span class="fl">0.1</span>))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.plot(t, R(t,<span class="fl">0.5</span>), lw<span class="op">=</span><span class="dv">3</span>, c<span class="op">=</span><span class="st">'C2'</span>, label<span class="op">=</span><span class="st">'</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(<span class="fl">0.5</span>))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>plt.plot(t, R(t,<span class="fl">0.9</span>), lw<span class="op">=</span><span class="dv">3</span>, c<span class="op">=</span><span class="st">'C1'</span>, label<span class="op">=</span><span class="st">'</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(<span class="fl">0.9</span>))</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuración de la gráfica. </span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Función del olvido: $R(t)=e^{-t/S}$"</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$R(t)$"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$t$ [días]"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>plt.legend(title <span class="op">=</span> <span class="st">'Intensidad $S$'</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_aproximacion_de_derivada_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><a name="2-1"></a> ### ¿Cuánto tiempo dura el recuerdo?</p>
+<p>¿Será posible determinar cada cuanto tiempo el estudiante debe repasar las palabras para que no las olvide y pueda ganar el concurso? ¿De qué depende esto?</p>
+<p>Tomemos por ejemplo el caso de <span class="math inline">\(S=0.9\)</span> (curva naranja). ¿En qué parte de la gráfica se incrementa el olvido? en otras palabras ¿en qué parte de la gráfica el descenso es más rápido?</p>
+<p>Para conocer ese descenso, debemos calcular la pendiente <span class="math inline">\(m\)</span> y eso lo podemos hacer con la siguiente fórmula:</p>
+<p><span class="math display">\[
+m = \frac{R(t_2) - R(t_1)}{t_2 - t_1} \tag{1}
+\]</span></p>
+<p>donde <span class="math inline">\(t_1\)</span> y <span class="math inline">\(t_2\)</span> son dos tiempos distintos.</p>
+<p>Si definimos <span class="math inline">\(h = t_2 - t_1\)</span> y <span class="math inline">\(t = t_1\)</span> podemos escribir la fórmula <span class="math inline">\((1)\)</span> como sigue:</p>
+<p><span class="math display">\[
+m(t) = \frac{R(t + h) - R(t)}{h} \tag{2}
+\]</span></p>
+<p>En esta última fórmula vemos que la pendiente depende de <span class="math inline">\(t\)</span>, es decir, en qué día nos encontramos.</p>
+<p>Vamos a calcular <span class="math inline">\(R(t)\)</span> y <span class="math inline">\(m(t)\)</span> en <span class="math inline">\(t = [0,1,2,3,4,5,6,7]\)</span>, para <span class="math inline">\(h = 1\)</span> :</p>
+<div id="3cf4ee5e" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-97d91dc18671ce5f&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>td <span class="op">=</span> np.arange(<span class="dv">0</span>,<span class="dv">8</span>,h) <span class="co"># Definición de las t = 0,1,2,...,7</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.zeros(<span class="bu">len</span>(td)) <span class="co"># Arreglo para almacenar el valor de R</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> np.zeros(<span class="bu">len</span>(td)) <span class="co"># Arreglo para almacenar las pendientes</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'td = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(td))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'r = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(r))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'m = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(m))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>td = [0. 1. 2. 3. 4. 5. 6. 7.]
+r = [0. 0. 0. 0. 0. 0. 0. 0.]
+m = [0. 0. 0. 0. 0. 0. 0. 0.]</code></pre>
+</div>
+</div>
+<div id="911dd94e-36c9-4f47-9e63-a776fb10b60a" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-0759e5cea3ff2ed4&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hacemos los cálculos en cada uno de los días</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(td):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    r[i] <span class="op">=</span> R(t)                  <span class="co"># Función del olvido</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    m[i] <span class="op">=</span> (R(t <span class="op">+</span> h) <span class="op">-</span> R(t)) <span class="op">/</span> h <span class="co"># Pendiente</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ponemos la información en un DataFrame y la mostramos</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>tabla <span class="op">=</span> pd.DataFrame(np.array([td, r, m]).T, </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                     columns <span class="op">=</span> [<span class="st">'$t$'</span>, <span class="st">'$R(t)$'</span>, <span class="st">'$m(t)$'</span>])</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>tabla</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">$t$</th>
+<th data-quarto-table-cell-role="th">$R(t)$</th>
+<th data-quarto-table-cell-role="th">$m(t)$</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.0</td>
+<td>1.000000</td>
+<td>-0.670807</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1.0</td>
+<td>0.329193</td>
+<td>-0.220825</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2.0</td>
+<td>0.108368</td>
+<td>-0.072694</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>3.0</td>
+<td>0.035674</td>
+<td>-0.023930</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>4.0</td>
+<td>0.011744</td>
+<td>-0.007878</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>5.0</td>
+<td>0.003866</td>
+<td>-0.002593</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>6.0</td>
+<td>0.001273</td>
+<td>-0.000854</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>7.0</td>
+<td>0.000419</td>
+<td>-0.000281</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+<p>Observa que la pendiente es negativa, lo cual indica un decrecimiento. También la magnitud de la pendiente (su valor absoluto) disminuye conforme <span class="math inline">\(t\)</span> avanza. Vemos que el recuerdo disminuye mucho al principio, de tal manera que en el tercer día ya casi no se recuerda nada, alrededor del <span class="math inline">\(3.5\%\)</span>. Esto se ve de manera gráfica como sigue:</p>
+<div id="9a65795c-4c5d-43ad-9b1c-2e27e913465c" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-bf938b851ea40331&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dominio de tiempo (hasta 7 días).</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">7</span>,<span class="dv">100</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># La curva del olvido para S = 0.9</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>plt.plot(t, R(t), lw<span class="op">=</span><span class="dv">3</span>, c<span class="op">=</span><span class="st">'C1'</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Línea punteada</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>], [R(<span class="dv">0</span>), R(<span class="dv">1</span>), R(<span class="dv">2</span>), R(<span class="dv">3</span>)], <span class="st">'o--'</span>, lw<span class="op">=</span><span class="dv">1</span>, zorder<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuración de la gráfica. </span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Función del olvido: $R(t)=e^{-t/S}$, para $S = 0.9$"</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$R(t)$"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$t$ [días]"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Información de los primeros 3 días</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">2</span>,<span class="fl">0.6</span>,<span class="st">'$R$(</span><span class="sc">{2:}</span><span class="st">) = </span><span class="sc">{0:5.4f}</span><span class="st">,</span><span class="ch">\t</span><span class="st"> $m$(</span><span class="sc">{2:}</span><span class="st">) = </span><span class="sc">{1:5.4f}</span><span class="st">'</span>.<span class="bu">format</span>(R(<span class="dv">0</span>), m[<span class="dv">0</span>], <span class="dv">0</span>))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">2</span>,<span class="fl">0.5</span>,<span class="st">'$R$(</span><span class="sc">{2:}</span><span class="st">) = </span><span class="sc">{0:5.4f}</span><span class="st">,</span><span class="ch">\t</span><span class="st"> $m$(</span><span class="sc">{2:}</span><span class="st">) = </span><span class="sc">{1:5.4f}</span><span class="st">'</span>.<span class="bu">format</span>(R(<span class="dv">1</span>), m[<span class="dv">1</span>], <span class="dv">1</span>))</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">2</span>,<span class="fl">0.4</span>,<span class="st">'$R$(</span><span class="sc">{2:}</span><span class="st">) = </span><span class="sc">{0:5.4f}</span><span class="st">,</span><span class="ch">\t</span><span class="st"> $m$(</span><span class="sc">{2:}</span><span class="st">) = </span><span class="sc">{1:5.4f}</span><span class="st">'</span>.<span class="bu">format</span>(R(<span class="dv">2</span>), m[<span class="dv">2</span>], <span class="dv">2</span>))</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">2</span>,<span class="fl">0.3</span>,<span class="st">'$R$(</span><span class="sc">{2:}</span><span class="st">) = </span><span class="sc">{0:5.4f}</span><span class="st">,</span><span class="ch">\t</span><span class="st"> $m$(</span><span class="sc">{2:}</span><span class="st">) = </span><span class="sc">{1:5.4f}</span><span class="st">'</span>.<span class="bu">format</span>(R(<span class="dv">3</span>), m[<span class="dv">3</span>], <span class="dv">3</span>))</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_aproximacion_de_derivada_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>En la gráfica anterior, la línea punteada nos muestra gráficamente el cambio en la pendiente de la recta que une los puntos negros, los cuales indican los días. Lo que estamos observando es la razón de cambio de <span class="math inline">\(R(t)\)</span> en intervalos de tiempo de longitud <span class="math inline">\(h = 1\)</span>. <strong>Esto es justamente lo que expresa la fórmula <span class="math inline">\((2)\)</span></strong>.</p>
+<p>Los valores de <span class="math inline">\(R\)</span> para los diferentes días indican como es que vamos olvidando lo que estudiamos en el día 0. Para el día 1 ya solo recordamos el <span class="math inline">\(32.92\%,\)</span> en el segundo día el recuerdo es del <span class="math inline">\(10.84\%\)</span> y para el día 3 el recuerdo es mínimo, del <span class="math inline">\(3.57\%\)</span>. Por lo tanto, es conveniente repasar lo aprendido en el día 0 de manera frecuente, para este caso con <span class="math inline">\(S=0.9\)</span>, sería conveniente repasar todos los días.</p>
+<p>¿Para este ejemplo, cómo podemos calcular <strong>la razón de cambio instantáneo</strong>? La respueta es: haciendo <span class="math inline">\(h\)</span> muy pequeña, es decir <span class="math inline">\(h \to 0\)</span>.</p>
+<p>Para ello, esta razón debería calcularse en un solo instante de tiempo, lo cual implica que <span class="math inline">\(t_1 = t_2 \Longrightarrow h = 0\)</span>, y esto nos lleva a que la fórmula de <span class="math inline">\(m(t)\)</span> no está bien definida (¡división por cero!).</p>
+<p>Pero, ¿qué pasa si <span class="math inline">\(h\)</span> se hace muy pequeña? es decir:</p>
+<p><span class="math display">\[
+\lim_{h \to 0}  \frac{R(t + h) - R(t)}{h} \tag{3} = ¿?
+\]</span></p>
+<p>¿Cúanto vale este límite? ¿Es posible calcularlo en cualquier caso y para cualquier tipo de función?</p>
+<section id="ejemplo-1.-qué-pasa-cuando-h-to-0-para-diferentes-valores-de-s." class="level3 alert alert-info" data-number="3.0.1">
+<h3 data-number="3.0.1" class="anchored" data-anchor-id="ejemplo-1.-qué-pasa-cuando-h-to-0-para-diferentes-valores-de-s."><span class="header-section-number">3.0.1</span> Ejemplo 1. ¿Qué pasa cuando <span class="math inline">\(h \to 0\)</span> para diferentes valores de <span class="math inline">\(S\)</span>?.</h3>
+<p><font color="Black"></font></p><font color="Black">
+<p>Ejecuta la siguiente celda de código para generar el interactivo en donde podrás modificar <span class="math inline">\(S\)</span>, <span class="math inline">\(h\)</span> y <span class="math inline">\(t\)</span>. Explora qué sucede para cada valor de los parámetros y posteriomente responde las preguntas del <a href="#quiz-1">Ejercicio 1</a>.</p>
+<p>Para ver los valores de <span class="math inline">\(R(t)\)</span>, <span class="math inline">\(R^\prime(t)\)</span> y <span class="math inline">\(m(t)\)</span> haz clic sobre el botón <code>Muestra valores</code> sobre el interactivo</p>
+</font><p><font color="Black"></font></p>
+</section>
+<div id="89f87b08" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-ea92671f648d4634&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>run <span class="st">"./zinteractivo1.ipynb"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"a79cbd2a2c20432a95da5cd90982c310","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>&lt;function __main__.razonDeCambio(S, h, i0, anot)&gt;</code></pre>
+</div>
+</div>
+<p><strong>Comentarios.</strong></p>
+<p>En la gráfica de la izquierda observamos que conforme <span class="math inline">\(h\)</span> se hace más pequeño, observamos que la línea roja se aproxima cada vez mejor a la línea tangente (verde) que pasa por el punto rojo. La línea roja representa una aproximación a la razón de cambio instantánea en el punto rojo.</p>
+<p>En la gráfica de la derecha observamos la gráfica de <span class="math inline">\(R^\prime(t)\)</span> (curva verde), un punto morado que representa el valor exacto de <span class="math inline">\(R^\prime(t)\)</span> y un punto negro que es la aproximación para una <span class="math inline">\(h\)</span> dada.</p>
+<p>Entonces, la tangente en el punto rojo, no es otra cosa que <strong>la razón de cambio instantánea</strong>. Veremos enseguida que ambas cosas representan un concepto conocido como <strong>la derivada de la función</strong> en el punto rojo.</p>
+<p><a name="quiz-1"></a></p>
+<section id="ejercicio-1." class="level3 alert alert-success" data-number="3.0.2">
+<h3 data-number="3.0.2" class="anchored" data-anchor-id="ejercicio-1."><span class="header-section-number">3.0.2</span> Ejercicio 1.</h3>
+<p><font color="black"></font></p><font color="black">
+<p>El valor absoluto de la diferencia entre un valor exacto (<span class="math inline">\(v_{e}\)</span>) y un valor aproximado (<span class="math inline">\(v_{a}\)</span>) se conoce como el <strong>error absoluto</strong> y se escribe como sigue: <span class="math display">\[
+E_a = |v_e - v_a| \tag{4}
+\]</span> Usando esta definición, responde las siguientes preguntas.</p>
+<ol type="1">
+<li>¿Cuál es la diferencia entre <span class="math inline">\(R'(1)\)</span> y <span class="math inline">\(m(1)\)</span> redondeada a 4 decimales para <span class="math inline">\(S = 0.9\)</span>, <span class="math inline">\(t = 1.0\)</span> y <span class="math inline">\(h = 1.0\)</span>? Completa el código de la celda siguiente para obtener la respuesta.</li>
+</ol>
+</font><p><font color="black"></font></p>
+</section>
+<div class="alert alert-danger">
+<p><strong>NOTA.</strong> Para responder las preguntas, tienes que mover los parámetros en el interactivo a los valores correspondientes de <span class="math inline">\(S\)</span>, <span class="math inline">\(h\)</span> y <span class="math inline">\(t\)</span>; posteriormente realiza los cálculos necesarios para obtener la respuesta correcta. No olvides revisar las reglas de redondeo.</p>
+</div>
+<div class="alert alert-success">
+<p><strong>Hint:</strong> calcula <span class="math inline">\(|R'(1) - m(1)|\)</span>, usando las funciones <code>abs()</code> para calcular el valor absoluto y <code>round()</code> para redondear un número hasta un cierto número de dígitos. Puedes usar <code>help(abs)</code> y <code>help(round)</code> para obtener ayuda sobre el uso de estas funciones.</p>
+</div>
+<div id="1a05e74f-f2a3-4d40-a10f-be6319510321" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-348ed31937e2b936&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define ve, va y Ea_1:</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ve = ... # valor exacto R'(1) </span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># va = ... # valor aproximado m(1) con h = 1.0</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ea_1 = ... # Error absoluto</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>ve <span class="op">=</span> <span class="op">-</span><span class="fl">0.36576999</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>va <span class="op">=</span> <span class="op">-</span><span class="fl">0.22082496</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>Ea_1 <span class="op">=</span> <span class="bu">round</span>(<span class="bu">abs</span>(<span class="bu">round</span>(ve,<span class="dv">4</span>) <span class="op">-</span> <span class="bu">round</span>(va,<span class="dv">4</span>)), <span class="dv">4</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>file_answer <span class="op">=</span> FileAnswer()</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'1'</span>, Ea_1)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Ea_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.145</code></pre>
+</div>
+</div>
+<div id="bade6231-ac12-45ca-8636-0c94d021b9fa" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-474fd3ea0d7016df&quot;,&quot;locked&quot;:true,&quot;points&quot;:1,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'1'</span>, Ea_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+1 | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<div class="alert alert-success">
+<p><font color="black"></font></p><font color="black">
+<ol start="2" type="1">
+<li>Cuál es la diferencia entre <span class="math inline">\(R'(1)\)</span> y <span class="math inline">\(m(1)\)</span> redondeada a 4 decimales para <span class="math inline">\(S = 0.9\)</span>, <span class="math inline">\(t = 1.0\)</span> y <span class="math inline">\(h = 0.1\)</span></li>
+</ol>
+</font><p><font color="black"></font></p>
+</div>
+<div id="256115c4-9457-4d77-b06f-8dff36501fc9" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-596b1292de477d47&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define ve, va y Ea_2:</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ve = ... # valor exacto R'(1) </span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># va = ... # valor aproximado m(1) con h = 0.1</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ea_2 = ... # Error absoluto</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>ve <span class="op">=</span> <span class="op">-</span><span class="fl">0.36576999</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>va <span class="op">=</span> <span class="op">-</span><span class="fl">0.34618159</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>Ea_2 <span class="op">=</span> <span class="bu">round</span>(<span class="bu">abs</span>(<span class="bu">round</span>(ve,<span class="dv">4</span>) <span class="op">-</span> <span class="bu">round</span>(va,<span class="dv">4</span>)), <span class="dv">4</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'2'</span>, Ea_2)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Ea_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.0196</code></pre>
+</div>
+</div>
+<div id="39e75171-a743-4324-a428-ba95e1bd3210" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-dbd20509041dd215&quot;,&quot;locked&quot;:true,&quot;points&quot;:1,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'2'</span>, Ea_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+2 | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<div class="alert alert-success">
+<p><font color="black"></font></p><font color="black">
+<ol start="3" type="1">
+<li>¿Qué sucede con la diferencia entre <span class="math inline">\(R^\prime(t)\)</span> y <span class="math inline">\(m(t)\)</span>, cuando <span class="math inline">\(h\)</span> se hace más pequeño (<span class="math inline">\(h\to 0\)</span>), sin importar el valor de <span class="math inline">\(t\)</span> ni de <span class="math inline">\(S\)</span>?
+<ol type="1">
+<li>Se hace más grande.</li>
+<li>Se mantiene constante.</li>
+<li>Se hace más pequeña.</li>
+<li>No es posible determinarlo.</li>
+</ol></li>
+</ol>
+</font><p><font color="black"></font></p>
+</div>
+<div id="164e6117" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-9de9a4432a4ba989&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu respuesta como sigue </span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># respuesta = ...</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>respuesta <span class="op">=</span> <span class="st">'c'</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'3'</span>, respuesta)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>El directorio :/home/jovyan/macti_notes/notebooks/.ans/Derivada/ ya existe
+Respuestas y retroalimentación almacenadas.</code></pre>
+</div>
+</div>
+<div id="a00aed9b" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-02ce09759a12d363&quot;,&quot;locked&quot;:true,&quot;points&quot;:1,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_option(<span class="st">'3'</span>, respuesta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+3 | Tu respuesta: c, es correcta.
+----------------------------------------</code></pre>
+</div>
+</div>
+<div class="alert alert-success">
+<p><font color="black"></font></p><font color="black">
+<ol start="4" type="1">
+<li><p>Escribe una función para calcular la fórmula (4) que reciba el valor exacto (<span class="math inline">\(v_e\)</span>), el valor aproximado (<span class="math inline">\(v_a\)</span>) y el número de decimales de la aproximación (<span class="math inline">\(p\)</span>) y que regrese el error absoluto entre <span class="math inline">\(v_e\)</span> y <span class="math inline">\(v_a\)</span>. Posteriomente pruebe la función con el valor de <span class="math inline">\(R^\prime(t)\)</span> (valor exacto) y el valor de <span class="math inline">\(m(t)\)</span> (valor aproximado) con los siguientes parámetros:</p>
+<ol type="1">
+<li><span class="math inline">\(S = 0.3, t = 0, h = 1, p = 6\)</span></li>
+<li><span class="math inline">\(S = 0.3, t = 0, h = 0.1, p = 6\)</span></li>
+<li><span class="math inline">\(S = 0.3, t = 6, h = 1.0, p = 10\)</span></li>
+<li><span class="math inline">\(S = 0.3, t = 6, h = 0.1, p = 10\)</span></li>
+</ol></li>
+</ol>
+</font><p><font color="black"></font></p>
+</div>
+<div id="d1e71f77-ba99-4b44-a96e-991a5adf0a1a" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-3e0b1780fbf7fd3d&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Completa la función de error con la fórmula (4)</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> error_absoluto(ve, va, p):</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">round</span>(<span class="bu">abs</span>(<span class="bu">round</span>(ve,p) <span class="op">-</span> <span class="bu">round</span>(va,p)), p)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="6c82af09-4f77-4a75-9dc0-2f6cbb97e1f5" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-013ec301d9e3fc91&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define ve, va y p con los valores del inciso A.</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ve = ... # valor exacto R'(t) </span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># va = ... # valor aproximado m(t)</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># p = ...  # precisión</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>ve <span class="op">=</span> <span class="op">-</span><span class="fl">3.3333333333</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>va <span class="op">=</span> <span class="op">-</span><span class="fl">0.9643260067</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>EA <span class="op">=</span> error_absoluto(ve, va, p) <span class="co"># S = 0.3, t = 0, h = 1</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'4A'</span>, EA)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(EA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2.369007</code></pre>
+</div>
+</div>
+<div id="a0ab8954-a5e7-4c35-93ec-aa05f03158f8" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-8e4be17fd0a90dae&quot;,&quot;locked&quot;:true,&quot;points&quot;:2,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'4A'</span>, EA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+4A | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<div id="c2969cb8-416e-48ae-95d8-40d59902616a" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-01ef3280c6230f43&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define ve, va y p con los valores del inciso B.</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ve = ... # valor exacto R'(t) </span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># va = ... # valor aproximado m(t)</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># p = ...  # precisión</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>ve <span class="op">=</span> <span class="op">-</span><span class="fl">3.3333333333</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>va <span class="op">=</span> <span class="op">-</span><span class="fl">2.8346868943</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>EB <span class="op">=</span> error_absoluto(ve, va, p) <span class="co"># S = 0.3, t = 0, h = 0.1</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'4B'</span>, EB)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(EB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.498646</code></pre>
+</div>
+</div>
+<div id="d97b347e-a4ac-4557-b86b-07d863b4fa37" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-81e4f14f10409322&quot;,&quot;locked&quot;:true,&quot;points&quot;:1,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'4B'</span>, EB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+4B | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<div id="d9bed917-3923-4246-a104-10fed098c526" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-2997c5940135b719&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define ve, va y p con los valores del inciso C.</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ve = ... # valor exacto R'(t) </span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># va = ... # valor aproximado m(t)</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># p = ...  # precisión</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>ve <span class="op">=</span> <span class="op">-</span><span class="fl">0.0000000069</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>va <span class="op">=</span> <span class="op">-</span><span class="fl">0.0000000020</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>EC <span class="op">=</span> error_absoluto(ve, va, p) <span class="co"># S = 0.3, t = 0, h = 0.1</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'4C'</span>, EC)</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(EC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4.9e-09</code></pre>
+</div>
+</div>
+<div id="afc6ef12-6614-4322-bb32-a74960ed5d7d" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-294eaed5708ad8fe&quot;,&quot;locked&quot;:true,&quot;points&quot;:1,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'4C'</span>, EC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+4C | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<div id="fb301b2d-2dec-46bb-97dc-35582b915daa" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-43f35565c71ec472&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define ve, va y p con los valores del inciso D.</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ve = ... # valor exacto R'(t) </span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># va = ... # valor aproximado m(t)</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># p = ...  # precisión</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>ve <span class="op">=</span> <span class="op">-</span><span class="fl">0.0000000069</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>va <span class="op">=</span> <span class="op">-</span><span class="fl">0.0000000058</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>ED <span class="op">=</span> error_absoluto(ve, va, p) <span class="co"># S = 0.3, t = 6, h = 0.1</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'4D'</span>, ED)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ED)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1.1e-09</code></pre>
+</div>
+</div>
+<div id="a6c150bd-6dac-4010-8a8e-ee2590129765" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-9672129772c55bc8&quot;,&quot;locked&quot;:true,&quot;points&quot;:1,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'4D'</span>, ED)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+4D | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<p><a name="3"></a> ## Definición de derivada</p>
+<p>La fórmula <span class="math inline">\((3)\)</span> no es otra cosa que la definición formal de la derivada de una función. En casi todos los libros de cálculo encontrarás la siguiente notación para la derivada de la función <span class="math inline">\(f(x)\)</span>:</p>
+<p><span class="math display">\[
+\frac{d f}{dx} = f^\prime(x)=\lim_{h \to 0} \frac{f(x + h) - f(x)}{h} \tag{5}
+\]</span></p>
+<p>La derivada existe siempre y cuando exista este límite. ¿Puedes imaginar cuando este límite no existe?</p>
+<p>Observe que en la definición anterior se está calculando la pendiente de la función <span class="math inline">\(f(x)\)</span> en <span class="math inline">\(x\)</span>. ¿Cuándo es que esta pendiente no se puede calcular?</p>
+<section id="ejemplo-2.-aproximación-de-la-derivada-hacia-adelante-y-hacia-atrás." class="level3 alert alert-info" data-number="3.0.3">
+<h3 data-number="3.0.3" class="anchored" data-anchor-id="ejemplo-2.-aproximación-de-la-derivada-hacia-adelante-y-hacia-atrás."><span class="header-section-number">3.0.3</span> Ejemplo 2. Aproximación de la derivada hacia adelante y hacia atrás.</h3>
+<p><font color="black"></font></p><font color="black">
+<p>Ejecuta la siguiente celda de código. Obtendrás un interactivo en donde podrás modificar <span class="math inline">\(h\)</span> y <span class="math inline">\(x\)</span>.<br> * Explora los valores de <span class="math inline">\(f^\prime\)</span>, <span class="math inline">\(m\)</span> y del Error Absoluto cuando modificas <span class="math inline">\(x\)</span> y <span class="math inline">\(h\)</span>. * Observa lo que sucede cuando activas el botón <code>Hacia atrás</code>. * ¿El error absoluto es menor o mayor con el botón <code>Hacia atrás</code> activado? ¿De qué depende?</p>
+</font><p><font color="black"></font></p>
+</section>
+<div id="4bcdd802" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-d7006e864839c594&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>run <span class="st">"./zinteractivo2.ipynb"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"9de69a8a687e4c5dbc469a4c740e039d","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>&lt;function __main__.derivada(h, x0, back)&gt;</code></pre>
+</div>
+</div>
+<p>Observamos en el interactivo anterior que también es posible calcular la derivada “hacia atrás” lo cual significa usar un punto a la izquierda del lugar donde se desea obtener la derivada (punto rojo). Esto se puede escribir analíticamente de la siguiente manera:</p>
+<p><span class="math display">\[
+\frac{d f}{dx} = f^\prime(x)=\lim_{h \to 0} \frac{f(x) - f(x-h)}{h} \tag{6}
+\]</span></p>
+<p>Entonces, las ecuaciones <span class="math inline">\((5)\)</span> y <span class="math inline">\((6)\)</span> indican dos maneras de calcular la derivada en un punto, pero que deben coincidir cuando <span class="math inline">\(h \to 0\)</span>.</p>
+<p>Se puede pensar en el límite por la derecha, ecuación <span class="math inline">\((5)\)</span> y el límite por la izquierda, ecuación <span class="math inline">\((6)\)</span>. Ambos deben existir y deben ser iguales para que la derivada en un punto dado exista.</p>
+<p><a name="2-1"></a> ## ¿Cómo calcular la derivada analíticamente?</p>
+<p>Consideremos la función <span class="math inline">\(f(x) = x^3\)</span> y apliquemos la definición de derivada:</p>
+<p><span class="math display">\[
+\frac{d f}{dx} = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h} = \lim_{h \to 0} \frac{(x + h)^3 - x^3}{h}
+\]</span></p>
+<p>Si expandimos los términos del numerador obtenemos:</p>
+<p><span class="math display">\[
+\frac{d f}{dx} = \lim_{h \to 0} \, (3x^2 + 3 x h + h ^2) \tag{7}
+\]</span></p>
+<p>Al calcular el límite de la derecha obtenemos:</p>
+<p><span class="math display">\[
+\frac{d f}{dx} = 3x^2
+\]</span></p>
+<p>Hemos calculado la derivada analítica de <span class="math inline">\(f(x) = x^3\)</span>.</p>
+<p><strong>¿Podrías calcular la derivada analíticamente usando la definición de la ecuación <span class="math inline">\((6)\)</span>?</strong></p>
+<div class="alert alert-success">
+
+<section id="ejercicio-3.-derivada-analítica-hacia-atrás." class="level3" data-number="3.0.4">
+<h3 data-number="3.0.4" class="anchored" data-anchor-id="ejercicio-3.-derivada-analítica-hacia-atrás."><span class="header-section-number">3.0.4</span> Ejercicio 3. Derivada analítica hacia atrás.</h3>
+<p><font color="DarkBlue"></font></p><font color="DarkBlue">
+<p>Escribe en la variable <code>respuesta</code> la fórmula que está entre paréntesis en la ecuación <span class="math inline">\((7)\)</span>.</p>
+</font><p><font color="DarkBlue"></font></p>
+<div id="72f939bf" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-f764370b8b638705&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu respuesta como sigue </span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co"># respuesta = ...</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sy.Symbol(<span class="st">'x'</span>)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>resultado <span class="op">=</span> <span class="dv">3</span><span class="op">*</span>x<span class="op">**</span><span class="dv">2</span><span class="op">-</span><span class="dv">3</span><span class="op">*</span>x<span class="op">*</span>h<span class="op">+</span>h<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'5'</span>, <span class="bu">str</span>(resultado))</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>file_answer.to_file(<span class="st">'q2'</span>)</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>El directorio :/home/jovyan/macti_notes/notebooks/.ans/Derivada/ ya existe
+Respuestas y retroalimentación almacenadas.</code></pre>
+</div>
+</div>
+<div id="0e26e4bb-e854-4129-ba33-2bb614dcaa87" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-8de9cd376a7758fa&quot;,&quot;locked&quot;:true,&quot;points&quot;:2,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_expression(<span class="st">'5'</span>, resultado)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+5 | Tu respuesta:
+es correcta.
+----------------------------------------</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle 3 x^{2} - 3.0 x + 1.0\)</span></p>
+</div>
+</div>
+
+
+</section>
+
+</div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02_ejercicios_derivadas.html" class="pagination-link" aria-label="Repaso de cálculo: derivadas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Repaso de cálculo: derivadas</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./04_derivadas_numericas.html" class="pagination-link" aria-label="Diferencias finitas: cálculo del error">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Diferencias finitas: cálculo del error</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

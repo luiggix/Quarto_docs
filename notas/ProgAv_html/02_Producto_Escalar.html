@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.550">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Programación Avanzada - 2&nbsp; Producto escalar.</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03_CLineal_BOrtonormal.html" rel="next">
+<link href="./01_Espacios_Vectoriales.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02_Producto_Escalar.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Producto escalar.</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Programación Avanzada</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Espacios_Vectoriales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Espacio vectorial <span class="math inline">\(\mathbb{R}^2\)</span>.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Producto_Escalar.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Producto escalar.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_CLineal_BOrtonormal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Independencia lineal, base ortonormal, combinación lineal.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Normas_Vectoriales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Normas vectoriales.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Matrices_Normas_Eigen.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Matrices, normas y eigenvalores/eigenvectores.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Sol_Sist_Lineales_Intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sistemas de ecuaciones lineales: introducción</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Sol_Sis_Lin_Iter_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Métodos iterativos para la solución de sistemas de ecuaciones lineales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_Sol_Sis_Lin_Krylov.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Descenso del gradiente y Gradiente Conjugado.</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#definición-y-propiedades." id="toc-definición-y-propiedades." class="nav-link active" data-scroll-target="#definición-y-propiedades."><span class="header-section-number">2.1</span> Definición y propiedades.</a></li>
+  <li><a href="#implementación." id="toc-implementación." class="nav-link" data-scroll-target="#implementación."><span class="header-section-number">2.2</span> Implementación.</a>
+  <ul class="collapse">
+  <li><a href="#usando-el-ciclo-for." id="toc-usando-el-ciclo-for." class="nav-link" data-scroll-target="#usando-el-ciclo-for."><span class="header-section-number">2.2.1</span> Usando el ciclo <code>for</code>.</a></li>
+  <li><a href="#usando-la-función-numpy.dot." id="toc-usando-la-función-numpy.dot." class="nav-link" data-scroll-target="#usando-la-función-numpy.dot."><span class="header-section-number">2.2.2</span> Usando la función <code>numpy.dot()</code>.</a></li>
+  <li><a href="#usando-la-función-np.inner." id="toc-usando-la-función-np.inner." class="nav-link" data-scroll-target="#usando-la-función-np.inner."><span class="header-section-number">2.2.3</span> Usando la función <code>np.inner()</code>.</a></li>
+  <li><a href="#usando-el-operador-." id="toc-usando-el-operador-." class="nav-link" data-scroll-target="#usando-el-operador-."><span class="header-section-number">2.2.4</span> Usando el operador <code>@</code> .</a></li>
+  </ul></li>
+  <li><a href="#propiedad-1-ortogonalidad." id="toc-propiedad-1-ortogonalidad." class="nav-link" data-scroll-target="#propiedad-1-ortogonalidad."><span class="header-section-number">2.3</span> Propiedad 1: Ortogonalidad.</a></li>
+  <li><a href="#propiedad-2.-langle-vecx-vecx-rangle-ge-0" id="toc-propiedad-2.-langle-vecx-vecx-rangle-ge-0" class="nav-link" data-scroll-target="#propiedad-2.-langle-vecx-vecx-rangle-ge-0"><span class="header-section-number">2.4</span> Propiedad 2. <span class="math inline">\(\langle \vec{x}, \vec{x} \rangle \ge 0\)</span></a></li>
+  <li><a href="#propiedad-3.-multiplicación-por-un-escalar." id="toc-propiedad-3.-multiplicación-por-un-escalar." class="nav-link" data-scroll-target="#propiedad-3.-multiplicación-por-un-escalar."><span class="header-section-number">2.5</span> Propiedad 3. Multiplicación por un escalar.</a></li>
+  <li><a href="#propiedad-4.-asociatividad." id="toc-propiedad-4.-asociatividad." class="nav-link" data-scroll-target="#propiedad-4.-asociatividad."><span class="header-section-number">2.6</span> Propiedad 4. Asociatividad.</a></li>
+  <li><a href="#propiedad-5.-conmutatividad." id="toc-propiedad-5.-conmutatividad." class="nav-link" data-scroll-target="#propiedad-5.-conmutatividad."><span class="header-section-number">2.7</span> Propiedad 5. Conmutatividad.</a></li>
+  <li><a href="#propiedad-6.-desigualdad-de-schwarz." id="toc-propiedad-6.-desigualdad-de-schwarz." class="nav-link" data-scroll-target="#propiedad-6.-desigualdad-de-schwarz."><span class="header-section-number">2.8</span> Propiedad 6. Desigualdad de Schwarz.</a></li>
+  <li><a href="#ejercicio-1." id="toc-ejercicio-1." class="nav-link" data-scroll-target="#ejercicio-1."><span class="header-section-number">2.9</span> <strong>Ejercicio 1.</strong></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Producto escalar.</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Objetivo.</strong> Revisar e ilustrar las propiedades del producto escalar en <span class="math inline">\(\mathbb{R}^n\)</span>, para <span class="math inline">\(n&gt;=2\)</span> usando la biblioteca <code>numpy</code>.</p>
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">
+<a property="dct:title" rel="cc:attributionURL" href="https://github.com/repomacti/macti/tree/main/notebooks/Algebra_Lineal_01">MACTI-Algebra_Lineal_01</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.macti.unam.mx">Luis M. de la Cruz</a> is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution-ShareAlike 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a>
+</p>
+<p>Trabajo realizado con el apoyo del Programa UNAM-DGAPA-PAPIME PE101922</p>
+<div id="329b3227-daf3-4126-bc29-e6d51bf39367" class="cell" data-tags="[]" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importamos las bibliotecas requeridas</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> macti.visual <span class="im">as</span> mvis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="definición-y-propiedades." class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="definición-y-propiedades."><span class="header-section-number">2.1</span> Definición y propiedades.</h2>
+<p>Producto escalar es una operación algebraica que toma dos vectores y retorna un escalar. También se conoce como producto interno o producto punto. Su definición matemática es la siguiente:</p>
+<p><span class="math display">\[
+\langle \vec{x}, \vec{y} \rangle = \vec{y}^T \cdot \vec{x} = \sum_{i=1}^n x_i y_i \tag{1}
+\]</span></p>
+<p><strong>Propiedades</strong>: 1. <span class="math inline">\(\langle \vec{x}, \vec{y} \rangle = 0\)</span> si y solo si <span class="math inline">\(\vec{x}\)</span> y <span class="math inline">\(\vec{y}\)</span> son ortogonales. 2. <span class="math inline">\(\langle \vec{x}, \vec{x} \rangle \ge 0\)</span>, además <span class="math inline">\(\langle \vec{x}, \vec{x} \rangle = 0\)</span> si y solo si <span class="math inline">\(\vec{x} = 0\)</span> 3. <span class="math inline">\(\langle \alpha \vec{x}, \vec{y} \rangle = \alpha \langle \vec{x}, \vec{y} \rangle\)</span> 4. <span class="math inline">\(\langle \vec{x}+\vec{y}, \vec{z} \rangle = \langle \vec{x}, \vec{z} \rangle + \langle \vec{y}, \vec{z} \rangle\)</span> 5. $, = , $ 6. Desigualdad de Schwarz : <span class="math inline">\(||\langle \vec{x}, \vec{y} \rangle|| \le ||\vec{x}|| ||\vec{y}||\)</span></p>
+<p>En lo que sigue realizaremos ejemplos en <span class="math inline">\(\mathbb{R}^2\)</span> de las propiedades antes descritas usando vectores (arreglos) construidos con la biblioteca <code>numpy</code>.</p>
+<div id="72fd1c2f-2ce7-41c9-8961-e5150b602e46" class="cell" data-tags="[]" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definimos dos vectores en R^2 usando numpy</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="dv">3</span>]) </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">1</span>])</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos los vectores</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'x = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(x))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'y = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x = [2 3]
+y = [3 1]</code></pre>
+</div>
+</div>
+<div id="bb707548-a12d-4fbd-afff-525cdd58f982" class="cell" data-tags="[]" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizamos los vectores.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> mvis.Plotter()  <span class="co"># Definición de un objeto para crear figuras.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>v.set_coordsys(<span class="dv">1</span>)   <span class="co"># Definición del sistema de coordenadas.</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>v.plot_vectors(<span class="dv">1</span>, [x, y], [<span class="st">'x = (2,3)'</span>, <span class="st">'y = (3,1)'</span>], ofx<span class="op">=-</span><span class="fl">0.1</span>) <span class="co"># Graficación de los vectores 'x' y 'y'.</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>v.grid()  <span class="co"># Muestra la rejilla del sistema de coordenadas.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_Producto_Escalar_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="implementación." class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="implementación."><span class="header-section-number">2.2</span> Implementación.</h2>
+<p>En Python es posible implementar el producto escalar de varias maneras, a continuación presentamos algunas de ellas.</p>
+<section id="usando-el-ciclo-for." class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="usando-el-ciclo-for."><span class="header-section-number">2.2.1</span> Usando el ciclo <code>for</code>.</h3>
+<p>Es posible hacer una implementación del producto escalar usando ciclos <code>for</code>. De acuerdo con la definición <span class="math inline">\(\langle \vec{x}, \vec{y} \rangle = \sum_{i=1}^n x_i y_i\)</span> una implementación es como sigue:</p>
+<div id="ef46b4cd-3f55-42b7-8029-aa450e8674a8" class="cell" data-tags="[]" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dot_prod <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(x)):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    dot_prod <span class="op">+=</span> x[i] <span class="op">*</span> y[i]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'for cycle →  &lt;x, y&gt; = </span><span class="sc">{:0.2f}</span><span class="st">'</span>.<span class="bu">format</span>(dot_prod))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>for cycle →  &lt;x, y&gt; = 9.00</code></pre>
+</div>
+</div>
+</section>
+<section id="usando-la-función-numpy.dot." class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="usando-la-función-numpy.dot."><span class="header-section-number">2.2.2</span> Usando la función <a href="https://numpy.org/doc/stable/reference/generated/numpy.dot.html"><code>numpy.dot()</code></a>.</h3>
+<p>Esta función implementa un producto generalizado entre matrices cuyos elementos pueden ser flotantes o números complejos. Cuando se usa con arreglos de flotantes se obtiene el producto escalar. Usando esta función el ejemplo anterior se implementa cómo sigue:</p>
+<div id="09b85686-d597-4ece-8507-c9af2556da89" class="cell" data-tags="[]" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dot_prod <span class="op">=</span> np.dot(x,y)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'np.dot → &lt;x, y&gt; = </span><span class="sc">{:0.2f}</span><span class="st">'</span>.<span class="bu">format</span>(dot_prod))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>np.dot → &lt;x, y&gt; = 9.00</code></pre>
+</div>
+</div>
+</section>
+<section id="usando-la-función-np.inner." class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="usando-la-función-np.inner."><span class="header-section-number">2.2.3</span> Usando la función <a href="https://numpy.org/doc/stable/reference/generated/numpy.inner.html"><code>np.inner()</code></a>.</h3>
+<p>Esta función implementa el producto interno entre dos arreglos. Usando esta función el ejemplo anterior se implementa cómo sigue:</p>
+<div id="2bf08895-27c0-4efb-9412-60173ac9b9ef" class="cell" data-tags="[]" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dot_prod <span class="op">=</span> np.inner(x,y)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'np.inner → &lt;x, y&gt; = </span><span class="sc">{:0.2f}</span><span class="st">'</span>.<span class="bu">format</span>(dot_prod))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>np.inner → &lt;x, y&gt; = 9.00</code></pre>
+</div>
+</div>
+</section>
+<section id="usando-el-operador-." class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="usando-el-operador-."><span class="header-section-number">2.2.4</span> Usando el operador <code>@</code> .</h3>
+<p>El operador <code>@</code>, disponible desde la versión Python 3.5, se puede usar para realizar la multiplicación de matrices convencional. Cuando se usa con arreglos de 1D se obtiene el producto escalar.</p>
+<div id="615739d5-1bef-4fbc-a38a-ceca93b76e32" class="cell" data-tags="[]" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dot_prod <span class="op">=</span> x <span class="op">@</span> y</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Operador @ → &lt;x, y&gt; = </span><span class="sc">{:0.2f}</span><span class="st">'</span>.<span class="bu">format</span>(dot_prod))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Operador @ → &lt;x, y&gt; = 9.00</code></pre>
+</div>
+</div>
+<p>Lo conveniente es usar el operador <code>@</code> o alguna de las funciones de biblioteca que ya están implementadas, como <code>dot()</code> o <code>inner()</code> y evitar la implementación usando el ciclo <code>for</code>. La razón es que la biblioteca <a href="https://numpy.org/doc/stable/reference/routines.linalg.html#module-numpy.linalg">Linear algebra</a>, cuando es posible utiliza la biblioteca <a href="https://www.netlib.org/blas/">BLAS</a> optimizada.</p>
+<p>En lo que sigue usaremos el operador <code>@</code> para calcular el producto escalar y probar las propiedades descritas al principio.</p>
+</section>
+</section>
+<section id="propiedad-1-ortogonalidad." class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="propiedad-1-ortogonalidad."><span class="header-section-number">2.3</span> Propiedad 1: Ortogonalidad.</h2>
+<div id="fa975307-82dd-46d0-836c-fc0c20eb1ab6" class="cell" data-tags="[]" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definimos otro vector en R^2</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.array([<span class="op">-</span><span class="dv">3</span>, <span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="04935aca-692e-421f-bc3f-86dafe74c00e" class="cell" data-tags="[]" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculamos el producto escalar entre los vectores x, y, z</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;x, y&gt; = </span><span class="sc">{:&gt;5.2f}</span><span class="st">'</span>.<span class="bu">format</span>(x <span class="op">@</span> y))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;x, z&gt; = </span><span class="sc">{:&gt;5.2f}</span><span class="st">'</span>.<span class="bu">format</span>(x <span class="op">@</span> z))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;z, y&gt; = </span><span class="sc">{:&gt;5.2f}</span><span class="st">'</span>.<span class="bu">format</span>(z <span class="op">@</span> y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;x, y&gt; =  9.00
+&lt;x, z&gt; =  0.00
+&lt;z, y&gt; = -7.00</code></pre>
+</div>
+</div>
+<p>Como se puede observar, solo el producto <span class="math inline">\(\langle \vec{x}, \vec{z} \rangle = 0\)</span>, lo cual significa que son ortogonales. Veamos los vectores gráficamente:</p>
+<div id="89cfb6f0-6d0c-4c45-9909-2a0214c2d371" class="cell" data-tags="[]" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> mvis.Plotter()  <span class="co"># Definición de un objeto para crear figuras.</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>v.set_coordsys(<span class="dv">1</span>)   <span class="co"># Definición del sistema de coordenadas.</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>v.plot_vectors(<span class="dv">1</span>, [x, y, z], [<span class="st">'x = (2,3)'</span>, <span class="st">'y = (3,1)'</span>, <span class="st">'z = (-3,2)'</span>],ofx<span class="op">=-</span><span class="fl">0.2</span>) <span class="co"># Graficación de los vectores 'x' y 'y'.</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>v.grid()  <span class="co"># Muestra la rejilla del sistema de coordenadas.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_Producto_Escalar_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="alert alert-info" role="alert">
+<p>La función <code>calc_angle(a, b)</code>, definida en la siguiente celda, calcula el ángulo entre los vectores <span class="math inline">\(\vec{a}\)</span> y <span class="math inline">\(\vec{b}\)</span> utilizando la siguiente fórmula</p>
+<p><span class="math display">\[
+\cos(\alpha)  = \dfrac{\langle \vec{a}, \vec{b} \rangle}{||\vec{a}|| \; || \vec{b}||}
+\Longrightarrow \alpha = \arccos \left(\dfrac{\langle \vec{a}, \vec{b} \rangle}{||\vec{a}|| \; || \vec{b}||} \right)
+\]</span></p>
+<p>Se usan las funciones <code>np.linalg.norm()</code> que calcula la norma de un vector, <code>np.arccos()</code> que es la función inversa del coseno y la constante <code>np.pi</code> que proporciona el valor de <span class="math inline">\(\pi\)</span>.</p>
+</div>
+<div id="f84a1e26-0de6-418e-91da-2c1cf39586aa" class="cell" data-tags="[]" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_angle(a, b):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.arccos(a <span class="op">@</span> b <span class="op">/</span> (np.linalg.norm(a) <span class="op">*</span> np.linalg.norm(b))) <span class="op">*</span> <span class="dv">180</span> <span class="op">/</span> np.pi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="4566af13-5fbd-4cee-8bd5-927d4bc4d716" class="cell" data-tags="[]" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculamos el ángulo entre los vectores x, y, z</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Ángulo entre x y y : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(calc_angle(x, y)))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Ángulo entre x y z : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(calc_angle(x, z)))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Ángulo entre z y y : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(calc_angle(z, y)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Ángulo entre x y y : 37.8749836510982
+Ángulo entre x y z : 90.0
+Ángulo entre z y y : 127.8749836510982</code></pre>
+</div>
+</div>
+<p>Observamos que efectivamente el ángulo entre <span class="math inline">\(\vec{x}\)</span> y <span class="math inline">\(\vec{z}\)</span> es de <span class="math inline">\(90^o\)</span>.</p>
+</section>
+<section id="propiedad-2.-langle-vecx-vecx-rangle-ge-0" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="propiedad-2.-langle-vecx-vecx-rangle-ge-0"><span class="header-section-number">2.4</span> Propiedad 2. <span class="math inline">\(\langle \vec{x}, \vec{x} \rangle \ge 0\)</span></h2>
+<p>Verficamos que se cumple para los vectores <span class="math inline">\(\vec{x}\)</span>, <span class="math inline">\(\vec{y}\)</span> y <span class="math inline">\(\vec{z}\)</span>:</p>
+<div id="f40e561f-a0dd-4b89-81c2-bf7f3ceed548" class="cell" data-tags="[]" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;x, x&gt; = </span><span class="sc">{:&gt;5.2f}</span><span class="st">'</span>.<span class="bu">format</span>(x <span class="op">@</span> x))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;y, y&gt; = </span><span class="sc">{:&gt;5.2f}</span><span class="st">'</span>.<span class="bu">format</span>(y <span class="op">@</span> y))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;z, z&gt; = </span><span class="sc">{:&gt;5.2f}</span><span class="st">'</span>.<span class="bu">format</span>(z <span class="op">@</span> z))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;x, x&gt; = 13.00
+&lt;y, y&gt; = 10.00
+&lt;z, z&gt; = 13.00</code></pre>
+</div>
+</div>
+</section>
+<section id="propiedad-3.-multiplicación-por-un-escalar." class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="propiedad-3.-multiplicación-por-un-escalar."><span class="header-section-number">2.5</span> Propiedad 3. Multiplicación por un escalar.</h2>
+<p><span class="math inline">\(\langle \alpha \vec{x}, \vec{y} \rangle = \alpha \langle \vec{x}, \vec{y} \rangle\)</span></p>
+<div id="04c19fda-6bc7-4776-b470-b9b236a334ae" class="cell" data-tags="[]" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definimos un escalar</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>α <span class="op">=</span> <span class="fl">1.5</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;α * x, y&gt; = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>((α <span class="op">*</span> x) <span class="op">@</span> y))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'α * &lt;x, y&gt; = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(α <span class="op">*</span> x <span class="op">@</span> y))</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">' ¿ &lt;α * x, y&gt; == α * &lt;x,y&gt; ? : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(np.isclose((α <span class="op">*</span> x) <span class="op">@</span> y, α <span class="op">*</span> x <span class="op">@</span> y)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;α * x, y&gt; = 13.5
+α * &lt;x, y&gt; = 13.5
+ ¿ &lt;α * x, y&gt; == α * &lt;x,y&gt; ? : True</code></pre>
+</div>
+</div>
+</section>
+<section id="propiedad-4.-asociatividad." class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="propiedad-4.-asociatividad."><span class="header-section-number">2.6</span> Propiedad 4. Asociatividad.</h2>
+<p><span class="math inline">\(\langle \vec{x}+\vec{y}, \vec{z} \rangle = \langle \vec{x}, \vec{z} \rangle + \langle \vec{y}, \vec{z} \rangle\)</span></p>
+<div id="6785ed65-6eb9-4174-9376-1d084832ab6b" class="cell" data-tags="[]" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'     &lt;x + y, z&gt; = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>((x <span class="op">+</span> y) <span class="op">@</span> z))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;x, z&gt; + &lt;y, z&gt; = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(x <span class="op">@</span> z <span class="op">+</span> y <span class="op">@</span> z))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">' ¿ &lt;x + y, z&gt; == &lt;x, z&gt; + &lt;y, z&gt;? : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(np.isclose((x <span class="op">+</span> y) <span class="op">@</span> z, x <span class="op">@</span> z <span class="op">+</span> y <span class="op">@</span> z)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     &lt;x + y, z&gt; = -7
+&lt;x, z&gt; + &lt;y, z&gt; = -7
+ ¿ &lt;x + y, z&gt; == &lt;x, z&gt; + &lt;y, z&gt;? : True</code></pre>
+</div>
+</div>
+</section>
+<section id="propiedad-5.-conmutatividad." class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="propiedad-5.-conmutatividad."><span class="header-section-number">2.7</span> Propiedad 5. Conmutatividad.</h2>
+<p>$, = , $</p>
+<div id="a7e1b9bd-b222-4bd7-b498-44ab3a7c6d33" class="cell" data-tags="[]" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;x, y&gt; = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(x <span class="op">@</span> y))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;y, x&gt; = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(y <span class="op">@</span> x))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">' ¿ &lt;x, y&gt; == &lt;y, x&gt; ? : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(np.isclose(x <span class="op">@</span> y, y <span class="op">@</span> x)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;x, y&gt; = 9
+&lt;y, x&gt; = 9
+ ¿ &lt;x, y&gt; == &lt;y, x&gt; ? : True</code></pre>
+</div>
+</div>
+</section>
+<section id="propiedad-6.-desigualdad-de-schwarz." class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="propiedad-6.-desigualdad-de-schwarz."><span class="header-section-number">2.8</span> Propiedad 6. Desigualdad de Schwarz.</h2>
+<p><span class="math inline">\(||\langle \vec{x}, \vec{y} \rangle|| \le ||\vec{x}|| ||\vec{y}||\)</span></p>
+<div id="3f05accd-3416-4bae-91f1-3461dc913eb6" class="cell" data-tags="[]" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'||&lt;x, y&gt;|| = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(np.<span class="bu">abs</span>(z <span class="op">@</span> y)))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'||x|| ||y||= </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(np.linalg.norm(z) <span class="op">*</span> np.linalg.norm(y)))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'¿||&lt;x, y&gt;|| ≤ ||x|| ||y||? : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>( np.<span class="bu">abs</span>(z <span class="op">@</span> y) <span class="op">&lt;=</span> np.linalg.norm(z) <span class="op">*</span> np.linalg.norm(y)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>||&lt;x, y&gt;|| = 7
+||x|| ||y||= 11.40175425099138
+¿||&lt;x, y&gt;|| ≤ ||x|| ||y||? : True</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio-1." class="level2 alert alert-success" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="ejercicio-1."><span class="header-section-number">2.9</span> <strong>Ejercicio 1.</strong></h2>
+<p><font color="Black"> Definimos los siguientes vectores <span class="math inline">\(\vec{x} = (3.5, 0, -3.5, 0)\)</span>, <span class="math inline">\(\vec{y} = (1.5, 1.0, 2.3, -1.0)\)</span> y <span class="math inline">\(\vec{z} = (1.0, 1.0, 1.0, 1.0)\)</span> en <span class="math inline">\(\mathbb{R}^4\)</span> y <span class="math inline">\(\alpha = 0.5\)</span> un escalar. Verifica que se cumplen las propiedades 1 a 6. <br><br> <b>Hint</b>. Define los vectores <span class="math inline">\(\vec{x}\)</span>, <span class="math inline">\(\vec{y}\)</span> y <span class="math inline">\(\vec{z}\)</span> usando <code>numpy</code> y posteriormente copia los códigos utilizados en el ejemplo de <span class="math inline">\(\mathbb{R}^2\)</span> para cada propiedad.<br><br> <b>Obervación</b>. En este caso no es posible realizar gráficas. </font></p>
+</section>
+<p><strong>Definición de los vectores.</strong></p>
+<div class="alert alert-info">
+<p>Deberías obtener un resultado como el siguiente al imprimir los tres vectores:</p>
+<pre><code>x = [ 3.5  0.  -3.5  0. ]
+y = [ 1.5  1.   2.3 -1. ]
+z = [1. 1. 1. 1.]</code></pre>
+</div>
+<div id="f8f797db-ab2e-46f0-8ad8-348d9cd3eb05" class="cell" data-tags="[]" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Definición de los vectores en R^4 con numpy</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="fl">3.5</span>, <span class="dv">0</span>, <span class="op">-</span><span class="fl">3.5</span>, <span class="dv">0</span>])</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="fl">1.5</span>, <span class="fl">1.0</span>, <span class="fl">2.3</span>, <span class="op">-</span><span class="fl">1.0</span>])</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>])</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'x = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(x))</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'y = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(y))</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'z = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(z))</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x = [ 3.5  0.  -3.5  0. ]
+y = [ 1.5  1.   2.3 -1. ]
+z = [1. 1. 1. 1.]</code></pre>
+</div>
+</div>
+<p><strong>Propiedad 1.</strong></p>
+<div class="alert alert-info">
+<p>El resultado debería ser:</p>
+<pre><code>&lt;x, y&gt; = -2.80
+&lt;x, z&gt; =  0.00
+&lt;z, y&gt; =  3.80</code></pre>
+</div>
+<div id="798b8fd5-1a80-4260-9eb9-fadd12f065da" class="cell" data-tags="[]" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculamos el producto escalar entre los vectores x, y, z</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;x, y&gt; = </span><span class="sc">{:&gt;5.2f}</span><span class="st">'</span>.<span class="bu">format</span>(x <span class="op">@</span> y))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;x, z&gt; = </span><span class="sc">{:&gt;5.2f}</span><span class="st">'</span>.<span class="bu">format</span>(x <span class="op">@</span> z))</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;z, y&gt; = </span><span class="sc">{:&gt;5.2f}</span><span class="st">'</span>.<span class="bu">format</span>(z <span class="op">@</span> y))</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;x, y&gt; = -2.80
+&lt;x, z&gt; =  0.00
+&lt;z, y&gt; =  3.80</code></pre>
+</div>
+</div>
+<p><strong>Propiedad 2.</strong></p>
+<div class="alert alert-info">
+<p>El resultado debería ser:</p>
+<pre><code>&lt;x, x&gt; = 24.50
+&lt;y, y&gt; =  9.54
+&lt;z, z&gt; =  4.00</code></pre>
+</div>
+<div id="860df346-f3dd-41a8-8db6-0c433c15272f" class="cell" data-tags="[]" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;x, x&gt; = </span><span class="sc">{:&gt;5.2f}</span><span class="st">'</span>.<span class="bu">format</span>(x <span class="op">@</span> x))</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;y, y&gt; = </span><span class="sc">{:&gt;5.2f}</span><span class="st">'</span>.<span class="bu">format</span>(y <span class="op">@</span> y))</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;z, z&gt; = </span><span class="sc">{:&gt;5.2f}</span><span class="st">'</span>.<span class="bu">format</span>(z <span class="op">@</span> z))</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;x, x&gt; = 24.50
+&lt;y, y&gt; =  9.54
+&lt;z, z&gt; =  4.00</code></pre>
+</div>
+</div>
+<p><strong>Propiedad 3.</strong></p>
+<div class="alert alert-info">
+<p>El resultado debería ser:</p>
+<pre><code>&lt;α * x, y&gt; = -1.3999999999999997
+α * &lt;x, y&gt; = -1.3999999999999997
+ ¿ &lt;α * x, y&gt; == α * &lt;x,y&gt; ? : True</code></pre>
+</div>
+<div id="e7703055-21a0-41d7-8e25-604e0fe17fd5" class="cell" data-tags="[]" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definimos un escalar</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>α <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;α * x, y&gt; = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>((α <span class="op">*</span> x) <span class="op">@</span> y))</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'α * &lt;x, y&gt; = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(α <span class="op">*</span> x <span class="op">@</span> y))</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">' ¿ &lt;α * x, y&gt; == α * &lt;x,y&gt; ? : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(np.isclose((α <span class="op">*</span> x) <span class="op">@</span> y, α <span class="op">*</span> x <span class="op">@</span> y)))</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;α * x, y&gt; = -1.3999999999999995
+α * &lt;x, y&gt; = -1.3999999999999995
+ ¿ &lt;α * x, y&gt; == α * &lt;x,y&gt; ? : True</code></pre>
+</div>
+</div>
+<p><strong>Propiedad 4.</strong></p>
+<div class="alert alert-info">
+<p>El resultado debería ser:</p>
+<pre><code>     &lt;x + y, z&gt; = 3.8
+&lt;x, z&gt; + &lt;y, z&gt; = 3.8
+ ¿ &lt;x + y, z&gt; == &lt;x, z&gt; + &lt;y, z&gt;? : True</code></pre>
+</div>
+<div id="b0089a73-f255-4006-91d7-978a3b23cab8" class="cell" data-tags="[]" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'     &lt;x + y, z&gt; = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>((x <span class="op">+</span> y) <span class="op">@</span> z))</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;x, z&gt; + &lt;y, z&gt; = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(x <span class="op">@</span> z <span class="op">+</span> y <span class="op">@</span> z))</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">' ¿ &lt;x + y, z&gt; == &lt;x, z&gt; + &lt;y, z&gt;? : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(np.isclose((x <span class="op">+</span> y) <span class="op">@</span> z, x <span class="op">@</span> z <span class="op">+</span> y <span class="op">@</span> z)))</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     &lt;x + y, z&gt; = 3.8
+&lt;x, z&gt; + &lt;y, z&gt; = 3.8
+ ¿ &lt;x + y, z&gt; == &lt;x, z&gt; + &lt;y, z&gt;? : True</code></pre>
+</div>
+</div>
+<p><strong>Propiedad 5.</strong></p>
+<div class="alert alert-info">
+<p>El resultado debería ser:</p>
+<pre><code>&lt;x, y&gt; = -2.7999999999999994
+&lt;y, x&gt; = -2.7999999999999994
+ ¿ &lt;x, y&gt; == &lt;y, x&gt; ? : True</code></pre>
+</div>
+<div id="39e53fac-1cc0-4cc4-9c23-288e16f8aa7d" class="cell" data-tags="[]" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;x, y&gt; = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(x <span class="op">@</span> y))</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'&lt;y, x&gt; = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(y <span class="op">@</span> x))</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">' ¿ &lt;x, y&gt; == &lt;y, x&gt; ? : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(np.isclose(x <span class="op">@</span> y, y <span class="op">@</span> x)))</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;x, y&gt; = -2.799999999999999
+&lt;y, x&gt; = -2.799999999999999
+ ¿ &lt;x, y&gt; == &lt;y, x&gt; ? : True</code></pre>
+</div>
+</div>
+<p><strong>Propiedad 6.</strong></p>
+<div class="alert alert-info">
+<p>El resultado debería ser:</p>
+<pre><code>||&lt;x, y&gt;|| = 3.8
+||x|| ||y||= 6.1773780845922
+¿||&lt;x, y&gt;|| ≤ ||x|| ||y|? : True</code></pre>
+</div>
+<div id="7637c6cb-4bc2-462c-a96e-1bc8c1f905ff" class="cell" data-tags="[]" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'∥&lt;x, y&gt;∥ = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(np.<span class="bu">abs</span>(z <span class="op">@</span> y)))</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'∥x∥∥y∥= </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(np.linalg.norm(z) <span class="op">*</span> np.linalg.norm(y)))</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'¿∥&lt;x, y&gt;∥ ≤ ∥x∥ ∥y∥? : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>( np.<span class="bu">abs</span>(z <span class="op">@</span> y) <span class="op">&lt;=</span> np.linalg.norm(z) <span class="op">*</span> np.linalg.norm(y)))</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>∥&lt;x, y&gt;∥ = 3.8
+∥x∥∥y∥= 6.1773780845922
+¿∥&lt;x, y&gt;∥ ≤ ∥x∥ ∥y∥? : True</code></pre>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01_Espacios_Vectoriales.html" class="pagination-link" aria-label="Espacio vectorial $\mathbb{R}^2$.">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Espacio vectorial <span class="math inline">\(\mathbb{R}^2\)</span>.</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03_CLineal_BOrtonormal.html" class="pagination-link" aria-label="Independencia lineal, base ortonormal, combinación lineal.">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Independencia lineal, base ortonormal, combinación lineal.</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.550">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Visualización de la Información - 5&nbsp; Quizz 2. Mínimos Cuadrados</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./04_Fertilidad_mundial.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05_Minimos_cuadrados.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quizz 2. Mínimos Cuadrados</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Visualización de la Información</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Anscombe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">El cuarteto de Anscombe</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_precios_producto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Análisis de precios de un producto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_precios_graficas_storytelling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis de precios de un producto: graficas para presentación.</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Fertilidad_mundial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análisis de la tasa de fertilidad total mundial</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Minimos_cuadrados.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quizz 2. Mínimos Cuadrados</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introducción." id="toc-introducción." class="nav-link active" data-scroll-target="#introducción."><span class="header-section-number">6</span> Introducción.</a></li>
+  <li><a href="#conjuntos-de-datos." id="toc-conjuntos-de-datos." class="nav-link" data-scroll-target="#conjuntos-de-datos."><span class="header-section-number">7</span> Conjuntos de datos.</a></li>
+  <li><a href="#análisis-exploratorio." id="toc-análisis-exploratorio." class="nav-link" data-scroll-target="#análisis-exploratorio."><span class="header-section-number">8</span> Análisis exploratorio.</a></li>
+  <li><a href="#valores-de-m-y-b-óptimos." id="toc-valores-de-m-y-b-óptimos." class="nav-link" data-scroll-target="#valores-de-m-y-b-óptimos."><span class="header-section-number">9</span> Valores de <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span> óptimos.</a>
+  <ul class="collapse">
+  <li><a href="#ejercicio-1." id="toc-ejercicio-1." class="nav-link" data-scroll-target="#ejercicio-1."><span class="header-section-number">9.1</span> <strong>Ejercicio 1.</strong></a></li>
+  <li><a href="#ejercicio-2." id="toc-ejercicio-2." class="nav-link" data-scroll-target="#ejercicio-2."><span class="header-section-number">9.2</span> <strong>Ejercicio 2.</strong></a></li>
+  <li><a href="#ejercicio-3." id="toc-ejercicio-3." class="nav-link" data-scroll-target="#ejercicio-3."><span class="header-section-number">9.3</span> <strong>Ejercicio 3.</strong></a></li>
+  <li><a href="#ejercicio-4." id="toc-ejercicio-4." class="nav-link" data-scroll-target="#ejercicio-4."><span class="header-section-number">9.4</span> <strong>Ejercicio 4.</strong></a></li>
+  <li><a href="#ejercicio-5." id="toc-ejercicio-5." class="nav-link" data-scroll-target="#ejercicio-5."><span class="header-section-number">9.5</span> <strong>Ejercicio 5.</strong></a></li>
+  <li><a href="#ejercicio-6." id="toc-ejercicio-6." class="nav-link" data-scroll-target="#ejercicio-6."><span class="header-section-number">9.6</span> <strong>Ejercicio 6.</strong></a></li>
+  <li><a href="#ejercicio-7." id="toc-ejercicio-7." class="nav-link" data-scroll-target="#ejercicio-7."><span class="header-section-number">9.7</span> <strong>Ejercicio 7.</strong></a></li>
+  </ul></li>
+  <li><a href="#apéndice-a-deducción-del-método." id="toc-apéndice-a-deducción-del-método." class="nav-link" data-scroll-target="#apéndice-a-deducción-del-método."><span class="header-section-number">10</span> Apéndice A: Deducción del método.</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quizz 2. Mínimos Cuadrados</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Objetivo</strong>.</p>
+<ul>
+<li>Entender en qué consiste el ajuste de rectas por el método de mínimos cuadrados.</li>
+<li>Realizar una implementación de las matemáticas requeridas en este método.</li>
+<li>Probar la implementación con datos generados de manera sintética.</li>
+</ul>
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">
+Mínimos cuadrados by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.macti.unam.mx">Luis M. de la Cruz</a> is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution-ShareAlike 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a>
+</p>
+<p><strong>Trabajo realizado con el apoyo del Programa UNAM-DGAPA-PAPIME PE101922</strong></p>
+<section id="introducción." class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Introducción.</h1>
+<p>El <strong>método de mínimos cuadrados</strong> se utiliza para ajustar rectas a series de datos presentados en la forma <span class="math inline">\((x, y)\)</span> como en la siguiente tabla:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(x_0\)</span></th>
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(\dots\)</span></th>
+<th><span class="math inline">\(x_N\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y_0\)</span></td>
+<td><span class="math inline">\(y_1\)</span></td>
+<td><span class="math inline">\(y_2\)</span></td>
+<td><span class="math inline">\(\dots\)</span></td>
+<td><span class="math inline">\(y_N\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Este tipo de datos pueden provenir de diferentes fuentes como estudios geofísicos en campo, estudios experimentales en laboratorio, obtención de datos mediante encuestas, observación de fenómenos naturales, etc. La idea es estudiar como una variable depende de la otra.</p>
+<p>Una posibilidad es que la variación sea lineal es decir: <span class="math inline">\(y = m x + b\)</span>.</p>
+<p>Sin embargo, en la mayoría de los casos no es posible obtener una recta exacta que pase por todos los puntos.</p>
+<p>Para ello, el método de mínimos cuadrados nos proporciona con una metodología para obtener la mejor recta que represente a todos los puntos del conjunto de datos.</p>
+</section>
+<section id="conjuntos-de-datos." class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Conjuntos de datos.</h1>
+<p>Para esta actividad vamos a generar de manera sintética 4 conjuntos de datos. Usaremos la función <code>np.random.rand()</code> de numpy.</p>
+<div id="4106a738-63fb-474b-beac-60baae52bfaa" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-a521def2f4ff96fa&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> macti.evaluation <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a780258f-bf63-436f-b7ad-378c4c0099c6" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>quizz <span class="op">=</span> Quizz(<span class="st">'q2'</span>, <span class="st">'HeCompA'</span>, <span class="st">'local'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f6ae1c20-c225-4db4-88e5-9d3ee3b6c53a" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-a223e663e2068da7&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Total de datos de cada conjunto</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fijamos la semilla para obtener los mismos valores siempre</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Conjunto 0</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">10</span>,N) </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> x0 <span class="op">+</span> np.random.randn(N)<span class="op">*</span><span class="dv">2</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Conjunto 1</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> np.random.randn(<span class="bu">len</span>(x0))<span class="op">*</span><span class="dv">10</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>y1 <span class="op">=</span> np.random.randn(<span class="bu">len</span>(x0))<span class="op">*</span><span class="dv">10</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Conjunto 2</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> np.arange(<span class="dv">0</span>,N)<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>y2 <span class="op">=</span> <span class="op">-</span>x2 <span class="op">+</span> np.random.randn(N)<span class="op">*</span><span class="dv">500</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Conjunto 3</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>x3 <span class="op">=</span> np.array([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N)])</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>y3 <span class="op">=</span> np.random.rand(N)<span class="op">*</span><span class="fl">0.5</span><span class="op">-</span><span class="fl">0.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="30b7b30a-a29b-4145-b1aa-c368ea6dfc63" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-d6aef7c7c85a73cc&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Arreglo x0 :</span><span class="ch">\n</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(x0))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Arreglo y0 :</span><span class="ch">\n</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(y0))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Arreglo x1 :</span><span class="ch">\n</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(x1))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Arreglo y1 :</span><span class="ch">\n</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(y1))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Arreglo x2 :</span><span class="ch">\n</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(x2))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Arreglo y2 :</span><span class="ch">\n</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(y2))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Arreglo x3 :</span><span class="ch">\n</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(x3))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Arreglo y3 :</span><span class="ch">\n</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(y3))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Arreglo x0 :
+[ 0.          0.52631579  1.05263158  1.57894737  2.10526316  2.63157895
+  3.15789474  3.68421053  4.21052632  4.73684211  5.26315789  5.78947368
+  6.31578947  6.84210526  7.36842105  7.89473684  8.42105263  8.94736842
+  9.47368421 10.        ]
+Arreglo y0 :
+[ 3.52810469  1.32663021  3.01010755  6.06073377  5.84037914  0.67702319
+  5.05807157  3.38149611  4.00408861  5.55803911  5.55124504  8.6980207
+  7.83786492  7.0854553   8.25614752  8.5620855  11.40921078  8.53705189
+ 10.09981961  8.29180852]
+
+Arreglo x1 :
+[-25.52989816   6.53618595   8.64436199  -7.4216502   22.69754624
+ -14.54365675   0.45758517  -1.8718385   15.32779214  14.6935877
+   1.54947426   3.7816252   -8.87785748 -19.80796468  -3.47912149
+   1.56348969  12.30290681  12.02379849  -3.87326817  -3.02302751]
+Arreglo y1 :
+[-10.48552965 -14.20017937 -17.06270191  19.50775395  -5.09652182
+  -4.38074302 -12.5279536    7.77490356 -16.13897848  -2.1274028
+  -8.95466561   3.86902498  -5.10805138 -11.80632184  -0.28182228
+   4.28331871   0.66517222   3.02471898  -6.34322094  -3.62741166]
+
+Arreglo x2 :
+[   0  100  200  300  400  500  600  700  800  900 1000 1100 1200 1300
+ 1400 1500 1600 1700 1800 1900]
+Arreglo y2 :
+[ -336.23022389  -279.77658077  -606.57314102 -1163.14130117
+  -311.28692887  -700.8904681  -1415.09917348  -468.60887224
+ -1253.64918219  -874.0273021   -635.45471891 -1035.50854462
+  -630.29965773 -1917.41291018 -1198.82917941 -1842.40504547
+ -2035.39857459 -1989.42483238 -1955.77626606 -1871.91732889]
+
+Arreglo x3 :
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19]
+Arreglo y3 :
+[-0.08552999 -0.49765226 -0.16109173 -0.36499601 -0.13240299 -0.01890573
+ -0.37562343 -0.21192133 -0.20397903 -0.21387405 -0.38845918 -0.02362549
+ -0.27643731 -0.07679566 -0.15026036 -0.35128152 -0.09310109 -0.30174713
+ -0.0594484  -0.20936356]</code></pre>
+</div>
+</div>
+</section>
+<section id="análisis-exploratorio." class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Análisis exploratorio.</h1>
+<div id="fa8fc1c3-92a5-4545-8722-0980c2a190ff" class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ax0 <span class="op">=</span> plt.subplot(<span class="dv">221</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>ax0.scatter(x0, y0, fc <span class="op">=</span> <span class="st">'C0'</span>, ec<span class="op">=</span><span class="st">'k'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>ax0.set_xlabel(<span class="st">'$x_0$'</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ax0.set_ylabel(<span class="st">'$y_0$'</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>ax0.grid()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> plt.subplot(<span class="dv">222</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>ax1.scatter(x1, y1, fc <span class="op">=</span> <span class="st">'C1'</span>, ec<span class="op">=</span><span class="st">'k'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">'$x_1$'</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'$y_2$'</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>ax1.grid()</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> plt.subplot(<span class="dv">223</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>ax2.scatter(x2, y2, fc <span class="op">=</span> <span class="st">'C2'</span>, ec<span class="op">=</span><span class="st">'k'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'$x_2$'</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'$y_2$'</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>ax2.grid()</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> plt.subplot(<span class="dv">224</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>ax3.scatter(x3, y3, fc <span class="op">=</span> <span class="st">'C3'</span>, ec<span class="op">=</span><span class="st">'dimgrey'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>ax3.set_xlabel(<span class="st">'$x_3$'</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>ax3.set_ylabel(<span class="st">'$y_3$'</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>ax3.set_ylim(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>ax3.grid()</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_Minimos_cuadrados_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="valores-de-m-y-b-óptimos." class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Valores de <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span> óptimos.</h1>
+<p>Los valores de la pendiente y de la ordenada al origen de la recta que mejor aproxima a un conjunto de datos están dados por las siguientes fórmulas:</p>
+<p><span class="math display">\[
+m = \dfrac{\sum_{i=1}^{N} x_i(y_i - \bar{y})}{\sum_{i=1}^{N} x_i(x_i - \bar{x})} \tag{1}
+\]</span></p>
+<p><span class="math display">\[
+b = \bar{y} - m \bar{x} \tag{2}
+\]</span></p>
+<p>donde <span class="math inline">\(\bar{y} = \dfrac{1}{N}\sum_{i=1}^{N} y_i\)</span> y <span class="math inline">\(\bar{x} = \dfrac{1}{N}\sum_{i=1}^{N} x_i\)</span> representan el valor medio de los datos.</p>
+<p>Podemos usar los conjuntos de datos definidos antes para calcular <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span> y con ello obtener la recta que ajusta los datos.</p>
+<section id="ejercicio-1." class="level2 alert alert-success" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="ejercicio-1."><span class="header-section-number">9.1</span> <strong>Ejercicio 1.</strong></h2>
+<p><font color="Black">Calcular la media del conjunto de datos <span class="math inline">\(x_0\)</span>, <span class="math inline">\(y_0\)</span>. Almacenar las medias en las variables <code>X</code> y <code>Y</code>.</font></p>
+</section>
+<div id="665497ce-561e-47a4-9a4d-78c8922d186b" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-e7cdb85676fe1903&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">### FileAnswer definition</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Se crea un objeto para guardar las respuestas, solo una vez.</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>file_answer <span class="op">=</span> FileAnswer() </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#file_answer.verb = 0</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Media de x</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> xi <span class="kw">in</span> x0:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    X <span class="op">+=</span> xi</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>X <span class="op">/=</span> N</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Media de y</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> yi <span class="kw">in</span> y0:</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">+=</span> yi</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>Y <span class="op">/=</span> N</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'1'</span>, X, <span class="st">'Revisa la definición de la media y tu implementación para el cálculo de la media de x'</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'2'</span>, Y, <span class="st">'Revisa la definición de la media y tu implementación para el cálculo de la media de y'</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="re">END</span><span class="co"> SOLUTION</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Media de x: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(X))</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Media de y: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(Y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Media de x: 5.0
+Media de y: 6.138669185891269</code></pre>
+</div>
+</div>
+<div id="b5e7f304-654b-407c-ba96-a2d9c8ba0376" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-e9969766cc37cd95&quot;,&quot;locked&quot;:true,&quot;points&quot;:2,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'1'</span>, X)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'2'</span>, Y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+1 | Tu resultado es correcto.
+----------------------------------------
+----------------------------------------
+2 | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<section id="ejercicio-2." class="level2 alert alert-success" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="ejercicio-2."><span class="header-section-number">9.2</span> <strong>Ejercicio 2.</strong></h2>
+<p><font color="Black">Calcular la pendiente <span class="math inline">\(m\)</span> del conjunto de datos <span class="math inline">\(x_0\)</span>, <span class="math inline">\(y_0\)</span> usando la fórmula <span class="math inline">\((1)\)</span>. Almacenar la pendiente en la variable <code>m</code>.</font></p>
+</section>
+<div id="ceb07bc1-1fd2-4aa8-85be-69cfdf8750bc" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-0875f3113c5f37e1&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo de m</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>Sxx <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>Sxy <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> xi, yi <span class="kw">in</span> <span class="bu">zip</span>(x0, y0):</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    Sxy <span class="op">+=</span> xi <span class="op">*</span> (yi <span class="op">-</span> Y)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    Sxx <span class="op">+=</span> xi <span class="op">*</span> (xi <span class="op">-</span> X)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> Sxy <span class="op">/</span> Sxx</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'3'</span>, m, <span class="st">'Revisa la fórmula para el cálculo de la pendiente y tu implementación'</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="re">END</span><span class="co"> SOLUTION</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Pendiente m: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(m))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pendiente m: 0.7725548289646033</code></pre>
+</div>
+</div>
+<div id="2c5afb5c-1f20-4d52-9931-8502bd4d9db8" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-3ab758080d0e4642&quot;,&quot;locked&quot;:true,&quot;points&quot;:1,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'3'</span>, m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+3 | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<section id="ejercicio-3." class="level2 alert alert-success" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="ejercicio-3."><span class="header-section-number">9.3</span> <strong>Ejercicio 3.</strong></h2>
+<p><font color="Black">Calcular la ordenada al origen <span class="math inline">\(b\)</span> del conjunto de datos <span class="math inline">\(x_0\)</span>, <span class="math inline">\(y_0\)</span> usando la fórmula <span class="math inline">\((2)\)</span>. Almacenar la pendiente en la variable <code>b</code>.</font></p>
+</section>
+<div id="be93def7-5983-42ee-954d-5f4ce6107024" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-f36117aea568bb47&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo de b</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># b = ...</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo de b</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> Y <span class="op">-</span> m <span class="op">*</span> X</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'4'</span>, b, <span class="st">'Revisa la fórmula para el cálculo de la ordenada al origen y tu implementación'</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Ordenada al origen b: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(b))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Ordenada al origen b: 2.2758950410682526</code></pre>
+</div>
+</div>
+<div id="7c2e331e-26a2-41e7-8133-f8f61b16d10b" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-538d7265e1bf6a3d&quot;,&quot;locked&quot;:true,&quot;points&quot;:1,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'4'</span>, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+4 | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<section id="ejercicio-4." class="level2 alert alert-success" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="ejercicio-4."><span class="header-section-number">9.4</span> <strong>Ejercicio 4.</strong></h2>
+<p><font color="Black"></font></p><font color="Black">
+<p>Construir una recta usando los valores de <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span> calculados en los ejercicios anteriores como sigue: * Construir un arreglo para <span class="math inline">\(x\)</span>, de nombre <code>xr0</code>, usando alguna función de <code>numpy</code> (<strong>el arreglo debe ser de 10 elementos</strong>):</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>xr0 <span class="op">=</span> np. ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Evaluar <span class="math inline">\(y = mx + b\)</span> usando el arreglo <code>xr0</code> para generar el arreglo <code>yr0</code>:</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>yr0 <span class="op">=</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</font></section><font color="Black">
+<div id="de9cbf5d-149d-47b3-b09a-ff6ee72d6b96" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-0b8cbe2dc6c3c0aa&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construcción de las rectas</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># xr0 = np....</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># yr0 = ...</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Construcción de la recta</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>xr0 <span class="op">=</span> np.linspace(x0.<span class="bu">min</span>(), x0.<span class="bu">max</span>(), <span class="dv">10</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>yr0 <span class="op">=</span> m <span class="op">*</span> xr0 <span class="op">+</span> b</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'5'</span>, xr0, <span class="st">'Recuerda que el arreglo debe tener 10 elementos, checa tu implementación'</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'6'</span>, yr0, <span class="st">'Solo tienes que implementar la fórmula de la recta usando m, xr0 y b'</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(xr0)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(yr0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[ 0.          1.11111111  2.22222222  3.33333333  4.44444444  5.55555556
+  6.66666667  7.77777778  8.88888889 10.        ]
+[ 2.27589504  3.1342893   3.99268355  4.8510778   5.70947206  6.56786631
+  7.42626057  8.28465482  9.14304908 10.00144333]</code></pre>
+</div>
+</div>
+<div id="b85acecf-36b9-4cf1-b12e-6dd363808c34" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-79f4f332e2228dba&quot;,&quot;locked&quot;:true,&quot;points&quot;:2,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'5'</span>, xr0)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'6'</span>, yr0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+5 | Tu resultado es correcto.
+----------------------------------------
+----------------------------------------
+6 | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<div class="alert alert-info">
+<p>Si realizaste correctamente los ejercicios <span class="math inline">\(1-4\)</span>, entonces la siguiente celda de código graficará los cuatro conjuntos de datos y en la primera gráfica se verá la línea recta que construiste.</p>
+<p><strong>NOTA</strong>. En esta graficación estamos usando la biblioteca <code>macti.visual</code>.</p>
+</div>
+<div id="02c9e216-e537-41e7-972b-c051b19f2442" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> macti.visual <span class="im">as</span> mvis</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>axp <span class="op">=</span> [<span class="bu">dict</span>(xlabel<span class="op">=</span><span class="st">'$x_0$'</span>, ylabel<span class="op">=</span><span class="st">'$y_0$'</span>),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">dict</span>(xlabel<span class="op">=</span><span class="st">'$x_1$'</span>, ylabel<span class="op">=</span><span class="st">'$y_1$'</span>),</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">dict</span>(xlabel<span class="op">=</span><span class="st">'$x_2$'</span>, ylabel<span class="op">=</span><span class="st">'$y_2$'</span>),</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">dict</span>(xlabel<span class="op">=</span><span class="st">'$x_3$'</span>, ylabel<span class="op">=</span><span class="st">'$y_3$'</span>, ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>)),]</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>vis <span class="op">=</span> mvis.Plotter(<span class="dv">2</span>,<span class="dv">2</span>,fig_par<span class="op">=</span><span class="bu">dict</span>(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>)), axis_par<span class="op">=</span>axp)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>vis.plot(<span class="dv">1</span>, xr0, yr0, c<span class="op">=</span><span class="st">'C0'</span>, lw<span class="op">=</span><span class="dv">2</span>, ls <span class="op">=</span> <span class="st">'--'</span>)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>vis.scatter(<span class="dv">1</span>, x0, y0, fc<span class="op">=</span><span class="st">'C0'</span>, ec<span class="op">=</span><span class="st">'k'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>vis.scatter(<span class="dv">2</span>, x1, y1, fc<span class="op">=</span><span class="st">'C1'</span>, ec<span class="op">=</span><span class="st">'k'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>vis.scatter(<span class="dv">3</span>, x2, y2, fc<span class="op">=</span><span class="st">'C2'</span>, ec<span class="op">=</span><span class="st">'k'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>vis.scatter(<span class="dv">4</span>, x3, y3, fc<span class="op">=</span><span class="st">'C3'</span>, ec<span class="op">=</span><span class="st">'dimgrey'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>vis.tight_layout()</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>vis.grid()</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>vis.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_Minimos_cuadrados_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="ejercicio-5." class="level2 alert alert-success" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="ejercicio-5."><span class="header-section-number">9.5</span> <strong>Ejercicio 5.</strong></h2>
+<p><font color="Black">Construir la función <code>media(x)</code> para calcular la media de un conjunto de datos. La función debe recibir como entrada el arreglo con los datos, <code>x</code>, y regresa la media de los mismos. Probar la función para los datos <code>x0</code> y <code>y0</code> como sigue:</font></p><font color="Black">
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>X0 <span class="op">=</span> media(x0)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>Y0 <span class="op">=</span> media(y0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</font><p><font color="Black"></font></p>
+</section>
+<div id="ad67510e-bf63-4ca0-9c7a-361094518dab" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-522a1d9030797ea3&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función media()</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># def media (x) : </span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> media(x):</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    xm <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> xi <span class="kw">in</span> x:</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        xm <span class="op">+=</span> xi</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xm <span class="op">/</span> N</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>X0 <span class="op">=</span> media(x0)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>Y0 <span class="op">=</span> media(y0)</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'7'</span>, X0, <span class="st">'Revisa la definición de la media y la implementación de la función media(x)'</span>)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'8'</span>, Y0, <span class="st">'Revisa la definición de la media y la implementación de la función media(x)'</span>)</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Media de x0 : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(X0))</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Media de y0 : </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(Y0))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Media de x0 : 5.0
+Media de y0 : 6.138669185891269</code></pre>
+</div>
+</div>
+<div id="4335d757-1837-47b1-b8f4-0afb4f683445" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-c831cac7e0b51e1d&quot;,&quot;locked&quot;:true,&quot;points&quot;:2,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'7'</span>, X0)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'8'</span>, Y0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+7 | Tu resultado es correcto.
+----------------------------------------
+----------------------------------------
+8 | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<section id="ejercicio-6." class="level2 alert alert-success" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="ejercicio-6."><span class="header-section-number">9.6</span> <strong>Ejercicio 6.</strong></h2>
+<p><font color="Black"></font></p><font color="Black">
+<p>Construir la función <code>mincua(x, y)</code> para calcular <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span> de un conjunto de datos. La función recibe como entrada los arreglos de datos, <code>x, y</code>, y regresa <code>m</code> y <code>b</code>. Calcular <code>m</code> y <code>b</code> para los conjuntos de datos:</p>
+<ul>
+<li>(<span class="math inline">\(x_1\)</span>, <span class="math inline">\(y_1\)</span>), almacenar <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span> en las variables <code>m1</code> y <code>b1</code> respectivamente.</li>
+<li>(<span class="math inline">\(x_2\)</span>, <span class="math inline">\(y_2\)</span>), almacenar <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span> en las variables <code>m2</code> y <code>b2</code> respectivamente.</li>
+<li>(<span class="math inline">\(x_3\)</span>, <span class="math inline">\(y_3\)</span>), almacenar <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span> en las variables <code>m3</code> y <code>b3</code> respectivamente.</li>
+</ul>
+</font><p><font color="Black"></font></p>
+</section>
+<div id="ea10d448-c931-4ede-b5a3-1af53964690a" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-1dee2467692804a5&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función mincua()</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># def mincua (x) : </span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mincua(x, y):</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cálculo de la media</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> media(x)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> media(y)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cálculo de m</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    Sxx <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    Sxy <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> xi, yi <span class="kw">in</span> <span class="bu">zip</span>(x, y):</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>        Sxy <span class="op">+=</span> xi <span class="op">*</span> (yi <span class="op">-</span> Y)</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>        Sxx <span class="op">+=</span> xi <span class="op">*</span> (xi <span class="op">-</span> X)</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> Sxy <span class="op">/</span> Sxx</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cálculo de b</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> Y <span class="op">-</span> m <span class="op">*</span> X</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> m, b</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="ff6c6969-47dc-40f3-8edc-63c1a02c5df3" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-ae36fbb5eb4a9635&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo de m y b</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># m1, b1 = ...</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>m1, b1 <span class="op">=</span> mincua(x1, y1)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>m2, b2 <span class="op">=</span> mincua(x2, y2)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>m3, b3 <span class="op">=</span> mincua(x3, y3)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'9'</span> , [m1, b1], <span class="st">'Checa que ejecutaste la función mincua(x,y) con los datos correctos (x1, y1). Checa también tu implementación'</span>)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'10'</span>, [m2, b2], <span class="st">'Checa que ejecutaste la función mincua(x,y) con los datos correctos (x2, y2). Checa también tu implementación'</span>)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'11'</span>, [m3, b3], <span class="st">'Checa que ejecutaste la función mincua(x,y) con los datos correctos (x3, y3). Checa también tu implementación'</span>)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'m1 = </span><span class="sc">{}</span><span class="st">, </span><span class="ch">\t</span><span class="st"> b1 = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(m1, b1))</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'m2 = </span><span class="sc">{}</span><span class="st">, </span><span class="ch">\t</span><span class="st"> b2 = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(m2, b2))</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'m3 = </span><span class="sc">{}</span><span class="st">, </span><span class="ch">\t</span><span class="st"> b3 = </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(m3, b3))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>m1 = -0.02002336877662938,   b1 = -3.9396674988126574
+m2 = -0.86095919430528,      b2 = -308.1742770138992
+m3 = 0.003809973693633117,   b3 = -0.24601956385565651</code></pre>
+</div>
+</div>
+<div id="6c2a3e05-4131-40d2-9967-b530d9ea896f" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-d24844b2379c4dc2&quot;,&quot;locked&quot;:true,&quot;points&quot;:3,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'9'</span>, [m1, b1])</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'10'</span>, [m2, b2])</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'11'</span>, [m3, b3])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+9 | Tu resultado es correcto.
+----------------------------------------
+----------------------------------------
+10 | Tu resultado es correcto.
+----------------------------------------
+----------------------------------------
+11 | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<section id="ejercicio-7." class="level2 alert alert-success" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="ejercicio-7."><span class="header-section-number">9.7</span> <strong>Ejercicio 7.</strong></h2>
+<p><font color="Black"></font></p><font color="Black">
+<p>Construir las rectas de cada conjunto de datos como sigue:</p>
+<ul>
+<li>Usando <code>m1</code> y <code>b1</code> construir los arreglos de coordenadas <code>xr1</code> y <code>yr1</code>.</li>
+<li>Usando <code>m2</code> y <code>b2</code> construir los arreglos de coordenadas <code>xr2</code> y <code>yr2</code>.</li>
+<li>Usando <code>m3</code> y <code>b3</code> construir los arreglos de coordenadas <code>xr3</code> y <code>yr3</code>.</li>
+</ul>
+</font><p><font color="Black"></font></p>
+</section>
+<div id="ae9be953-7c3c-4fd0-b78d-1b2f9a38fc4c" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-f3e79d8be4b8a1b5&quot;,&quot;locked&quot;:false,&quot;schema_version&quot;:3,&quot;solution&quot;:true,&quot;task&quot;:false}" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construcción de las rectas</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># xr1 = np.linspace( ... )</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># yr1 = ...</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">BEGIN</span><span class="co"> SOLUTION</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Construcción de las rectas</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>xr1 <span class="op">=</span> np.linspace(x1.<span class="bu">min</span>(), x1.<span class="bu">max</span>(), <span class="dv">10</span>)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>yr1 <span class="op">=</span> m1 <span class="op">*</span> xr1 <span class="op">+</span> b1</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>xr2 <span class="op">=</span> np.linspace(x2.<span class="bu">min</span>(), x2.<span class="bu">max</span>(), <span class="dv">10</span>)</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>yr2 <span class="op">=</span> m2 <span class="op">*</span> xr2 <span class="op">+</span> b2</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>xr3 <span class="op">=</span> np.linspace(x3.<span class="bu">min</span>(), x3.<span class="bu">max</span>(), <span class="dv">10</span>)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>yr3 <span class="op">=</span> m3 <span class="op">*</span> xr3 <span class="op">+</span> b3</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'12'</span>, xr1, <span class="st">'El arreglo xr1 no está bien construido.'</span>)</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'13'</span>, yr1, <span class="st">'El arreglo yr1 no está bien evaluado. Checa la fórmula de la recta.'</span>)</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'14'</span>, xr2, <span class="st">'El arreglo xr2 no está bien construido.'</span>)</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'15'</span>, yr2, <span class="st">'El arreglo yr2 no está bien evaluado. Checa la fórmula de la recta.'</span>)</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'16'</span>, xr3, <span class="st">'El arreglo xr3 no está bien construido.'</span>)</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>file_answer.write(<span class="st">'17'</span>, yr3, <span class="st">'El arreglo yr3 no está bien evaluado. Checa la fórmula de la recta.'</span>)</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>file_answer.to_file(<span class="st">'q2'</span>)</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> SOLUTION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>El directorio :/home/jovyan/HeCompA/.ans/03_AnalisisNumerico/ ya existe
+Respuestas y retroalimentación almacenadas.</code></pre>
+</div>
+</div>
+<div id="960be302-6053-4d1f-840e-aa6a1071aaa6" class="cell" data-nbgrader="{&quot;grade&quot;:false,&quot;grade_id&quot;:&quot;cell-4bb484f4f3550a98&quot;,&quot;locked&quot;:true,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(xr1, yr1, sep <span class="op">=</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>, end<span class="op">=</span><span class="st">'</span><span class="ch">\n\n</span><span class="st">'</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(xr2, yr2, sep <span class="op">=</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>, end<span class="op">=</span><span class="st">'</span><span class="ch">\n\n</span><span class="st">'</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(xr3, yr3, sep <span class="op">=</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>, end<span class="op">=</span><span class="st">'</span><span class="ch">\n\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[-25.52989816 -20.17129323 -14.81268829  -9.45408336  -4.09547843
+   1.26312651   6.62173144  11.98033637  17.33894131  22.69754624]
+[-3.42847293 -3.53577026 -3.64306758 -3.7503649  -3.85766222 -3.96495955
+ -4.07225687 -4.17955419 -4.28685151 -4.39414884]
+
+[   0.          211.11111111  422.22222222  633.33333333  844.44444444
+ 1055.55555556 1266.66666667 1477.77777778 1688.88888889 1900.        ]
+[ -308.17427701  -489.93232915  -671.69038128  -853.44843341
+ -1035.20648554 -1216.96453767 -1398.7225898  -1580.48064193
+ -1762.23869406 -1943.99674619]
+
+[ 0.          2.11111111  4.22222222  6.33333333  8.44444444 10.55555556
+ 12.66666667 14.77777778 16.88888889 19.        ]
+[-0.24601956 -0.23797629 -0.22993301 -0.22188973 -0.21384645 -0.20580317
+ -0.1977599  -0.18971662 -0.18167334 -0.17363006]
+</code></pre>
+</div>
+</div>
+<div id="e86c5bf6-7b91-4370-aed4-db1a4a7f2251" class="cell" data-nbgrader="{&quot;grade&quot;:true,&quot;grade_id&quot;:&quot;cell-4bb618980bf8eb33&quot;,&quot;locked&quot;:true,&quot;points&quot;:6,&quot;schema_version&quot;:3,&quot;solution&quot;:false,&quot;task&quot;:false}" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'12'</span>, xr1)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'13'</span>, yr1)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'14'</span>, xr2)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'15'</span>, yr2)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'16'</span>, xr3)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>quizz.eval_numeric(<span class="st">'17'</span>, yr3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+12 | Tu resultado es correcto.
+----------------------------------------
+----------------------------------------
+13 | Tu resultado es correcto.
+----------------------------------------
+----------------------------------------
+14 | Tu resultado es correcto.
+----------------------------------------
+----------------------------------------
+15 | Tu resultado es correcto.
+----------------------------------------
+----------------------------------------
+16 | Tu resultado es correcto.
+----------------------------------------
+----------------------------------------
+17 | Tu resultado es correcto.
+----------------------------------------</code></pre>
+</div>
+</div>
+<div class="alert alert-info">
+<p>Si caculaste todo correctamente, entonces la siguiente celda de código graficará los cuatro conjuntos de datos junto con las líneas rectas que construiste.</p>
+</div>
+<div id="eb62233a-8152-406d-bbaa-3e9c517d30c2" class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>axp <span class="op">=</span> [<span class="bu">dict</span>(xlabel<span class="op">=</span><span class="st">'$x_0$'</span>, ylabel<span class="op">=</span><span class="st">'$y_0$'</span>),</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>        <span class="bu">dict</span>(xlabel<span class="op">=</span><span class="st">'$x_1$'</span>, ylabel<span class="op">=</span><span class="st">'$y_1$'</span>),</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">dict</span>(xlabel<span class="op">=</span><span class="st">'$x_2$'</span>, ylabel<span class="op">=</span><span class="st">'$y_2$'</span>),</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">dict</span>(xlabel<span class="op">=</span><span class="st">'$x_3$'</span>, ylabel<span class="op">=</span><span class="st">'$y_3$'</span>, ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>)),]</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>vis <span class="op">=</span> mvis.Plotter(<span class="dv">2</span>,<span class="dv">2</span>,fig_par<span class="op">=</span><span class="bu">dict</span>(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>)), axis_par<span class="op">=</span>axp)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>vis.plot(<span class="dv">1</span>, xr0, yr0, c<span class="op">=</span><span class="st">'C0'</span>, lw<span class="op">=</span><span class="dv">2</span>, ls <span class="op">=</span> <span class="st">'--'</span>)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>vis.scatter(<span class="dv">1</span>, x0, y0, fc<span class="op">=</span><span class="st">'C0'</span>, ec<span class="op">=</span><span class="st">'k'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>vis.plot(<span class="dv">2</span>, xr1, yr1, c<span class="op">=</span><span class="st">'C1'</span>, lw<span class="op">=</span><span class="dv">2</span>, ls <span class="op">=</span> <span class="st">'--'</span>)</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>vis.scatter(<span class="dv">2</span>, x1, y1, fc<span class="op">=</span><span class="st">'C1'</span>, ec<span class="op">=</span><span class="st">'k'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>vis.plot(<span class="dv">3</span>, xr2, yr2, c<span class="op">=</span><span class="st">'C2'</span>, lw<span class="op">=</span><span class="dv">2</span>, ls <span class="op">=</span> <span class="st">'--'</span>)</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>vis.scatter(<span class="dv">3</span>, x2, y2, fc<span class="op">=</span><span class="st">'C2'</span>, ec<span class="op">=</span><span class="st">'k'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>vis.plot(<span class="dv">4</span>, xr3, yr3, c<span class="op">=</span><span class="st">'C3'</span>, lw<span class="op">=</span><span class="dv">2</span>, ls <span class="op">=</span> <span class="st">'--'</span>)</span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>vis.scatter(<span class="dv">4</span>, x3, y3, fc<span class="op">=</span><span class="st">'C3'</span>, ec<span class="op">=</span><span class="st">'dimgrey'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>vis.tight_layout()</span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>vis.grid()</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>vis.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_Minimos_cuadrados_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</font></section><font color="Black">
+<section id="apéndice-a-deducción-del-método." class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Apéndice A: Deducción del método.</h1>
+<p>Dado el conjunto de datos:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(x_0\)</span></th>
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(\dots\)</span></th>
+<th><span class="math inline">\(x_N\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y_0\)</span></td>
+<td><span class="math inline">\(y_1\)</span></td>
+<td><span class="math inline">\(y_2\)</span></td>
+<td><span class="math inline">\(\dots\)</span></td>
+<td><span class="math inline">\(y_N\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>lo que en principio desearíamos es que se cumpliera que:</p>
+<p><span class="math display">\[y_i = m x_i + b \;\; \text{para} \;\; i = 0, \dots, N \]</span></p>
+<p>que es equivalente a</p>
+<p><span class="math display">\[0 = m x_i + b - y_i\;\; \text{para} \;\; i = 0, \dots, N, \tag{A.1} \]</span></p>
+<p>Pero la ecuación <span class="math inline">\((A.1)\)</span> no se cumple en general, de tal manera que lo que se pide es que las desviaciones de cada punto con respecto de la recta sean pequeñas.</p>
+<p>En el caso de este método, la desviación se define como la diferencia del valor <span class="math inline">\(y_i\)</span> con respecto de la recta elevada al cuadrado, es decir: <span class="math inline">\((m x_i + b - y_i)^2\)</span>. Y para calcular la desviación global se suman todas las diferencias, por lo que obtenemos:</p>
+<p><span class="math display">\[
+f(m,b) = \sum_{i=1}^{N} (m x_i + b - y_i)^2
+\]</span></p>
+<p>Observa que del lado derecho hemos puesto <span class="math inline">\(f(m,b)\)</span> es decir, una función que depende de la pendiente <span class="math inline">\(m\)</span> y de la ordenada al origen <span class="math inline">\(b\)</span>.</p>
+<p>El valor de la función <span class="math inline">\(f\)</span> (la desviación global) depende de <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span>; entonces para encontrar los valores de <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span> más adecuados, debemos minimizar <span class="math inline">\(f\)</span> con respecto a esas variables.</p>
+<p>Recordando nuestras clases de cálculo, sabemos que para minimizar una función, debemos calcular su derivada, igualarla a cero y resolver para encontrar los puntos críticos (máximos y mínimos). En este caso, debemos derivar con respecto a <span class="math inline">\(m\)</span> y con respecto a <span class="math inline">\(b\)</span>, y luego resolver un sistema de dos ecuaciones. Veamos como:</p>
+<p><span class="math display">\[
+\begin{eqnarray}
+\dfrac{\partial f}{\partial m} &amp; = &amp; \dfrac{\partial}{\partial m} \left(\sum_{i=1}^{N} (m x_i + b - y_i)^2 \right) = 2 \sum_{i=1}^{N} x_i \big(m x_i + b - y_i\big) = 0 \tag{A.2}\\
+\dfrac{\partial f}{\partial b} &amp; = &amp; \dfrac{\partial}{\partial b} \left(\sum_{i=1}^{N} (m x_i + b - y_i)^2 \right) = 2\sum_{i=1}^{N} \big(m x_i + b - y_i\big) = 0 \tag{A.3}\\
+\end{eqnarray}
+\]</span></p>
+<p>De la ecuación <span class="math inline">\((A.3)\)</span> tenemos que: <span class="math display">\[
+m \sum_{i=1}^{N} x_i + \sum_{i=1}^{N} b - \sum_{i=1}^{N} y_i = 0
+\]</span></p>
+<p>y despejando <span class="math inline">\(b\)</span> obtenemos: <span class="math display">\[
+b = \underbrace{\dfrac{1}{N}\sum_{i=1}^{N} y_i}_{\bar{y}} - m \underbrace{\dfrac{1}{N} \sum_{i=1}^{N} x_i}_{\bar{x}} = \bar{y} - m \bar{x} \tag{A.4}
+\]</span></p>
+<p>Ahora sustituimos <span class="math inline">\((A.4)\)</span> en <span class="math inline">\((A.2)\)</span> y obtenemos:</p>
+<p><span class="math display">\[
+\sum_{i=1}^{N} x_i \big(m x_i + \bar{y} - m \bar{x} - y_i\big) = 0
+\]</span></p>
+<p>Ahora despejamos <span class="math inline">\(m\)</span>:</p>
+<p><span class="math display">\[
+m = \dfrac{\sum_{i=1}^{N} x_i(y_i - \bar{y})}{\sum_{i=1}^{N} x_i(x_i - \bar{x})} \tag{A.5}
+\]</span></p>
+<p>Las ecuaciones <span class="math inline">\((A.4)\)</span> y <span class="math inline">\((A.5)\)</span> proporcionan los valores de <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span> de un punto crítico de la función <span class="math inline">\(f(m,b)\)</span>. Falta demostrar que ese punto crítico es un mínimo. Para ello se deben calcular las derivadas segundas (<span class="math inline">\(\dfrac{\partial}{\partial^2 m}\)</span>, <span class="math inline">\(\dfrac{\partial}{\partial^2 b}\)</span>, <span class="math inline">\(\dfrac{\partial}{\partial m \partial b}\)</span>) y ver que se cumplen los criterios necesarios.</p>
+
+
+</section>
+
+</font></main><font color="Black"> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./04_Fertilidad_mundial.html" class="pagination-link" aria-label="Análisis de la tasa de fertilidad total mundial">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análisis de la tasa de fertilidad total mundial</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</font></div><font color="Black"> <!-- /content -->
+
+
+
+
+</font></body></html>

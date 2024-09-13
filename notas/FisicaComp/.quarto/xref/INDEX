@@ -1,0 +1,38 @@
+{
+  "index.qmd": {
+    "index.html": "2bf8ccd3"
+  },
+  "01_AritmeticaDePuntoFlotante.ipynb": {
+    "01_AritmeticaDePuntoFlotante.html": "84073552"
+  },
+  "02_ejercicios_derivadas.ipynb": {
+    "02_ejercicios_derivadas.html": "4c426289"
+  },
+  "03_aproximacion_de_derivada.ipynb": {
+    "03_aproximacion_de_derivada.html": "bf2f625d"
+  },
+  "04_derivadas_numericas.ipynb": {
+    "04_derivadas_numericas.html": "55afe668"
+  },
+  "05_derivadas_numericas_aplicacion.ipynb": {
+    "05_derivadas_numericas_aplicacion.html": "998d8288"
+  },
+  "06_ForwardEuler.ipynb": {
+    "06_ForwardEuler.html": "553de470"
+  },
+  "07_BackwardEuler.ipynb": {
+    "07_BackwardEuler.html": "03fe41ae"
+  },
+  "08_Comparación_EulerFB.ipynb": {
+    "08_Comparación_EulerFB.html": "7b2b184f"
+  },
+  "09_Conduccion_estacionaria.ipynb": {
+    "09_Conduccion_estacionaria.html": "3d8cb819"
+  },
+  "10_Conduccion_NO_estacionaria.ipynb": {
+    "10_Conduccion_NO_estacionaria.html": "688c0a40"
+  },
+  "11_Conduccion_calor_solvers.ipynb": {
+    "11_Conduccion_calor_solvers.html": "2fba5a44"
+  }
+}

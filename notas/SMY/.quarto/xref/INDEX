@@ -1,0 +1,29 @@
+{
+  "index.qmd": {
+    "index.html": "b450b04a"
+  },
+  "01_Sol_Sist_Lineales_Intro.ipynb": {
+    "01_Sol_Sist_Lineales_Intro.html": "2cf56b31"
+  },
+  "02_Sol_Sis_Lin_Iter_1.ipynb": {
+    "02_Sol_Sis_Lin_Iter_1.html": "edc98411"
+  },
+  "03_Sol_Sis_Lin_Krylov.ipynb": {
+    "03_Sol_Sis_Lin_Krylov.html": "e1dd0942"
+  },
+  "04_Conduccion_estacionaria.ipynb": {
+    "04_Conduccion_estacionaria.html": "aff397c1"
+  },
+  "05_Conduccion_NO_estacionaria.ipynb": {
+    "05_Conduccion_NO_estacionaria.html": "6eb4a2ca"
+  },
+  "06_Conduccion_calor_solvers.ipynb": {
+    "06_Conduccion_calor_solvers.html": "623ef82f"
+  },
+  "07_Laplace_2D_Thomas.ipynb": {
+    "07_Laplace_2D_Thomas.html": "5961b558"
+  },
+  "08_Laplace_2D_SciPy.ipynb": {
+    "08_Laplace_2D_SciPy.html": "f25cd8dc"
+  }
+}
