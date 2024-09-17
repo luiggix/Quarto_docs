@@ -301,6 +301,8 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 
 * Te proporcionaremos mucho material para practicar, pues solo practicando es como se aprende un nuevo lenguaje.
 
+. . .
+
 **Notebooks**.
 
 ![](/figuras/macti_material_introPython.png){fig-align="center"  width=50% .lightbox}
@@ -317,3 +319,26 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 
 
 # <font style="font-size:100px; color:DarkSlateGray">¡¡Empecemos!!</font>
+
+## Tour por MACTI
+
+::::{.columns}
+:::{.column width="45%"}
+* Checar las cuentas en:
+  - MACTI
+  - GitHub
+  - ChatGPT
+* Moodle
+* IPython
+* JupyterLab
+:::
+:::{.column width="10%"}
+:::
+:::{.column width="45%"}
+* Terminal
+  - Git
+    + Clonar el repositorio
+    + Crear un repositorio local
+    + Sincronizar con GitHub
+:::
+::::
