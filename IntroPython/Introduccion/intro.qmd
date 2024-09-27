@@ -1,7 +1,7 @@
 ---
 title: "Presentación y encuadre"
 title-slide-attributes:
-  data-background-image: /figuras/python_image.jpg
+  data-background-image: ./figuras/python_image.jpg
   data-background-size: cover
   data-background-opacity: "0.10"
 subtitle: "Introducción a Python"
@@ -19,7 +19,7 @@ format:
     show-slide-number: all
     css: math.scss
     footer: "Presentación y encuadre [Introducción a Python]"
-    logo: /figuras/macti_R.png
+    logo: ./figuras/macti_R.png
 ---
 
 ## Objetivo del curso.{.scrollable}
@@ -258,17 +258,17 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 . . .
 
 ::: {layout-nrow=2 layout-ncol="3"}
-![MACTI main](/figuras/macti01.png){fig-align="left"  width=75% .lightbox}
+![MACTI main](./figuras/macti01.png){fig-align="left"  width=75% .lightbox}
 
-![MACTI menú](/figuras/macti02.png){fig-align="left"  width=75% .lightbox}
+![MACTI menú](./figuras/macti02.png){fig-align="left"  width=75% .lightbox}
 
-![MACTI IGEF](/figuras/macti03.png){fig-align="left"  width=75% .lightbox}
+![MACTI IGEF](./figuras/macti03.png){fig-align="left"  width=75% .lightbox}
 
-![MACTI Moodle](/figuras/macti_moodle_igf.png){fig-align="left"  width=75% .lightbox}
+![MACTI Moodle](./figuras/macti_moodle_igf.png){fig-align="left"  width=75% .lightbox}
 
-![MACTI Jupyterhub](/figuras/macti_jupyterhub_igf.png){fig-align="left"  width=75% .lightbox}
+![MACTI Jupyterhub](./figuras/macti_jupyterhub_igf.png){fig-align="left"  width=75% .lightbox}
 
-![MACTI Forgejo](/figuras/macti_forgejo.png){fig-align="left"  width=75% .lightbox}
+![MACTI Forgejo](./figuras/macti_forgejo.png){fig-align="left"  width=75% .lightbox}
 :::
 
 ## Diferenciadores 5. {.scrollable}
@@ -280,21 +280,21 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 **Evaluación formativa**.
 
 ::: {layout-nrow=2 layout-ncol="4"}
-![](/figuras/macti_evaluacion_01.png){fig-align="center"  width=50% .lightbox}
+![](./figuras/macti_evaluacion_01.png){fig-align="center"  width=50% .lightbox}
 
-![](/figuras/macti_evaluacion_02.png){fig-align="center"  width=50% .lightbox}
+![](./figuras/macti_evaluacion_02.png){fig-align="center"  width=50% .lightbox}
 
-![](/figuras/macti_evaluacion_03.png){fig-align="center"  width=50% .lightbox}
+![](./figuras/macti_evaluacion_03.png){fig-align="center"  width=50% .lightbox}
 
-![](/figuras/macti_evaluacion_04.png){fig-align="center"  width=50% .lightbox}
+![](./figuras/macti_evaluacion_04.png){fig-align="center"  width=50% .lightbox}
 
-![](/figuras/macti_evaluacion_05.png){fig-align="center"  width=50% .lightbox}
+![](./figuras/macti_evaluacion_05.png){fig-align="center"  width=50% .lightbox}
 
-![](/figuras/macti_evaluacion_06.png){fig-align="center"  width=50% .lightbox}
+![](./figuras/macti_evaluacion_06.png){fig-align="center"  width=50% .lightbox}
 
-![](/figuras/macti_evaluacion_07.png){fig-align="center"  width=50% .lightbox}
+![](./figuras/macti_evaluacion_07.png){fig-align="center"  width=50% .lightbox}
 
-![](/figuras/macti_evaluacion_08.png){fig-align="center"  width=50% .lightbox}
+![](./figuras/macti_evaluacion_08.png){fig-align="center"  width=50% .lightbox}
 :::
 
 ## Diferenciadores 6. {.scrollable}
@@ -305,7 +305,7 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 
 **Notebooks**.
 
-![](/figuras/macti_material_introPython.png){fig-align="center"  width=50% .lightbox}
+![](./figuras/macti_material_introPython.png){fig-align="center"  width=50% .lightbox}
 
 ## Diferenciadores 7. {.scrollable}
 
@@ -322,23 +322,13 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 
 ## Tour por MACTI
 
-::::{.columns}
-:::{.column width="45%"}
 * Checar las cuentas en:
   - MACTI
   - GitHub
   - ChatGPT
-* Moodle
-* IPython
-* JupyterLab
-:::
-:::{.column width="10%"}
-:::
-:::{.column width="45%"}
-* Terminal
-  - Git
-    + Clonar el repositorio
-    + Crear un repositorio local
-    + Sincronizar con GitHub
-:::
-::::
+  - Clonar el repositorio
+    ```{.bash code-line-numbers="false"}
+    git clone https://github.com/repomacti/introduccion_python.git
+    
+    ```
+  - Git y GitHub

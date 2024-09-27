@@ -1,26 +1,23 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="intro_files/libs/clipboard/clipboard.min.js"></script>
-<script src="intro_files/libs/quarto-html/tabby.min.js"></script>
-<script src="intro_files/libs/quarto-html/popper.min.js"></script>
-<script src="intro_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="intro_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="intro_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="intro_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="intro_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="intro_files/libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="intro_files/libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="intro_files/libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
+<script src="github_files/libs/clipboard/clipboard.min.js"></script>
+<script src="github_files/libs/quarto-html/tabby.min.js"></script>
+<script src="github_files/libs/quarto-html/popper.min.js"></script>
+<script src="github_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="github_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="github_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="github_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="github_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.551">
 
   <meta name="author" content="Luis Miguel de la Cruz Salas">
   <meta name="dcterms.date" content="2024-09-30">
-  <title>Presentación y encuadre</title>
+  <title>Sincronización con GitHub</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="intro_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="intro_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="github_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="github_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -99,12 +96,12 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="intro_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="github_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="math.scss">
-  <link href="intro_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="intro_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="intro_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="intro_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link href="github_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="github_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="github_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="github_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -396,7 +393,7 @@
     <div class="slides">
 
 <section id="title-slide" data-background-image="./figuras/python_image.jpg" data-background-opacity="0.10" data-background-size="cover" class="quarto-title-block center">
-  <h1 class="title">Presentación y encuadre</h1>
+  <h1 class="title">Sincronización con GitHub</h1>
   <p class="subtitle">Introducción a Python</p>
 
 <div class="quarto-title-authors">
@@ -412,452 +409,65 @@ Luis Miguel de la Cruz Salas
 
   <p class="date">2024-09-30</p>
 </section>
-<section id="objetivo-del-curso." class="slide level2 scrollable">
-<h2>Objetivo del curso.</h2>
-<p>Capacitar a los participantes en el uso de las <font color="DarkSlateGray"><b>herramientas básicas</b></font> del lenguaje de programación <font color="DarkSlateGray"><b>Python</b></font>.</p>
-<div class="fragment">
-<div class="columns">
-<div class="column" style="width:45%;">
-<font style="font-size:27px; color:DarkSlateGray">
-<ul>
-<li>
-Variables y objetos.
-</li>
-<li>
-Tipos básicos (numéricos y lógicos).
-</li>
-<li>
-Operadores.
-</li>
-<li>
-Conversión entre tipos.
-</li>
-<li>
-Expresiones y declaraciones.
-</li>
-<li>
-Control de flujo (<em>while, if, elif, else, for, break, continue, else, pass</em>).
-</li>
-</ul>
-</font><p><font style="font-size:27px; color:DarkSlateGray"></font></p>
-</div><div class="column" style="width:10%;">
-
-</div><div class="column" style="width:45%;">
-<font style="font-size:27px; color:DarkSlateGray">
-<ul>
-<li>
-Estructura de datos (<em>list, tuple, set, dict</em>).
-</li>
-<li>
-Recorriendo las secuencias.
-</li>
-<li>
-Un primer vistazo a las funciones.
-</li>
-<li>
-Importando bibliotecas (math, random, statistics).
-</li>
-<li>
-Depuración de código.
-</li>
-</ul>
-</font><p><font style="font-size:27px; color:DarkSlateGray"></font></p>
-</div>
-</div>
-</div>
-<div class="fragment">
-<ul>
-<li>Bonus: acelerando tu aprendizaje con IA Generativa.</li>
-</ul>
-</div>
+<section id="github." class="slide level2">
+<h2>GitHub.</h2>
 </section>
-<section id="diferenciadores-1." class="slide level2 scrollable">
-<h2>Diferenciadores 1.</h2>
-<p>Empezaremos con <font color="DarkSlateGray"><b>aplicaciones simples</b></font> y las resolveremos con los elementos del lenguaje.</p>
-<div class="fragment">
-<div class="columns">
-<p><strong>Por ejemplo:</strong></p><div class="column" style="width:50%;">
-<p><span class="math display">\[
-\begin{eqnarray}
-\text{peso} &amp; = &amp; 80 \;\; \text{kg} \\
-\text{estatura} &amp; = &amp; 1.78 \;\; \text{m}
-\end{eqnarray}
-\]</span></p>
-</div><div class="column" style="width:50%;">
-<p><span class="math display">\[
-\text{IMC} = \frac{\text{peso}}{\text{estatura}^2}
-\]</span></p>
-</div>
-</div>
-</div>
-<div class="fragment">
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Implementación:</strong></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>peso <span class="op">=</span> <span class="dv">80</span> <span class="co"># [kg]</span></span>
-<span id="cb1-2"><a href=""></a>estatura <span class="op">=</span> <span class="fl">1.78</span> <span class="co"># [m]</span></span>
-<span id="cb1-3"><a href=""></a></span>
-<span id="cb1-4"><a href=""></a>IMC <span class="op">=</span> peso <span class="op">/</span> estatura<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb1-5"><a href=""></a></span>
-<span id="cb1-6"><a href=""></a><span class="bu">print</span>(<span class="st">"IMC = "</span>, IMC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div><div class="column" style="width:50%;">
-<p><strong>Resultado:</strong></p>
-<pre><code>
-
-IMC =  25.24933720489837</code></pre>
-</div>
-</div>
-</div>
+<section id="agregar-llaves-ssh." class="slide level2">
+<h2>Agregar llaves SSH.</h2>
 </section>
-<section id="diferenciadores-2." class="slide level2 scrollable">
-<h2>Diferenciadores 2.</h2>
-<p>Los elementos del lenguaje los introduciremos <font color="DarkSlateGray"><b>conforme se vayan requiriendo</b></font>.</p>
-<div class="fragment">
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Por ejemplo:</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a>peso <span class="op">=</span> <span class="dv">80</span> <span class="co"># [kg]</span></span>
-<span id="cb3-2"><a href=""></a>estatura <span class="op">=</span> <span class="fl">1.78</span> <span class="co"># [m]</span></span>
-<span id="cb3-3"><a href=""></a></span>
-<span id="cb3-4"><a href=""></a>IMC <span class="op">=</span> peso <span class="op">/</span> estatura<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb3-5"><a href=""></a></span>
-<span id="cb3-6"><a href=""></a><span class="bu">print</span>(<span class="st">"IMC = "</span>, IMC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div><div class="column" style="width:50%;">
-<p><strong>Elementos importantes:</strong></p>
-<font style="font-size:30px; color:DarkSlateGray">
-<ul>
-<li>
-Variables.
-</li>
-<li>
-Tipos y Tipado dinámico.
-</li>
-<li>
-Operadores.
-</li>
-<li>
-Funciones incorporadas.
-</li>
-<li>
-Comentarios.
-</li>
-</ul>
-</font><p><font style="font-size:30px; color:DarkSlateGray"></font></p>
-</div>
-</div>
-</div>
+<section id="crear-un-repo-en-github" class="slide level2">
+<h2>Crear un repo en GitHub</h2>
 </section>
-<section id="diferenciadores-3." class="slide level2 scrollable">
-<h2>Diferenciadores 3.</h2>
-<ul>
-<li>Iremos desde un nivel básico hasta uno en donde los problemas tengan alguna aplicación real.</li>
-</ul>
-<div class="fragment">
-<div class="columns">
-<div class="column" style="width:35%;">
-<p><strong>Por ejemplo</strong>:</p>
-<p><font style="font-size:30px; color:DarkSlateGray"> Contar las palabras y letras del primer capítulo del libro “El ingenioso Hidalgo Don Quijote de la Mancha”. Contar las vocales y calcular su porcentaje de aparición con respecto del total. </font></p>
-</div><div class="column" style="width:2%;">
-
-</div><div class="column" style="width:63%;">
-<p><font style="font-size:20px; color:DarkSlateGray"> <strong>Capítulo primero. Que trata de la condición y ejercicio del famoso y valiente hidalgo don Quijote de la Mancha.</strong> En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero, adarga antigua, rocín flaco y galgo corredor. Una olla de algo más vaca que carnero, salpicón las más noches, duelos y quebrantos los sábados, lantejas los viernes, algún palomino de añadidura los domingos, consumían las tres partes de su hacienda. El resto della concluían sayo de velarte, calzas de velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de entresemana se honraba con su vellorí de lo más fino. … </font></p>
-</div>
-</div>
-</div>
-<div class="fragment">
-<p><strong>Implementación:</strong></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>archivo <span class="op">=</span> <span class="bu">open</span>(<span class="st">"Don_Quijote.txt"</span>)           <span class="co"># Archivo</span></span>
-<span id="cb4-2"><a href=""></a>total_palabras <span class="op">=</span> <span class="dv">0</span>                          <span class="co"># Número entero</span></span>
-<span id="cb4-3"><a href=""></a>total_letras <span class="op">=</span> <span class="dv">0</span>                            <span class="co"># Número entero</span></span>
-<span id="cb4-4"><a href=""></a>vocal <span class="op">=</span> {<span class="st">'a'</span>:<span class="dv">0</span>, <span class="st">'e'</span>:<span class="dv">0</span>, <span class="st">'i'</span>:<span class="dv">0</span>, <span class="st">'o'</span>:<span class="dv">0</span>, <span class="st">'u'</span>:<span class="dv">0</span>} <span class="co"># Diccionario</span></span>
-<span id="cb4-5"><a href=""></a>texto <span class="op">=</span> []                                  <span class="co"># Lista vacía</span></span>
-<span id="cb4-6"><a href=""></a></span>
-<span id="cb4-7"><a href=""></a><span class="co"># Lee línea por línea</span></span>
-<span id="cb4-8"><a href=""></a><span class="cf">for</span> línea <span class="kw">in</span> archivo:</span>
-<span id="cb4-9"><a href=""></a>    <span class="co"># Cuenta las palabras</span></span>
-<span id="cb4-10"><a href=""></a>    <span class="cf">for</span> palabra <span class="kw">in</span> línea.split():</span>
-<span id="cb4-11"><a href=""></a>        total_palabras <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb4-12"><a href=""></a>        <span class="co"># Cuenta las letras</span></span>
-<span id="cb4-13"><a href=""></a>        <span class="cf">for</span> letra <span class="kw">in</span> palabra:</span>
-<span id="cb4-14"><a href=""></a>            total_letras <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb4-15"><a href=""></a>            <span class="co"># Cuenta vocales</span></span>
-<span id="cb4-16"><a href=""></a>            vocal[<span class="st">'a'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'a'</span> <span class="cf">else</span> <span class="dv">0</span></span>
-<span id="cb4-17"><a href=""></a>            vocal[<span class="st">'e'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'e'</span> <span class="cf">else</span> <span class="dv">0</span></span>
-<span id="cb4-18"><a href=""></a>            vocal[<span class="st">'i'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'i'</span> <span class="cf">else</span> <span class="dv">0</span></span>
-<span id="cb4-19"><a href=""></a>            vocal[<span class="st">'o'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'o'</span> <span class="cf">else</span> <span class="dv">0</span></span>
-<span id="cb4-20"><a href=""></a>            vocal[<span class="st">'u'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'u'</span> <span class="cf">else</span> <span class="dv">0</span></span>
-<span id="cb4-21"><a href=""></a>    texto.append(línea)</span>
-<span id="cb4-22"><a href=""></a></span>
-<span id="cb4-23"><a href=""></a><span class="bu">print</span>(<span class="st">"-"</span><span class="op">*</span><span class="dv">40</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="sc">{:^40s}</span><span class="ch">\n</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Resultado"</span>) <span class="op">+</span> <span class="st">"-"</span><span class="op">*</span><span class="dv">40</span>)</span>
-<span id="cb4-24"><a href=""></a><span class="bu">print</span>(<span class="ss">f'Total palabras = </span><span class="sc">{</span>total_palabras<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb4-25"><a href=""></a><span class="bu">print</span>(<span class="ss">f'Total letras = </span><span class="sc">{</span>total_letras<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb4-26"><a href=""></a></span>
-<span id="cb4-27"><a href=""></a><span class="co"># Imprime el total de vocales y calcula el porcentaje</span></span>
-<span id="cb4-28"><a href=""></a>[<span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>vocal[k]<span class="sc">}</span><span class="ss">, (</span><span class="sc">{</span>vocal[k] <span class="op">/</span> total_letras<span class="sc">:5.3%}</span><span class="ss">)'</span>) <span class="cf">for</span> k <span class="kw">in</span> vocal]</span>
-<span id="cb4-29"><a href=""></a><span class="bu">print</span>(<span class="st">"-"</span><span class="op">*</span><span class="dv">40</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="sc">{:^40s}</span><span class="ch">\n</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Texto"</span>) <span class="op">+</span> <span class="st">"-"</span><span class="op">*</span><span class="dv">40</span>)</span>
-<span id="cb4-30"><a href=""></a><span class="co"># Imprime el texto</span></span>
-<span id="cb4-31"><a href=""></a>[<span class="bu">print</span>(línea, end<span class="op">=</span><span class="st">""</span>) <span class="cf">for</span> línea <span class="kw">in</span> texto]</span>
-<span id="cb4-32"><a href=""></a> </span>
-<span id="cb4-33"><a href=""></a>archivo.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="fragment">
-<p><strong>Resultado</strong>:</p>
-<pre><code>----------------------------------------
-               Resultado                
-----------------------------------------
-Total palabras = 919
-Total letras = 4239
-a = 524, (12.361%)
-e = 531, (12.527%)
-i = 180, (4.246%)
-o = 361, (8.516%)
-u = 184, (4.341%)
-----------------------------------------
-                 Texto                  
-----------------------------------------
-Capítulo primero
-
-Que trata de la condición y ejercicio del famoso y valiente hidalgo don Quijote de la Mancha
-
-En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo ...
-
-...
-
-Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, y aun a su sobrina de añadidura.
-</code></pre>
-</div>
+<section id="sincronizar-con-el-repo-local." class="slide level2">
+<h2>Sincronizar con el repo local.</h2>
 </section>
-<section id="diferenciadores-4." class="slide level2 scrollable">
-<h2>Diferenciadores 4.</h2>
-<ul>
-<li>De inicio no requieres instalar nada en tu computadora, pues haremos uso de la plataforma <font style="color:DarkSlateGray"><b>MACTI</b></font>.</li>
-</ul>
-<div class="fragment">
-<div class="quarto-layout-panel" data-layout-nrow="2" data-layout-ncol="3">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<p><a href="./figuras/macti01.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1" title="MACTI main"><img data-src="./figuras/macti01.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI main"></a></p>
-</figure>
-</div>
-<figcaption>MACTI main</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<p><a href="./figuras/macti02.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2" title="MACTI menú"><img data-src="./figuras/macti02.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI menú"></a></p>
-</figure>
-</div>
-<figcaption>MACTI menú</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<p><a href="./figuras/macti03.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3" title="MACTI IGEF"><img data-src="./figuras/macti03.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI IGEF"></a></p>
-</figure>
-</div>
-<figcaption>MACTI IGEF</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<p><a href="./figuras/macti_moodle_igf.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4" title="MACTI Moodle"><img data-src="./figuras/macti_moodle_igf.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI Moodle"></a></p>
-</figure>
-</div>
-<figcaption>MACTI Moodle</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<p><a href="./figuras/macti_jupyterhub_igf.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" data-glightbox="description: .lightbox-desc-5" title="MACTI Jupyterhub"><img data-src="./figuras/macti_jupyterhub_igf.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI Jupyterhub"></a></p>
-</figure>
-</div>
-<figcaption>MACTI Jupyterhub</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<p><a href="./figuras/macti_forgejo.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" data-glightbox="description: .lightbox-desc-6" title="MACTI Forgejo"><img data-src="./figuras/macti_forgejo.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI Forgejo"></a></p>
-</figure>
-</div>
-<figcaption>MACTI Forgejo</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="diferenciadores-5." class="slide level2 scrollable">
-<h2>Diferenciadores 5.</h2>
-<ul>
-<li>En esta plataforma podrás realizar algunos ejercicios, los cuales te darán retroalimentación inmediata cuando algo no salga correctamente.</li>
-</ul>
-<div class="fragment">
-<p><strong>Evaluación formativa</strong>.</p>
-<div class="quarto-layout-panel" data-layout-nrow="2" data-layout-ncol="4">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="./figuras/macti_evaluacion_01.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img data-src="./figuras/macti_evaluacion_01.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="./figuras/macti_evaluacion_02.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img data-src="./figuras/macti_evaluacion_02.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="./figuras/macti_evaluacion_03.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img data-src="./figuras/macti_evaluacion_03.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="./figuras/macti_evaluacion_04.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img data-src="./figuras/macti_evaluacion_04.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="./figuras/macti_evaluacion_05.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img data-src="./figuras/macti_evaluacion_05.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="./figuras/macti_evaluacion_06.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img data-src="./figuras/macti_evaluacion_06.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="./figuras/macti_evaluacion_07.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img data-src="./figuras/macti_evaluacion_07.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="./figuras/macti_evaluacion_08.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img data-src="./figuras/macti_evaluacion_08.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="diferenciadores-6." class="slide level2 scrollable">
-<h2>Diferenciadores 6.</h2>
-<ul>
-<li>Te proporcionaremos mucho material para practicar, pues solo practicando es como se aprende un nuevo lenguaje.</li>
-</ul>
-<div class="fragment">
-<p><strong>Notebooks</strong>.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="./figuras/macti_material_introPython.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img data-src="./figuras/macti_material_introPython.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
-</figure>
-</div>
-</div>
-</section>
-<section id="diferenciadores-7." class="slide level2 scrollable">
-<h2>Diferenciadores 7.</h2>
-<div>
-<ul>
-<li class="fragment"><p>Será un curso muy interactivo centrado en los participantes, el instructor será un facilitador que resolverá dudas e irá llevando el ritmo de cada clase.</p></li>
-<li class="fragment"><p>Haremos una breve introducción a <a href="https://git-scm.com/">Git</a> y <a href="https://github.com/">GitHub</a> para gestionar software.</p></li>
-<li class="fragment"><p>Al final del curso te diremos como instalar Python en tu computadora usando <a href="https://www.anaconda.com/download">Anaconda</a>.</p></li>
-</ul>
-</div>
-</section>
-<section>
-<section id="empecemos" class="title-slide slide level1 center">
-<h1><font style="font-size:100px; color:DarkSlateGray">¡¡Empecemos!!</font></h1>
-
-</section>
-<section id="tour-por-macti" class="slide level2">
-<h2>Tour por MACTI</h2>
-<ul>
-<li>Checar las cuentas en:
-<ul>
-<li><p>MACTI</p></li>
-<li><p>GitHub</p></li>
-<li><p>ChatGPT</p></li>
-<li><p>Clonar el repositorio</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/repomacti/introduccion_python.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p>Git y GitHub</p></li>
-</ul></li>
-</ul>
+<section id="en-resumen." class="slide level2 scrollable">
+<h2>En resumen.</h2>
+<ol type="1">
+<li>Cambiarse al directorio <code>proyecto</code>.</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> proyecto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li><p>Crear y/o modificar archivos del proyecto.</p></li>
+<li><p>Revisar el estado del repositorio.</p></li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Preparar los archivos (enviarlos al área de espera <em>staged</em>).</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Confirmar los cambios (<em>commit</em>).</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Un mensaje descriptivo"</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="6" type="1">
+<li>Subir los cambios a GitHub.</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-auto-generated-content">
 <p><img src="./figuras/macti_R.png" class="slide-logo"></p>
 <div class="footer footer-default">
-<p>Presentación y encuadre [Introducción a Python]</p>
+<p>GitHub [Introducción a Python]</p>
 </div>
 </div>
-<div class="hidden" aria-hidden="true">
-<span class="glightbox-desc lightbox-desc-1">MACTI main</span>
-<span class="glightbox-desc lightbox-desc-2">MACTI menú</span>
-<span class="glightbox-desc lightbox-desc-3">MACTI IGEF</span>
-<span class="glightbox-desc lightbox-desc-4">MACTI Moodle</span>
-<span class="glightbox-desc lightbox-desc-5">MACTI Jupyterhub</span>
-<span class="glightbox-desc lightbox-desc-6">MACTI Forgejo</span>
-</div>
-</section></section>
+</section>
     </div>
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="intro_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="github_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="intro_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="intro_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="intro_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="intro_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="intro_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="github_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="github_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="github_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="github_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="github_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="intro_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="intro_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="intro_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="intro_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="github_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="github_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="github_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="github_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -1227,31 +837,6 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"loop":false,"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom","descPosition":"bottom"});
-    window.onload = () => {
-      lightboxQuarto.on('slide_before_load', (data) => {
-        const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-        const href = trigger.getAttribute('href');
-        if (href !== null) {
-          const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-          if (imgEl !== null) {
-            const srcAttr = imgEl.getAttribute("src");
-            if (srcAttr && srcAttr.startsWith("data:")) {
-              slideConfig.href = srcAttr;
-            }
-          }
-        } 
-      });
-
-      lightboxQuarto.on('slide_after_load', (data) => {
-        const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(slideNode);
-        }
-      });
-
-    };
-              </script>
     
 
 </body></html>

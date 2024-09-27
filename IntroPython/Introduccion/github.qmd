@@ -1,0 +1,66 @@
+---
+title: "Sincronización con GitHub"
+title-slide-attributes:
+  data-background-image: ./figuras/python_image.jpg
+  data-background-size: cover
+  data-background-opacity: "0.10"
+subtitle: "Introducción a Python"
+author: "Luis Miguel de la Cruz Salas"
+institute: "Depto. de Recursos Naturales, IGEF-UNAM"
+date: "9/30/24"
+format:
+  revealjs:
+    incremental: false
+    theme: solarized_mod.scss
+    code-block-height: 250px
+    preview-links: true
+    transition: none
+    slide-number: c/t
+    show-slide-number: all
+    css: math.scss
+    footer: "GitHub [Introducción a Python]"
+    logo: ./figuras/macti_R.png
+---
+
+
+## GitHub.
+
+## Agregar llaves SSH.
+
+## Crear un repo en GitHub
+
+## Sincronizar con el repo local.
+
+## En resumen.{.scrollable}
+
+1. Cambiarse al directorio `proyecto`.
+
+```{.bash code-line-numbers="false"}
+cd proyecto
+```
+
+2. Crear y/o modificar archivos del proyecto.
+
+3. Revisar el estado del repositorio.
+
+```{.bash code-line-numbers="false"}
+git status
+```
+
+4. Preparar los archivos (enviarlos al área de espera *staged*).
+
+```{.bash code-line-numbers="false"}
+git add .
+```
+
+5. Confirmar los cambios (*commit*).
+
+```{.bash code-line-numbers="false"}
+git commit -m "Un mensaje descriptivo" 
+```
+
+6. Subir los cambios a GitHub.
+
+```{.bash code-line-numbers="false"}
+git push -u origin main
+```
