@@ -7,7 +7,9 @@
 <link href="github_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="github_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="github_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="github_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="github_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="github_files/libs/quarto-contrib/videojs/video.min.js"></script>
+<link href="github_files/libs/quarto-contrib/videojs/video-js.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.551">
 
   <meta name="author" content="Luis Miguel de la Cruz Salas">
@@ -409,41 +411,69 @@ Luis Miguel de la Cruz Salas
 
   <p class="date">2024-09-30</p>
 </section>
-<section id="github." class="slide level2">
+<section id="llave-pública-y-privada." class="slide level2 scrollable">
+<h2>Llave pública y privada.</h2>
+<p>En la ventana de comandos de JupyterLab teclea lo siguiente:</p>
+<ul>
+<li>Cambiarse al directorio raíz:</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Crear las llaves pública y privada:</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-keygen</span> <span class="at">-t</span> ed25519 <span class="at">-C</span> <span class="st">"tucorreo@mail.com"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Ojo</strong>. Debes poner tu correo electrónico al final.</p>
+<ul>
+<li>Tu llaves se crearon en el directorio <code>.ssh/</code>, para revisarlas teclea:</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> .ssh/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>total 32
+-rw------- 1 jovyan users  452 Jan 16  2024 id_ed25519
+-rw-r--r-- 1 jovyan users  128 Jan 16  2024 id_ed25519.pub
+jovyan@jupyter-luiggi-40igeofisica-2eunam-2emx:~$ </code></pre>
+<p>Tu llave pública tiene el nombre <code>id_ed25519.pub</code>.</p>
+<ul>
+<li>Para ver el contenido debes teclear:</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .ssh/id_ed25519.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>El resultado debe ser algo similar a lo siguiente:</p>
+<pre><code>ssh-ed25519 AAAAC3N ... jovyan@jupyter-luiggi-40igeofisica-2eunam-2emx</code></pre>
+<ul>
+<li>Esta llave pública es la que debes colocar en GitHub como se explica a continuación.</li>
+</ul>
+</section>
+<section id="github." class="slide level2 scrollable">
 <h2>GitHub.</h2>
-</section>
-<section id="agregar-llaves-ssh." class="slide level2">
-<h2>Agregar llaves SSH.</h2>
-</section>
-<section id="crear-un-repo-en-github" class="slide level2">
-<h2>Crear un repo en GitHub</h2>
-</section>
-<section id="sincronizar-con-el-repo-local." class="slide level2">
-<h2>Sincronizar con el repo local.</h2>
+<ul>
+<li><p>Agregar llaves SSH.</p></li>
+<li><p>Crear un repositorio en GitHub</p></li>
+<li><p>Sincronizar el repositorio en GitHub con el local.</p></li>
+</ul>
+<video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="github.mp4"></video>
 </section>
 <section id="en-resumen." class="slide level2 scrollable">
 <h2>En resumen.</h2>
 <ol type="1">
 <li>Cambiarse al directorio <code>proyecto</code>.</li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> proyecto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> proyecto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
 <li><p>Crear y/o modificar archivos del proyecto.</p></li>
 <li><p>Revisar el estado del repositorio.</p></li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="4" type="1">
 <li>Preparar los archivos (enviarlos al área de espera <em>staged</em>).</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="5" type="1">
 <li>Confirmar los cambios (<em>commit</em>).</li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Un mensaje descriptivo"</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Un mensaje descriptivo"</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="6" type="1">
 <li>Subir los cambios a GitHub.</li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-auto-generated-content">
 <p><img src="./figuras/macti_R.png" class="slide-logo"></p>
 <div class="footer footer-default">
@@ -837,6 +867,7 @@ Luis Miguel de la Cruz Salas
       }
     });
     </script>
+    <script>videojs(video_shortcode_videojs_video1);</script>
     
 
 </body></html>
