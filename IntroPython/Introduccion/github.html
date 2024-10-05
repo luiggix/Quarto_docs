@@ -9,7 +9,10 @@
 <link href="github_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="github_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="github_files/libs/quarto-contrib/videojs/video.min.js"></script>
-<link href="github_files/libs/quarto-contrib/videojs/video-js.css" rel="stylesheet"><meta charset="utf-8">
+<link href="github_files/libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
+<script src="github_files/libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="github_files/libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="github_files/libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.551">
 
   <meta name="author" content="Luis Miguel de la Cruz Salas">
@@ -411,8 +414,27 @@ Luis Miguel de la Cruz Salas
 
   <p class="date">2024-09-30</p>
 </section>
+<section id="github." class="slide level2 scrollable">
+<h2>GitHub.</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="./figuras/github_meme.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img data-src="./figuras/github_meme.jpg" class="quarto-figure quarto-figure-center" style="width:75.0%"></a></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>GitHub es una plataforma de desarrollo colaborativo en web en donde se alojan y se da seguimiento a proyectos usando el software Git.</li>
+<li>Tiene opciones gratuitas y de paga.</li>
+<li>Es administrado por Microsoft.</li>
+</ul>
+</div>
+</div>
+</section>
 <section id="llave-pública-y-privada." class="slide level2 scrollable">
 <h2>Llave pública y privada.</h2>
+<div class="fragment">
 <p>En la ventana de comandos de JupyterLab teclea lo siguiente:</p>
 <ul>
 <li>Cambiarse al directorio raíz:</li>
@@ -441,8 +463,9 @@ jovyan@jupyter-luiggi-40igeofisica-2eunam-2emx:~$ </code></pre>
 <ul>
 <li>Esta llave pública es la que debes colocar en GitHub como se explica a continuación.</li>
 </ul>
+</div>
 </section>
-<section id="github." class="slide level2 scrollable">
+<section id="github.-1" class="slide level2 scrollable">
 <h2>GitHub.</h2>
 <ul>
 <li><p>Agregar llaves SSH.</p></li>
@@ -868,6 +891,31 @@ jovyan@jupyter-luiggi-40igeofisica-2eunam-2emx:~$ </code></pre>
     });
     </script>
     <script>videojs(video_shortcode_videojs_video1);</script>
+    <script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","closeEffect":"zoom","loop":false,"openEffect":"zoom"});
+    window.onload = () => {
+      lightboxQuarto.on('slide_before_load', (data) => {
+        const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+        const href = trigger.getAttribute('href');
+        if (href !== null) {
+          const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+          if (imgEl !== null) {
+            const srcAttr = imgEl.getAttribute("src");
+            if (srcAttr && srcAttr.startsWith("data:")) {
+              slideConfig.href = srcAttr;
+            }
+          }
+        } 
+      });
+
+      lightboxQuarto.on('slide_after_load', (data) => {
+        const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(slideNode);
+        }
+      });
+
+    };
+              </script>
     
 
 </body></html>

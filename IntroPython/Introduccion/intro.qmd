@@ -318,6 +318,37 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 :::
 
 
+## Otros objetivos.{.scrollable}
+
+. . .
+
+![](./figuras/thinking_writing.jpg){fig-align="center"  width=75% .lightbox}
+
+![](./figuras/1st_rule_programming.jpg){fig-align="center"  width=50% .lightbox}
+
+![](./figuras/my_own_code.jpg){fig-align="center"  width=65% .lightbox}
+
+. . .
+
+::::{.columns}
+:::{.column width="50%"}
+![](./figuras/chat_gpt_add.jpg){fig-align="center"  width=85% .lightbox}
+:::
+:::{.column width="50%"}
+
+![](./figuras/AI_more_original_than_researchers.jpg){fig-align="center"  width=85% .lightbox}
+
+:::
+::::
+
+<font style="font-size:30px;">
+
+[Do AI models produce more original ideas than researchers?^[1]](https://www.nature.com/articles/d41586-024-03070-5)
+
+[1] [Si, C., Yang, D. & Hashimoto, T. Preprint at arXiv (2024)](https://doi.org/10.48550/arXiv.2409.04109).
+
+</font>
+
 # <font style="font-size:100px; color:DarkSlateGray">¡¡Empecemos!!</font>
 
 ## Tour por MACTI

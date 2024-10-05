@@ -22,7 +22,26 @@ format:
     logo: ./figuras/macti_R.png
 ---
 
+## GitHub. {.scrollable}
+
+::::{.columns}
+:::{.column width="50%"}
+
+![](./figuras/github_meme.jpg){fig-align="center"  width=75% .lightbox}
+
+:::
+:::{.column width="50%"}
+
+* GitHub es una plataforma de desarrollo colaborativo en web en donde se alojan y se da seguimiento a proyectos usando el software Git. 
+* Tiene opciones gratuitas y de paga.
+* Es administrado por Microsoft.
+
+:::
+::::
+
 ## Llave pública y privada.{.scrollable}
+
+. . . 
 
 En la ventana de comandos de JupyterLab teclea lo siguiente:
 

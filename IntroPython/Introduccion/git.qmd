@@ -47,6 +47,10 @@ format:
 :::
 ::::
 
+. . .
+
+![](./figuras/git_giving_clue.jpg){fig-align="center"  width=85% .lightbox}
+
 ## {.scrollable}
 
 * Git gestiona los documentos de un repositorio como un sistema de archivos miniatura.
