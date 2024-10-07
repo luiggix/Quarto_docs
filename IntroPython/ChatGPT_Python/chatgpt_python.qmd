@@ -1,0 +1,159 @@
+---
+title: "ChatGPT y Python"
+title-slide-attributes:
+  data-background-image: ./figuras/python_image.jpg
+  data-background-size: cover
+  data-background-opacity: "0.10"
+subtitle: "Introducción a Python"
+author: "Luis Miguel de la Cruz Salas"
+institute: "Depto. de Recursos Naturales, IGEF-UNAM"
+date: "7/10/24"
+format:
+  revealjs:
+    incremental: false
+    theme: solarized_mod.scss
+    code-block-height: 250px
+    preview-links: true
+    transition: none
+    slide-number: c/t
+    show-slide-number: all
+    css: math.scss
+    footer: "Gestión de versiones [Introducción a Python]"
+    logo: ./figuras/macti_R.png
+---
+
+
+## Motivación.{.scrollable}
+:::{.incremental}
+* Actualmente los LLMs (Large Language Models) han ganado mucho popularidad.
+* Particularmente ChatGPT es usado para muchas cosas entre ellas como una herramienta de aprendizaje.
+  - Puede ser útil como un mentor en el desarrollo de habilidades de programación.
+  - Pero, no puede construir soluciones de software sin que el usuario conozca acerca de programación.
+  - No te puede sustituir, pero te puede ayudar a mejorar tus códigos o entender por qué algo no funciona.
+:::
+
+## Inciando en ChatGPT.{.scrollable}
+
+![](./figuras/chatgpt01.png){fig-align="center"  width=80% .lightbox}
+
+Antes de comenzar, debes saber que el uso de ChatGPT como un mentor de aprendizaje puede tener efectos que pueden ser potencialmente negativos:
+
+**Dependencia excesiva**.
+
+* Confiar demasiado en ChatGPT para obtener respuestas puede obstaculizar tu propio aprendizaje. 
+* Recuerda que solo se aprende cuando piensas, te esfuerzas, comprendes y memorizas la información a la te enfrentas.
+
+**Precisión**.
+
+* Las respuestas de ChatGPT a menudo pueden ser inexactas o irrelevantes. 
+* ¡Necesitas verificar todas sus respuestas! De lo contrario, podrías aprender conceptos erróneos y malas prácticas.
+
+**Modelos**.
+
+El modelo gratuito más avanzado que proporciona OpenAI es **GPT-4o** (sucesor de GPT-3.5):
+
+* Provee una interacción más cercana a la humana.
+* Entiende mejor el contexto, la lógica y la objetividad, lo que genera mejores respuestas.
+* Reduce en 40% las respuestas sin sentido o erróneas con respecto a GPT-3.5.
+* Es hasta 9 veces más rápido que su predecesor (GPT-3.5).
+* El multimodal, puede procesar además de texto, audio e imágenes.
+
+## Flujo de trabajo. {.scrollable}
+
+* El flujo de trabajo clásico con ChatGPT es:
+  1. Realizas una petición en forma de pregunta en la interfaz de chat (Prompt).
+  
+  ![](./figuras/chatgpt02.png){fig-align="center"  width=50% .lightbox}
+
+  2. El modelo de lenguaje subyacente (GPT-4o), creará una respuesta que aparecerá en el chat. Esta respuesta puede estar formateada como tú la solicites.
+
+   ![](./figuras/chatgpt03.png){fig-align="center"  width=50% .lightbox}
+
+  3. Procesar la información.
+
+**Las respuestas no son deterministas, se basan en probabilidades, y pueden contener errores.**
+
+  ![](./figuras/chatgpt04.png){fig-align="center"  width=50% .lightbox}
+
+
+
+  4. Usar la información. 
+
+```{.bash code-line-numbers="false"}
+  Aquí tienes una tabla con algunas de las funciones incorporadas más comunes en Python, junto con un breve resumen de lo que hacen:
+
+| **Función**       | **Descripción**                                                                                                                                              |
+|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `abs()`           | Devuelve el valor absoluto de un número.                                                                                                                     |
+| `all()`           | Devuelve `True` si todos los elementos de un iterable son verdaderos (o si el iterable está vacío).                                                           |
+| `any()`           | Devuelve `True` si al menos uno de los elementos de un iterable es verdadero.                                                                                 |
+| `bin()`           | Convierte un número entero en su representación binaria como cadena.                                                                                          |
+| `bool()`          | Convierte un valor a booleano (`True` o `False`).                                                                                                             |
+| `bytes()`         | Convierte un objeto a una secuencia de bytes, o crea un objeto de bytes vacío.                                                                                |
+| `callable()`      | Devuelve `True` si el objeto pasado es invocable (llamable como una función).                                                                                 |
+| `chr()`           | Devuelve el carácter correspondiente al valor Unicode dado.                                                                                                  |
+| `dict()`          | Crea un nuevo diccionario.                                                                                                                                   |
+| `dir()`           | Devuelve una lista de los atributos y métodos de un objeto.                                                                                                   |
+| `divmod()`        | Devuelve el cociente y el resto de la división como una tupla.                                                                                                |
+| `enumerate()`     | Devuelve un objeto enumerado, que contiene índices y valores del iterable.                                                                                    |
+| `eval()`          | Evalúa una expresión de Python contenida en una cadena de texto y devuelve el resultado.                                                                      |
+| `filter()`        | Filtra los elementos de un iterable, devolviendo solo aquellos que cumplen con una función condicional.                                                       |
+| `float()`         | Convierte un valor a tipo `float` (número decimal).                                                                                                           |
+| `format()`        | Devuelve una cadena formateada de acuerdo con el formato especificado.                                                                                        |
+| `frozenset()`     | Devuelve un conjunto inmutable.                                                                                                                               |
+| `getattr()`       | Devuelve el valor de un atributo de un objeto, dado su nombre.                                                                                                |
+| `globals()`       | Devuelve un diccionario que contiene todas las variables globales actuales.                                                                                   |
+| `hasattr()`       | Devuelve `True` si un objeto tiene un atributo con el nombre especificado.                                                                                    |
+| `hash()`          | Devuelve el valor hash de un objeto (si es "hasheable").                                                                                                      |
+| `help()`          | Muestra la ayuda de una función, clase o módulo.                                                                                                              |
+| `hex()`           | Convierte un número en su representación hexadecimal.                                                                                                         |
+| `id()`            | Devuelve el identificador único de un objeto en Python.                                                                                                       |
+| `input()`         | Permite al usuario ingresar datos desde la consola.                                                                                                           |
+| `int()`           | Convierte un valor a entero (base 10 por defecto).                                                                                                            |
+| `isinstance()`    | Verifica si un objeto es una instancia de una clase o tipo especificado.                                                                                       |
+| `issubclass()`    | Verifica si una clase es una subclase de otra clase.                                                                                                          |
+| `iter()`          | Devuelve un iterador de un objeto iterable.                                                                                                                   |
+| `len()`           | Devuelve la longitud (número de elementos) de un objeto.                                                                                                      |
+| `list()`          | Crea una lista a partir de un iterable.                                                                                                                       |
+| `locals()`        | Devuelve un diccionario que contiene las variables locales actuales.                                                                                          |
+| `map()`           | Aplica una función a todos los elementos de un iterable y devuelve un iterador de los resultados.                                                             |
+| `max()`           | Devuelve el valor máximo de un iterable o de dos o más argumentos.                                                                                            |
+| `min()`           | Devuelve el valor mínimo de un iterable o de dos o más argumentos.                                                                                            |
+| `next()`          | Devuelve el siguiente elemento de un iterador.                                                                                                                |
+| `object()`        | Devuelve una nueva instancia de un objeto base.                                                                                                               |
+| `open()`          | Abre un archivo y devuelve un objeto de archivo.                                                                                                              |
+| `pow()`           | Devuelve el valor de un número elevado a la potencia de otro número (exponente).                                                                              |
+| `print()`         | Imprime los argumentos en la consola.                                                                                                                         |
+| `range()`         | Devuelve un objeto iterable que produce una secuencia de números.                                                                                             |
+| `repr()`          | Devuelve la representación string de un objeto (útil para debugging).                                                                                         |
+| `reversed()`      | Devuelve un iterador que recorre un iterable en sentido inverso.                                                                                              |
+| `round()`         | Redondea un número a un número específico de decimales.                                                                                                       |
+| `set()`           | Crea un conjunto (colección sin elementos duplicados).                                                                                                        |
+| `slice()`         | Crea un objeto slice (trozo) para ser utilizado en funciones como `list[i:j]`.                                                                                |
+| `sorted()`        | Devuelve una lista ordenada de los elementos de un iterable.                                                                                                  |
+| `str()`           | Convierte un valor en cadena de texto.                                                                                                                        |
+| `sum()`           | Suma todos los elementos de un iterable.                                                                                                                      |
+| `tuple()`         | Crea una tupla a partir de un iterable.                                                                                                                       |
+| `type()`          | Devuelve el tipo del objeto, o crea una nueva clase de objetos.                                                                                               |
+| `vars()`          | Devuelve el `__dict__` de un objeto, es decir, los atributos de un objeto en forma de diccionario.                                                            |
+| `zip()`           | Combina varios iterables, agrupando elementos en tuplas.                                                                                                      |
+
+Esta tabla cubre algunas de las funciones incorporadas más útiles en Python. ¡Espero que te sea útil!
+
+```
+
+## Prompt engineering. {.scrollable}
+
+* **Especificidad**. Debes ser muy claro y específico en las instrucciones.
+  - Las tareas o preguntas claras normalmente obtendrán mejores respuestas.
+  - Las indicaciones más largas y detalladas suelen producir mejores resultados.
+  - Los delimitadores pueden ayudar al modelo a separar secciones conceptuales de tu mensaje. 
+    * Por ejemplo, puedes rodear el código Python con comillas invertidas triples (```).
+
+* **Contexto**. Proporciona un contexto amplio sobre lo que estás tratando de lograr y cómo.
+  - Las indicaciones de roles pueden ayudarte a brindar un contexto inicial sobre cómo debe responder el modelo a indicaciones futuras.
+  - Las indicaciones de pocas tomas significan que está agregando ejemplos de su resultado esperado a su solicitud, lo que proporciona contexto sobre qué tipo de respuesta debe producir el modelo.
+    Razonamiento: indique al modelo que cree respuestas complejas de forma incremental en lugar de presionar para obtener respuestas inmediatas.
+        Detallar los pasos necesarios para completar la tarea ayuda al modelo a realizar correctamente tareas que de otro modo producirían resultados incorrectos.
+        Incluso sin detallar los pasos usted mismo, a menudo puede mejorar los resultados agregando una oración que le pida al modelo que aborde el desafío paso a paso.
+        Cuando le pida al modelo que evalúe si una entrada proporcionada es correcta, pídale al modelo que primero cree su propia solución antes de tomar una decisión.
