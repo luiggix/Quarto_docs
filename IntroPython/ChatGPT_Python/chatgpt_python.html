@@ -11,7 +11,7 @@
 <script src="chatgpt_python_files/libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="chatgpt_python_files/libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="chatgpt_python_files/libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.551">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="Luis Miguel de la Cruz Salas">
   <meta name="dcterms.date" content="2024-07-10">
@@ -416,12 +416,13 @@ Luis Miguel de la Cruz Salas
 <h2>Motivación.</h2>
 <div>
 <ul>
-<li class="fragment">Actualmente los LLMs (Large Language Models) han ganado mucho popularidad.</li>
-<li class="fragment">Particularmente ChatGPT es usado para muchas cosas entre ellas como una herramienta de aprendizaje.
+<li class="fragment">Actualmente los <a href="https://es.wikipedia.org/wiki/Modelo_extenso_de_lenguaje">LLMs</a> (Large Language Models) han ganado mucho popularidad.</li>
+<li class="fragment">El ejemplo más conocido es <a href="https://chatgpt.com/">ChatGPT</a>.
 <ul>
-<li class="fragment">Puede ser útil como un mentor en el desarrollo de habilidades de programación.</li>
-<li class="fragment">Pero, no puede construir soluciones de software sin que el usuario conozca acerca de programación.</li>
-<li class="fragment">No te puede sustituir, pero te puede ayudar a mejorar tus códigos o entender por qué algo no funciona.</li>
+<li class="fragment">Útil como una herramienta de aprendizaje.</li>
+<li class="fragment">Mentor en el desarrollo de habilidades de programación.</li>
+<li class="fragment"><strong>No puede construir soluciones de software sin que el usuario conozca acerca de programación</strong>.</li>
+<li class="fragment">No te puede sustituir, pero te ayuda a mejorar tus códigos o a entender por qué algo no funciona.</li>
 </ul></li>
 </ul>
 </div>
@@ -434,32 +435,36 @@ Luis Miguel de la Cruz Salas
 </figure>
 </div>
 <p>Antes de comenzar, debes saber que el uso de ChatGPT como un mentor de aprendizaje puede tener efectos que pueden ser potencialmente negativos:</p>
-<p><strong>Dependencia excesiva</strong>.</p>
+<div>
 <ul>
-<li>Confiar demasiado en ChatGPT para obtener respuestas puede obstaculizar tu propio aprendizaje.</li>
-<li>Recuerda que solo se aprende cuando piensas, te esfuerzas, comprendes y memorizas la información a la te enfrentas.</li>
-</ul>
-<p><strong>Precisión</strong>.</p>
+<li class="fragment"><strong>Dependencia excesiva</strong>.
 <ul>
-<li>Las respuestas de ChatGPT a menudo pueden ser inexactas o irrelevantes.</li>
-<li>¡Necesitas verificar todas sus respuestas! De lo contrario, podrías aprender conceptos erróneos y malas prácticas.</li>
+<li class="fragment">Confiar demasiado en ChatGPT para obtener respuestas puede obstaculizar tu propio aprendizaje.</li>
+<li class="fragment">Recuerda que solo se aprende cuando piensas, comprendes y confirmas la información.</li>
+</ul></li>
+<li class="fragment"><strong>Precisión</strong>.
+<ul>
+<li class="fragment">Las respuestas de ChatGPT a menudo pueden ser inexactas o irrelevantes.</li>
+<li class="fragment">¡Necesitas verificar todas sus respuestas! De lo contrario, podrías aprender conceptos erróneos y malas prácticas.</li>
+</ul></li>
 </ul>
 <p><strong>Modelos</strong>.</p>
 <p>El modelo gratuito más avanzado que proporciona OpenAI es <strong>GPT-4o</strong> (sucesor de GPT-3.5):</p>
 <ul>
-<li>Provee una interacción más cercana a la humana.</li>
-<li>Entiende mejor el contexto, la lógica y la objetividad, lo que genera mejores respuestas.</li>
-<li>Reduce en 40% las respuestas sin sentido o erróneas con respecto a GPT-3.5.</li>
-<li>Es hasta 9 veces más rápido que su predecesor (GPT-3.5).</li>
-<li>El multimodal, puede procesar además de texto, audio e imágenes.</li>
+<li class="fragment">Provee una interacción más cercana a la humana.</li>
+<li class="fragment">Entiende mejor el contexto, la lógica y la objetividad, lo que genera mejores respuestas.</li>
+<li class="fragment">Reduce en 40% las respuestas sin sentido o erróneas con respecto a GPT-3.5.</li>
+<li class="fragment">Es hasta 9 veces más rápido que su predecesor (GPT-3.5).</li>
+<li class="fragment">Es multimodal, puede procesar además de texto, audio e imágenes.</li>
 </ul>
+</div>
 </section>
 <section id="flujo-de-trabajo." class="slide level2 scrollable">
 <h2>Flujo de trabajo.</h2>
 <ul>
 <li><p>El flujo de trabajo clásico con ChatGPT es:</p>
 <ol type="1">
-<li>Realizas una petición en forma de pregunta en la interfaz de chat (Prompt).</li>
+<li>Realizas una petición en forma de pregunta en la interfaz del chat (Prompt).</li>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -546,6 +551,33 @@ Luis Miguel de la Cruz Salas
 <span id="cb1-57"><a href="" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="kw">`</span><span class="fu">zip()</span><span class="kw">`</span>           <span class="kw">|</span> <span class="ex">Combina</span> varios iterables, agrupando elementos en tuplas.                                                                                                      <span class="kw">|</span></span>
 <span id="cb1-58"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-59"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">Esta</span> tabla cubre algunas de las funciones incorporadas más útiles en Python. ¡Espero que te sea útil!</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="prompt-engineering." class="slide level2 scrollable">
+<h2>Prompt engineering.</h2>
+<ul>
+<li><strong>Escribir instrucciones claras y específicas</strong>.
+<ul>
+<li>Las tareas o preguntas claras normalmente obtendrán mejores respuestas.</li>
+<li>Las indicaciones más largas y detalladas suelen producir mejores resultados.</li>
+<li>Los delimitadores pueden ayudar al modelo a separar secciones conceptuales de tu mensaje.
+<ul>
+<li>Por ejemplo, puedes rodear el código Python con comillas invertidas triples (```).</li>
+</ul></li>
+</ul></li>
+<li><strong>Proporciona un contexto amplio</strong>.
+<ul>
+<li>Las indicaciones de roles pueden ayudarte a brindar un contexto inicial sobre cómo debe responder el modelo a indicaciones futuras.</li>
+<li>Las indicaciones de lo que esperas que responda y cómo esperas esas respuesta.</li>
+</ul></li>
+<li><strong>Dale tiempo al modelo para pensar</strong>.
+<ul>
+<li>Indica al modelo que cree respuestas complejas de forma incremental.</li>
+<li>Detalla los pasos necesarios para completar la tarea.</li>
+<li>Ayuda al modelo a realizar correctamente tareas.</li>
+<li>Pedirle al mode que realice el desafío paso a paso puede ayudar.</li>
+<li>Cuando le pidas al modelo que evalúe si una respuesta es correcta, pídele que primero cree su propia solución antes de tomar una decisión.</li>
+</ul></li>
+</ul>
 <div class="quarto-auto-generated-content">
 <p><img src="./figuras/macti_R.png" class="slide-logo"></p>
 <div class="footer footer-default">
@@ -839,24 +871,6 @@ Luis Miguel de la Cruz Salas
         // clear code selection
         e.clearSelection();
       });
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp('/' + window.location.host + '/');
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-        }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
-            }
-          }
-        }
       function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
@@ -893,11 +907,7 @@ Luis Miguel de la Cruz Salas
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
-          }
+          return note.innerHTML;
         });
       }
       const findCites = (el) => {
@@ -939,7 +949,7 @@ Luis Miguel de la Cruz Salas
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":false,"openEffect":"zoom"});
+    <script>var lightboxQuarto = GLightbox({"loop":false,"selector":".lightbox","descPosition":"bottom","closeEffect":"zoom","openEffect":"zoom"});
     window.onload = () => {
       lightboxQuarto.on('slide_before_load', (data) => {
         const { slideIndex, slideNode, slideConfig, player, trigger } = data;

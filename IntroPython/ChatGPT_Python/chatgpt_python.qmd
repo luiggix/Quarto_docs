@@ -25,11 +25,12 @@ format:
 
 ## Motivación.{.scrollable}
 :::{.incremental}
-* Actualmente los LLMs (Large Language Models) han ganado mucho popularidad.
-* Particularmente ChatGPT es usado para muchas cosas entre ellas como una herramienta de aprendizaje.
-  - Puede ser útil como un mentor en el desarrollo de habilidades de programación.
-  - Pero, no puede construir soluciones de software sin que el usuario conozca acerca de programación.
-  - No te puede sustituir, pero te puede ayudar a mejorar tus códigos o entender por qué algo no funciona.
+* Actualmente los [LLMs](https://es.wikipedia.org/wiki/Modelo_extenso_de_lenguaje) (Large Language Models) han ganado mucho popularidad.
+* El ejemplo más conocido es [ChatGPT](https://chatgpt.com/). 
+  - Útil como una herramienta de aprendizaje.
+  - Mentor en el desarrollo de habilidades de programación.
+  - **No puede construir soluciones de software sin que el usuario conozca acerca de programación**.
+  - No te puede sustituir, pero te ayuda a mejorar tus códigos o a entender por qué algo no funciona.
 :::
 
 ## Inciando en ChatGPT.{.scrollable}
@@ -38,15 +39,14 @@ format:
 
 Antes de comenzar, debes saber que el uso de ChatGPT como un mentor de aprendizaje puede tener efectos que pueden ser potencialmente negativos:
 
-**Dependencia excesiva**.
+:::{.incremental}
+* **Dependencia excesiva**.
+  - Confiar demasiado en ChatGPT para obtener respuestas puede obstaculizar tu propio aprendizaje. 
+  - Recuerda que solo se aprende cuando piensas, comprendes y confirmas la información.
 
-* Confiar demasiado en ChatGPT para obtener respuestas puede obstaculizar tu propio aprendizaje. 
-* Recuerda que solo se aprende cuando piensas, te esfuerzas, comprendes y memorizas la información a la te enfrentas.
-
-**Precisión**.
-
-* Las respuestas de ChatGPT a menudo pueden ser inexactas o irrelevantes. 
-* ¡Necesitas verificar todas sus respuestas! De lo contrario, podrías aprender conceptos erróneos y malas prácticas.
+* **Precisión**.
+  - Las respuestas de ChatGPT a menudo pueden ser inexactas o irrelevantes. 
+  - ¡Necesitas verificar todas sus respuestas! De lo contrario, podrías aprender conceptos erróneos y malas prácticas.
 
 **Modelos**.
 
@@ -56,12 +56,13 @@ El modelo gratuito más avanzado que proporciona OpenAI es **GPT-4o** (sucesor d
 * Entiende mejor el contexto, la lógica y la objetividad, lo que genera mejores respuestas.
 * Reduce en 40% las respuestas sin sentido o erróneas con respecto a GPT-3.5.
 * Es hasta 9 veces más rápido que su predecesor (GPT-3.5).
-* El multimodal, puede procesar además de texto, audio e imágenes.
+* Es multimodal, puede procesar además de texto, audio e imágenes.
+:::
 
 ## Flujo de trabajo. {.scrollable}
 
 * El flujo de trabajo clásico con ChatGPT es:
-  1. Realizas una petición en forma de pregunta en la interfaz de chat (Prompt).
+  1. Realizas una petición en forma de pregunta en la interfaz del chat (Prompt).
   
   ![](./figuras/chatgpt02.png){fig-align="center"  width=50% .lightbox}
 
@@ -144,16 +145,19 @@ Esta tabla cubre algunas de las funciones incorporadas más útiles en Python. �
 
 ## Prompt engineering. {.scrollable}
 
-* **Especificidad**. Debes ser muy claro y específico en las instrucciones.
+* **Escribir instrucciones claras y específicas**.
   - Las tareas o preguntas claras normalmente obtendrán mejores respuestas.
   - Las indicaciones más largas y detalladas suelen producir mejores resultados.
   - Los delimitadores pueden ayudar al modelo a separar secciones conceptuales de tu mensaje. 
     * Por ejemplo, puedes rodear el código Python con comillas invertidas triples (```).
 
-* **Contexto**. Proporciona un contexto amplio sobre lo que estás tratando de lograr y cómo.
+* **Proporciona un contexto amplio**.
   - Las indicaciones de roles pueden ayudarte a brindar un contexto inicial sobre cómo debe responder el modelo a indicaciones futuras.
-  - Las indicaciones de pocas tomas significan que está agregando ejemplos de su resultado esperado a su solicitud, lo que proporciona contexto sobre qué tipo de respuesta debe producir el modelo.
-    Razonamiento: indique al modelo que cree respuestas complejas de forma incremental en lugar de presionar para obtener respuestas inmediatas.
-        Detallar los pasos necesarios para completar la tarea ayuda al modelo a realizar correctamente tareas que de otro modo producirían resultados incorrectos.
-        Incluso sin detallar los pasos usted mismo, a menudo puede mejorar los resultados agregando una oración que le pida al modelo que aborde el desafío paso a paso.
-        Cuando le pida al modelo que evalúe si una entrada proporcionada es correcta, pídale al modelo que primero cree su propia solución antes de tomar una decisión.
+  - Las indicaciones de lo que esperas que responda y cómo esperas esas respuesta.
+
+* **Dale tiempo al modelo para pensar**.
+  - Indica al modelo que cree respuestas complejas de forma incremental.
+  - Detalla los pasos necesarios para completar la tarea.
+  - Ayuda al modelo a realizar correctamente tareas.
+  - Pedirle al mode que realice el desafío paso a paso puede ayudar.
+  - Cuando le pidas al modelo que evalúe si una respuesta es correcta, pídele que primero cree su propia solución antes de tomar una decisión.
