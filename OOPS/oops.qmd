@@ -8,8 +8,8 @@ format:
   revealjs:
     incremental: false
     theme: serif_oops.scss
-    code-block-height: 250px
-    preview-links: true
+    code-block-height: 550px
+    preview-links: false
     transition: none
     slide-number: h/v
     show-slide-number: all
@@ -21,22 +21,178 @@ format:
 ## Contenido.{.scrollable}
 
 ::::{.incremental}
-* <font color="FireBrick"><b>H</b></font>: Historia y características de la POO
-* <font color="SeaGreen"><b>E</b></font>: Ejemplos de la POO en Ciencia.
-* <font color="RoyalBlue"><b>R</b></font>: Recomendaciones.
+* <font color="FireBrick"><b>Historia</b></font>  y características de la POO
+* <font color="SeaGreen"><b>Ejemplos</b></font> de la POO en Ciencia.
+* <font color="DarkBlue"><b>Recomendaciones</b></font> de uso.
 :::
 
 # <font color="FireBrick"><b>Historia</b></font>
 
-* Hello
+## Why OOPS?{.scrollable}
 
-## Mi primer acercamiento
+::: {layout-nrow=1 layout-ncol="2"}
+![Cálculo Diferencial, ESFM-IPN, IMB PC 5150, Microsoft BASIC](./figuras/esfm_ipn.jpg){fig-align="center"  width=100% .lightbox}
 
-* World
+![Mecánica Clásica, FC-UNAM, APPLE II, AppleSoft BASIC](./figuras/prometeo.jpg){fig-align="center"  width=100% .lightbox}
+:::
 
-## Slide 1.2
+::::{.columns}
+:::{.column width="60%"}
+<font style="font-size:30px;">
 
-* where
+* **BASIC** (*Beginners' All-purpose Symbolic Instruction Code*), por J.G. Kemeny y T.E. Kurtz, Dartmouth College, **1963**.
+  - Objetivo: proporcionar una herraminta para estudiantes de áreas no científicas.
+  - Se popularizó en los años 70. 
+  - Múltiples dialectos: Microsoft BASIC y Applesoft BASIC. 
+  - Declinó en los 90 por la aparición de C y Pascal.
+
+</font>
+
+:::
+:::{.column width="40%"}
+
+```{.basic}
+10 INPUT "What is your name: "; U$
+20 PRINT "Hello "; U$
+30 INPUT "How many stars do you want: "; N
+40 S$ = ""
+50 FOR I = 1 TO N
+60 S$ = S$ + "*"
+70 NEXT I
+80 PRINT S$
+90 INPUT "Do you want more stars? "; A$
+100 IF LEN(A$) = 0 THEN GOTO 90
+110 A$ = LEFT$(A$, 1)
+120 IF A$ = "Y" OR A$ = "y" THEN GOTO 30
+130 PRINT "Goodbye "; U$
+140 END
+```
+:::
+::::
+
+::::{.columns}
+:::{.column width="60%"}
+<font style="font-size:30px;">
+
+* **Turbo Pascal**, por Anders Hejlsberg en la compañía [Borland](https://en.wikipedia.org/wiki/Borland).
+  - Software que incluía un compilador y un IDE(Integrated Development Environment). 
+  - Luego apareció Turbo C, haciendo a Borland una compañía lider.
+
+![Turbo Pascal](./figuras/Turbo_Pascal_7.jpg){fig-align="center"  width=75% .lightbox}
+
+</font>
+
+:::
+:::{.column width="40%"}
+
+```{.pascal}
+program HelloWorld;
+begin
+  WriteLn('Hello World');
+end.
+```
+
+<br>
+
+```{.pascal}
+program exProcedure;
+var
+   a, b, c,  min: integer;
+
+procedure findMin(x, y, z: integer; var m: integer); 
+begin
+   if x < y then
+      m:= x
+   else
+      m:= y;
+   
+   if z < m then
+      m:= z;
+end; { end of procedure findMin }  
+
+begin
+   writeln(' Enter three numbers: ');
+   readln( a, b, c);
+   findMin(a, b, c, min); (* Procedure call *)
+   
+   writeln(' Minimum: ', min);
+end.
+```
+:::
+::::
+
+
+
+## Supercómputo en la UNAM.
+
+::: {layout-nrow=1 layout-ncol="2"}
+![Cálculo Diferencial, ESFM-IPN, IMB PC 5150, Microsoft BASIC](./figuras/esfm_ipn.jpg){fig-align="center"  width=100% .lightbox}
+
+![Mecánica Clásica, FC-UNAM, APPLE II, AppleSoft BASIC](./figuras/prometeo.jpg){fig-align="center"  width=100% .lightbox}
+:::
+
+## Simula
+
+::::{.columns}
+:::{.column width="60%"}
+
+<font style="font-size:30px;">
+
+* **Simula I** (1962) desarrollado en el [Norwegian Computing Center](https://nr.no/en/) de Oslo, Noruega, por **Ole-Johan Dahl** y **Kristen Nygaard**.
+
+  - Orientado a la simulación de sistemas.
+  
+  - Basado en ALGOL 60. 
+  
+  - Introdujo conceptos innovadores: **objetos**, **clases**, **subclases** y **procedimientos virtuales**.
+
+* **Simula 67** de propósito general.
+  - Influyó en el desarrollo de otros lenguajes OO como **C++**, **Smalltalk** y **Objective-C**.
+
+
+</font>
+
+:::
+:::{.column width="40%"}
+
+```{.simula}
+BEGIN
+  CLASS Machine {
+    busy: BOOLEAN;
+    productionTime: REAL;
+  }
+  
+  CLASS Material {
+    quantity: INTEGER;
+  }
+  
+  PROCEDURE produce() {
+    machine := NEW Machine;
+    machine.busy := TRUE;
+    // ...
+  }
+  
+  PROCEDURE consumeMaterial() {
+    material := NEW Material;
+    material.quantity := 10;
+    // ...
+  }
+  
+  MAIN {
+    // Simulate 5 machines producing for 10 hours
+    FOR i := 1 TO 5 {
+      produce();
+    }
+    // Simulate material consumption
+    FOR i := 1 TO 10 {
+      consumeMaterial();
+    }
+  }
+END
+```
+:::
+::::
+
 
 # <font color="SeaGreen"><b>Ejemplos</b></font>
 
@@ -51,7 +207,7 @@ format:
 * you
 
 
-# <font color="RoyalBlue"><b>Recomendaciones</b></font>
+# <font color="DarkBlue"><b>Recomendaciones</b></font>
 
 ## H. {.scrollable}
 

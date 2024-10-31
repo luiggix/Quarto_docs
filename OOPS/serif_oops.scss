@@ -19,7 +19,7 @@ $presentation-heading-color: #383d3d !default;
 $presentation-heading-text-shadow: none !default;
 $presentation-heading-text-transform: none !default;
 $body-bg: #f0f1eb !default;
-$link-color: #51483d !default;
+$link-color: #256dea !default;
 $selection-bg: #26351c !default;
 
 $overlayElementBgColor: 0, 0, 0 !default;
@@ -28,10 +28,17 @@ $overlayElementFgColor: 240, 240, 240 !default;
 // Change text colors against dark slide backgrounds
 $dark-bg-text-color: #fff !default;
 
+$code-block-bg: #dde0e1 !default;
+$code-block-bg-alpha: -.8;
+
 /*-- scss:rules --*/
 
 .reveal a {
   line-height: 1.3em;
+}
+
+.reveal code {
+  font-size: 0.80em !important;
 }
 
 /*-- scss:mixins --*/

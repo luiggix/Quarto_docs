@@ -416,30 +416,177 @@ Luis Miguel de la Cruz Salas
 <h2>Contenido.</h2>
 <div>
 <ul>
-<li class="fragment"><font color="FireBrick"><b>H</b></font>: Historia y características de la POO</li>
-<li class="fragment"><font color="SeaGreen"><b>E</b></font>: Ejemplos de la POO en Ciencia.</li>
-<li class="fragment"><font color="RoyalBlue"><b>R</b></font>: Recomendaciones.</li>
+<li class="fragment"><font color="FireBrick"><b>Historia</b></font> y características de la POO</li>
+<li class="fragment"><font color="SeaGreen"><b>Ejemplos</b></font> de la POO en Ciencia.</li>
+<li class="fragment"><font color="DarkBlue"><b>Recomendaciones</b></font> de uso.</li>
 </ul>
 </div>
 </section>
 <section>
 <section id="historia" class="title-slide slide level1 center">
 <h1><font color="FireBrick"><b>Historia</b></font></h1>
-<ul>
-<li>Hello</li>
-</ul>
+
 </section>
-<section id="mi-primer-acercamiento" class="slide level2">
-<h2>Mi primer acercamiento</h2>
+<section id="why-oops" class="slide level2 scrollable">
+<h2>Why OOPS?</h2>
+<div class="quarto-layout-panel" data-layout-nrow="1" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="./figuras/esfm_ipn.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1" title="Cálculo Diferencial, ESFM-IPN, IMB PC 5150, Microsoft BASIC"><img data-src="./figuras/esfm_ipn.jpg" class="quarto-figure quarto-figure-center" style="width:100.0%" alt="Cálculo Diferencial, ESFM-IPN, IMB PC 5150, Microsoft BASIC"></a></p>
+<figcaption>Cálculo Diferencial, ESFM-IPN, IMB PC 5150, Microsoft BASIC</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="./figuras/prometeo.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2" title="Mecánica Clásica, FC-UNAM, APPLE II, AppleSoft BASIC"><img data-src="./figuras/prometeo.jpg" class="quarto-figure quarto-figure-center" style="width:100.0%" alt="Mecánica Clásica, FC-UNAM, APPLE II, AppleSoft BASIC"></a></p>
+<figcaption>Mecánica Clásica, FC-UNAM, APPLE II, AppleSoft BASIC</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><font style="font-size:30px;"></font></p><font style="font-size:30px;">
 <ul>
-<li>World</li>
+<li><strong>BASIC</strong> (<em>Beginners’ All-purpose Symbolic Instruction Code</em>), por J.G. Kemeny y T.E. Kurtz, Dartmouth College, <strong>1963</strong>.
+<ul>
+<li>Objetivo: proporcionar una herraminta para estudiantes de áreas no científicas.</li>
+<li>Se popularizó en los años 70.</li>
+<li>Múltiples dialectos: Microsoft BASIC y Applesoft BASIC.</li>
+<li>Declinó en los 90 por la aparición de C y Pascal.</li>
+</ul></li>
 </ul>
+</font><p><font style="font-size:30px;"></font></p>
+</div><div class="column" style="width:40%;">
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource basic number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href=""></a>10 INPUT "What is your name: "; U$</span>
+<span id="cb1-2"><a href=""></a>20 PRINT "Hello "; U$</span>
+<span id="cb1-3"><a href=""></a>30 INPUT "How many stars do you want: "; N</span>
+<span id="cb1-4"><a href=""></a>40 S$ = ""</span>
+<span id="cb1-5"><a href=""></a>50 FOR I = 1 TO N</span>
+<span id="cb1-6"><a href=""></a>60 S$ = S$ + "*"</span>
+<span id="cb1-7"><a href=""></a>70 NEXT I</span>
+<span id="cb1-8"><a href=""></a>80 PRINT S$</span>
+<span id="cb1-9"><a href=""></a>90 INPUT "Do you want more stars? "; A$</span>
+<span id="cb1-10"><a href=""></a>100 IF LEN(A$) = 0 THEN GOTO 90</span>
+<span id="cb1-11"><a href=""></a>110 A$ = LEFT$(A$, 1)</span>
+<span id="cb1-12"><a href=""></a>120 IF A$ = "Y" OR A$ = "y" THEN GOTO 30</span>
+<span id="cb1-13"><a href=""></a>130 PRINT "Goodbye "; U$</span>
+<span id="cb1-14"><a href=""></a>140 END</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><font style="font-size:30px;"></font></p><font style="font-size:30px;">
+<ul>
+<li><strong>Turbo Pascal</strong>, por Anders Hejlsberg en la compañía <a href="https://en.wikipedia.org/wiki/Borland">Borland</a>.
+<ul>
+<li>Software que incluía un compilador y un IDE(Integrated Development Environment).</li>
+<li>Luego apareció Turbo C, haciendo a Borland una compañía lider.</li>
+</ul></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="./figuras/Turbo_Pascal_7.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3" title="Turbo Pascal"><img data-src="./figuras/Turbo_Pascal_7.jpg" class="quarto-figure quarto-figure-center" style="width:75.0%" alt="Turbo Pascal"></a></p>
+<figcaption>Turbo Pascal</figcaption>
+</figure>
+</div>
+</font><p><font style="font-size:30px;"></font></p>
+</div><div class="column" style="width:40%;">
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource pascal number-lines code-with-copy"><code class="sourceCode pascal"><span id="cb2-1"><a href=""></a><span class="kw">program</span> HelloWorld;</span>
+<span id="cb2-2"><a href=""></a><span class="kw">begin</span></span>
+<span id="cb2-3"><a href=""></a>  WriteLn(<span class="st">'Hello World'</span>);</span>
+<span id="cb2-4"><a href=""></a><span class="kw">end</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource pascal number-lines code-with-copy"><code class="sourceCode pascal"><span id="cb3-1"><a href=""></a><span class="kw">program</span> exProcedure;</span>
+<span id="cb3-2"><a href=""></a><span class="kw">var</span></span>
+<span id="cb3-3"><a href=""></a>   a, b, c,  min: <span class="dt">integer</span>;</span>
+<span id="cb3-4"><a href=""></a></span>
+<span id="cb3-5"><a href=""></a><span class="kw">procedure</span> findMin(x, y, z: <span class="dt">integer</span>; <span class="kw">var</span> m: <span class="dt">integer</span>); </span>
+<span id="cb3-6"><a href=""></a><span class="kw">begin</span></span>
+<span id="cb3-7"><a href=""></a>   <span class="kw">if</span> x &lt; y <span class="kw">then</span></span>
+<span id="cb3-8"><a href=""></a>      m:= x</span>
+<span id="cb3-9"><a href=""></a>   <span class="kw">else</span></span>
+<span id="cb3-10"><a href=""></a>      m:= y;</span>
+<span id="cb3-11"><a href=""></a>   </span>
+<span id="cb3-12"><a href=""></a>   <span class="kw">if</span> z &lt; m <span class="kw">then</span></span>
+<span id="cb3-13"><a href=""></a>      m:= z;</span>
+<span id="cb3-14"><a href=""></a><span class="kw">end</span>; <span class="co">{ end of procedure findMin }</span>  </span>
+<span id="cb3-15"><a href=""></a></span>
+<span id="cb3-16"><a href=""></a><span class="kw">begin</span></span>
+<span id="cb3-17"><a href=""></a>   writeln(<span class="st">' Enter three numbers: '</span>);</span>
+<span id="cb3-18"><a href=""></a>   readln( a, b, c);</span>
+<span id="cb3-19"><a href=""></a>   findMin(a, b, c, min); <span class="co">(* Procedure call *)</span></span>
+<span id="cb3-20"><a href=""></a>   </span>
+<span id="cb3-21"><a href=""></a>   writeln(<span class="st">' Minimum: '</span>, min);</span>
+<span id="cb3-22"><a href=""></a><span class="kw">end</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </section>
-<section id="slide-1.2" class="slide level2">
-<h2>Slide 1.2</h2>
+<section id="supercómputo-en-la-unam." class="slide level2">
+<h2>Supercómputo en la UNAM.</h2>
 <ul>
 <li>where</li>
 </ul>
+</section>
+<section id="simula" class="slide level2">
+<h2>Simula</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><font style="font-size:30px;"></font></p><font style="font-size:30px;">
+<ul>
+<li><p><strong>Simula I</strong> (1962) desarrollado en el <a href="https://nr.no/en/">Norwegian Computing Center</a> de Oslo, Noruega, por <strong>Ole-Johan Dahl</strong> y <strong>Kristen Nygaard</strong>.</p>
+<ul>
+<li><p>Orientado a la simulación de sistemas.</p></li>
+<li><p>Basado en ALGOL 60.</p></li>
+<li><p>Introdujo conceptos innovadores: <strong>objetos</strong>, <strong>clases</strong>, <strong>subclases</strong> y <strong>procedimientos virtuales</strong>.</p></li>
+</ul></li>
+<li><p><strong>Simula 67</strong> de propósito general.</p>
+<ul>
+<li>Influyó en el desarrollo de otros lenguajes OO como <strong>C++</strong>, <strong>Smalltalk</strong> y <strong>Objective-C</strong>.</li>
+</ul></li>
+</ul>
+</font><p><font style="font-size:30px;"></font></p>
+</div><div class="column" style="width:40%;">
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource simula number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href=""></a>BEGIN</span>
+<span id="cb4-2"><a href=""></a>  CLASS Machine {</span>
+<span id="cb4-3"><a href=""></a>    busy: BOOLEAN;</span>
+<span id="cb4-4"><a href=""></a>    productionTime: REAL;</span>
+<span id="cb4-5"><a href=""></a>  }</span>
+<span id="cb4-6"><a href=""></a>  </span>
+<span id="cb4-7"><a href=""></a>  CLASS Material {</span>
+<span id="cb4-8"><a href=""></a>    quantity: INTEGER;</span>
+<span id="cb4-9"><a href=""></a>  }</span>
+<span id="cb4-10"><a href=""></a>  </span>
+<span id="cb4-11"><a href=""></a>  PROCEDURE produce() {</span>
+<span id="cb4-12"><a href=""></a>    machine := NEW Machine;</span>
+<span id="cb4-13"><a href=""></a>    machine.busy := TRUE;</span>
+<span id="cb4-14"><a href=""></a>    // ...</span>
+<span id="cb4-15"><a href=""></a>  }</span>
+<span id="cb4-16"><a href=""></a>  </span>
+<span id="cb4-17"><a href=""></a>  PROCEDURE consumeMaterial() {</span>
+<span id="cb4-18"><a href=""></a>    material := NEW Material;</span>
+<span id="cb4-19"><a href=""></a>    material.quantity := 10;</span>
+<span id="cb4-20"><a href=""></a>    // ...</span>
+<span id="cb4-21"><a href=""></a>  }</span>
+<span id="cb4-22"><a href=""></a>  </span>
+<span id="cb4-23"><a href=""></a>  MAIN {</span>
+<span id="cb4-24"><a href=""></a>    // Simulate 5 machines producing for 10 hours</span>
+<span id="cb4-25"><a href=""></a>    FOR i := 1 TO 5 {</span>
+<span id="cb4-26"><a href=""></a>      produce();</span>
+<span id="cb4-27"><a href=""></a>    }</span>
+<span id="cb4-28"><a href=""></a>    // Simulate material consumption</span>
+<span id="cb4-29"><a href=""></a>    FOR i := 1 TO 10 {</span>
+<span id="cb4-30"><a href=""></a>      consumeMaterial();</span>
+<span id="cb4-31"><a href=""></a>    }</span>
+<span id="cb4-32"><a href=""></a>  }</span>
+<span id="cb4-33"><a href=""></a>END</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </section></section>
 <section>
 <section id="ejemplos" class="title-slide slide level1 center">
@@ -462,7 +609,7 @@ Luis Miguel de la Cruz Salas
 </section></section>
 <section>
 <section id="recomendaciones" class="title-slide slide level1 center">
-<h1><font color="RoyalBlue"><b>Recomendaciones</b></font></h1>
+<h1><font color="DarkBlue"><b>Recomendaciones</b></font></h1>
 
 </section>
 <section id="h." class="slide level2 scrollable">
@@ -488,12 +635,12 @@ Luis Miguel de la Cruz Salas
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><strong>Implementación:</strong></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>peso <span class="op">=</span> <span class="dv">80</span> <span class="co"># [kg]</span></span>
-<span id="cb1-2"><a href=""></a>estatura <span class="op">=</span> <span class="fl">1.78</span> <span class="co"># [m]</span></span>
-<span id="cb1-3"><a href=""></a></span>
-<span id="cb1-4"><a href=""></a>IMC <span class="op">=</span> peso <span class="op">/</span> estatura<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb1-5"><a href=""></a></span>
-<span id="cb1-6"><a href=""></a><span class="bu">print</span>(<span class="st">"IMC = "</span>, IMC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a>peso <span class="op">=</span> <span class="dv">80</span> <span class="co"># [kg]</span></span>
+<span id="cb5-2"><a href=""></a>estatura <span class="op">=</span> <span class="fl">1.78</span> <span class="co"># [m]</span></span>
+<span id="cb5-3"><a href=""></a></span>
+<span id="cb5-4"><a href=""></a>IMC <span class="op">=</span> peso <span class="op">/</span> estatura<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb5-5"><a href=""></a></span>
+<span id="cb5-6"><a href=""></a><span class="bu">print</span>(<span class="st">"IMC = "</span>, IMC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column" style="width:50%;">
 <p><strong>Resultado:</strong></p>
 <pre><code>
@@ -510,12 +657,12 @@ IMC =  25.24933720489837</code></pre>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><strong>Por ejemplo:</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a>peso <span class="op">=</span> <span class="dv">80</span> <span class="co"># [kg]</span></span>
-<span id="cb3-2"><a href=""></a>estatura <span class="op">=</span> <span class="fl">1.78</span> <span class="co"># [m]</span></span>
-<span id="cb3-3"><a href=""></a></span>
-<span id="cb3-4"><a href=""></a>IMC <span class="op">=</span> peso <span class="op">/</span> estatura<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb3-5"><a href=""></a></span>
-<span id="cb3-6"><a href=""></a><span class="bu">print</span>(<span class="st">"IMC = "</span>, IMC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a>peso <span class="op">=</span> <span class="dv">80</span> <span class="co"># [kg]</span></span>
+<span id="cb7-2"><a href=""></a>estatura <span class="op">=</span> <span class="fl">1.78</span> <span class="co"># [m]</span></span>
+<span id="cb7-3"><a href=""></a></span>
+<span id="cb7-4"><a href=""></a>IMC <span class="op">=</span> peso <span class="op">/</span> estatura<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb7-5"><a href=""></a></span>
+<span id="cb7-6"><a href=""></a><span class="bu">print</span>(<span class="st">"IMC = "</span>, IMC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column" style="width:50%;">
 <p><strong>Elementos importantes:</strong></p>
 <font style="font-size:30px; color:DarkSlateGray">
@@ -560,39 +707,39 @@ Comentarios.
 </div>
 <div class="fragment">
 <p><strong>Implementación:</strong></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>archivo <span class="op">=</span> <span class="bu">open</span>(<span class="st">"Don_Quijote.txt"</span>)           <span class="co"># Archivo</span></span>
-<span id="cb4-2"><a href=""></a>total_palabras <span class="op">=</span> <span class="dv">0</span>                          <span class="co"># Número entero</span></span>
-<span id="cb4-3"><a href=""></a>total_letras <span class="op">=</span> <span class="dv">0</span>                            <span class="co"># Número entero</span></span>
-<span id="cb4-4"><a href=""></a>vocal <span class="op">=</span> {<span class="st">'a'</span>:<span class="dv">0</span>, <span class="st">'e'</span>:<span class="dv">0</span>, <span class="st">'i'</span>:<span class="dv">0</span>, <span class="st">'o'</span>:<span class="dv">0</span>, <span class="st">'u'</span>:<span class="dv">0</span>} <span class="co"># Diccionario</span></span>
-<span id="cb4-5"><a href=""></a>texto <span class="op">=</span> []                                  <span class="co"># Lista vacía</span></span>
-<span id="cb4-6"><a href=""></a></span>
-<span id="cb4-7"><a href=""></a><span class="co"># Lee línea por línea</span></span>
-<span id="cb4-8"><a href=""></a><span class="cf">for</span> línea <span class="kw">in</span> archivo:</span>
-<span id="cb4-9"><a href=""></a>    <span class="co"># Cuenta las palabras</span></span>
-<span id="cb4-10"><a href=""></a>    <span class="cf">for</span> palabra <span class="kw">in</span> línea.split():</span>
-<span id="cb4-11"><a href=""></a>        total_palabras <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb4-12"><a href=""></a>        <span class="co"># Cuenta las letras</span></span>
-<span id="cb4-13"><a href=""></a>        <span class="cf">for</span> letra <span class="kw">in</span> palabra:</span>
-<span id="cb4-14"><a href=""></a>            total_letras <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb4-15"><a href=""></a>            <span class="co"># Cuenta vocales</span></span>
-<span id="cb4-16"><a href=""></a>            vocal[<span class="st">'a'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'a'</span> <span class="cf">else</span> <span class="dv">0</span></span>
-<span id="cb4-17"><a href=""></a>            vocal[<span class="st">'e'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'e'</span> <span class="cf">else</span> <span class="dv">0</span></span>
-<span id="cb4-18"><a href=""></a>            vocal[<span class="st">'i'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'i'</span> <span class="cf">else</span> <span class="dv">0</span></span>
-<span id="cb4-19"><a href=""></a>            vocal[<span class="st">'o'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'o'</span> <span class="cf">else</span> <span class="dv">0</span></span>
-<span id="cb4-20"><a href=""></a>            vocal[<span class="st">'u'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'u'</span> <span class="cf">else</span> <span class="dv">0</span></span>
-<span id="cb4-21"><a href=""></a>    texto.append(línea)</span>
-<span id="cb4-22"><a href=""></a></span>
-<span id="cb4-23"><a href=""></a><span class="bu">print</span>(<span class="st">"-"</span><span class="op">*</span><span class="dv">40</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="sc">{:^40s}</span><span class="ch">\n</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Resultado"</span>) <span class="op">+</span> <span class="st">"-"</span><span class="op">*</span><span class="dv">40</span>)</span>
-<span id="cb4-24"><a href=""></a><span class="bu">print</span>(<span class="ss">f'Total palabras = </span><span class="sc">{</span>total_palabras<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb4-25"><a href=""></a><span class="bu">print</span>(<span class="ss">f'Total letras = </span><span class="sc">{</span>total_letras<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb4-26"><a href=""></a></span>
-<span id="cb4-27"><a href=""></a><span class="co"># Imprime el total de vocales y calcula el porcentaje</span></span>
-<span id="cb4-28"><a href=""></a>[<span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>vocal[k]<span class="sc">}</span><span class="ss">, (</span><span class="sc">{</span>vocal[k] <span class="op">/</span> total_letras<span class="sc">:5.3%}</span><span class="ss">)'</span>) <span class="cf">for</span> k <span class="kw">in</span> vocal]</span>
-<span id="cb4-29"><a href=""></a><span class="bu">print</span>(<span class="st">"-"</span><span class="op">*</span><span class="dv">40</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="sc">{:^40s}</span><span class="ch">\n</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Texto"</span>) <span class="op">+</span> <span class="st">"-"</span><span class="op">*</span><span class="dv">40</span>)</span>
-<span id="cb4-30"><a href=""></a><span class="co"># Imprime el texto</span></span>
-<span id="cb4-31"><a href=""></a>[<span class="bu">print</span>(línea, end<span class="op">=</span><span class="st">""</span>) <span class="cf">for</span> línea <span class="kw">in</span> texto]</span>
-<span id="cb4-32"><a href=""></a> </span>
-<span id="cb4-33"><a href=""></a>archivo.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>archivo <span class="op">=</span> <span class="bu">open</span>(<span class="st">"Don_Quijote.txt"</span>)           <span class="co"># Archivo</span></span>
+<span id="cb8-2"><a href=""></a>total_palabras <span class="op">=</span> <span class="dv">0</span>                          <span class="co"># Número entero</span></span>
+<span id="cb8-3"><a href=""></a>total_letras <span class="op">=</span> <span class="dv">0</span>                            <span class="co"># Número entero</span></span>
+<span id="cb8-4"><a href=""></a>vocal <span class="op">=</span> {<span class="st">'a'</span>:<span class="dv">0</span>, <span class="st">'e'</span>:<span class="dv">0</span>, <span class="st">'i'</span>:<span class="dv">0</span>, <span class="st">'o'</span>:<span class="dv">0</span>, <span class="st">'u'</span>:<span class="dv">0</span>} <span class="co"># Diccionario</span></span>
+<span id="cb8-5"><a href=""></a>texto <span class="op">=</span> []                                  <span class="co"># Lista vacía</span></span>
+<span id="cb8-6"><a href=""></a></span>
+<span id="cb8-7"><a href=""></a><span class="co"># Lee línea por línea</span></span>
+<span id="cb8-8"><a href=""></a><span class="cf">for</span> línea <span class="kw">in</span> archivo:</span>
+<span id="cb8-9"><a href=""></a>    <span class="co"># Cuenta las palabras</span></span>
+<span id="cb8-10"><a href=""></a>    <span class="cf">for</span> palabra <span class="kw">in</span> línea.split():</span>
+<span id="cb8-11"><a href=""></a>        total_palabras <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb8-12"><a href=""></a>        <span class="co"># Cuenta las letras</span></span>
+<span id="cb8-13"><a href=""></a>        <span class="cf">for</span> letra <span class="kw">in</span> palabra:</span>
+<span id="cb8-14"><a href=""></a>            total_letras <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb8-15"><a href=""></a>            <span class="co"># Cuenta vocales</span></span>
+<span id="cb8-16"><a href=""></a>            vocal[<span class="st">'a'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'a'</span> <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb8-17"><a href=""></a>            vocal[<span class="st">'e'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'e'</span> <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb8-18"><a href=""></a>            vocal[<span class="st">'i'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'i'</span> <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb8-19"><a href=""></a>            vocal[<span class="st">'o'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'o'</span> <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb8-20"><a href=""></a>            vocal[<span class="st">'u'</span>] <span class="op">+=</span> <span class="dv">1</span> <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'u'</span> <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb8-21"><a href=""></a>    texto.append(línea)</span>
+<span id="cb8-22"><a href=""></a></span>
+<span id="cb8-23"><a href=""></a><span class="bu">print</span>(<span class="st">"-"</span><span class="op">*</span><span class="dv">40</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="sc">{:^40s}</span><span class="ch">\n</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Resultado"</span>) <span class="op">+</span> <span class="st">"-"</span><span class="op">*</span><span class="dv">40</span>)</span>
+<span id="cb8-24"><a href=""></a><span class="bu">print</span>(<span class="ss">f'Total palabras = </span><span class="sc">{</span>total_palabras<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb8-25"><a href=""></a><span class="bu">print</span>(<span class="ss">f'Total letras = </span><span class="sc">{</span>total_letras<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb8-26"><a href=""></a></span>
+<span id="cb8-27"><a href=""></a><span class="co"># Imprime el total de vocales y calcula el porcentaje</span></span>
+<span id="cb8-28"><a href=""></a>[<span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>vocal[k]<span class="sc">}</span><span class="ss">, (</span><span class="sc">{</span>vocal[k] <span class="op">/</span> total_letras<span class="sc">:5.3%}</span><span class="ss">)'</span>) <span class="cf">for</span> k <span class="kw">in</span> vocal]</span>
+<span id="cb8-29"><a href=""></a><span class="bu">print</span>(<span class="st">"-"</span><span class="op">*</span><span class="dv">40</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="sc">{:^40s}</span><span class="ch">\n</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Texto"</span>) <span class="op">+</span> <span class="st">"-"</span><span class="op">*</span><span class="dv">40</span>)</span>
+<span id="cb8-30"><a href=""></a><span class="co"># Imprime el texto</span></span>
+<span id="cb8-31"><a href=""></a>[<span class="bu">print</span>(línea, end<span class="op">=</span><span class="st">""</span>) <span class="cf">for</span> línea <span class="kw">in</span> texto]</span>
+<span id="cb8-32"><a href=""></a> </span>
+<span id="cb8-33"><a href=""></a>archivo.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p><strong>Resultado</strong>:</p>
@@ -627,12 +774,12 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 <li>De inicio no requieres instalar nada en tu computadora, pues haremos uso de la plataforma <font style="color:DarkSlateGray"><b>MACTI</b></font>.</li>
 </ul>
 <div class="fragment">
-<div class="quarto-layout-panel" data-layout-ncol="3" data-layout-nrow="2">
+<div class="quarto-layout-panel" data-layout-nrow="2" data-layout-ncol="3">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-left">
 <figure>
-<p><a href="./figuras/macti01.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1" title="MACTI main"><img data-src="./figuras/macti01.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI main"></a></p>
+<p><a href="./figuras/macti01.png" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4" title="MACTI main"><img data-src="./figuras/macti01.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI main"></a></p>
 <figcaption>MACTI main</figcaption>
 </figure>
 </div>
@@ -640,7 +787,7 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-left">
 <figure>
-<p><a href="./figuras/macti02.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2" title="MACTI menú"><img data-src="./figuras/macti02.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI menú"></a></p>
+<p><a href="./figuras/macti02.png" class="lightbox" data-glightbox="description: .lightbox-desc-5" data-gallery="quarto-lightbox-gallery-5" title="MACTI menú"><img data-src="./figuras/macti02.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI menú"></a></p>
 <figcaption>MACTI menú</figcaption>
 </figure>
 </div>
@@ -648,7 +795,7 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-left">
 <figure>
-<p><a href="./figuras/macti03.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3" title="MACTI IGEF"><img data-src="./figuras/macti03.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI IGEF"></a></p>
+<p><a href="./figuras/macti03.png" class="lightbox" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6" title="MACTI IGEF"><img data-src="./figuras/macti03.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI IGEF"></a></p>
 <figcaption>MACTI IGEF</figcaption>
 </figure>
 </div>
@@ -658,7 +805,7 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-left">
 <figure>
-<p><a href="./figuras/macti_moodle_igf.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4" title="MACTI Moodle"><img data-src="./figuras/macti_moodle_igf.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI Moodle"></a></p>
+<p><a href="./figuras/macti_moodle_igf.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7" title="MACTI Moodle"><img data-src="./figuras/macti_moodle_igf.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI Moodle"></a></p>
 <figcaption>MACTI Moodle</figcaption>
 </figure>
 </div>
@@ -666,7 +813,7 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-left">
 <figure>
-<p><a href="./figuras/macti_jupyterhub_igf.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" data-glightbox="description: .lightbox-desc-5" title="MACTI Jupyterhub"><img data-src="./figuras/macti_jupyterhub_igf.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI Jupyterhub"></a></p>
+<p><a href="./figuras/macti_jupyterhub_igf.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8" title="MACTI Jupyterhub"><img data-src="./figuras/macti_jupyterhub_igf.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI Jupyterhub"></a></p>
 <figcaption>MACTI Jupyterhub</figcaption>
 </figure>
 </div>
@@ -674,7 +821,7 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-left">
 <figure>
-<p><a href="./figuras/macti_forgejo.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" data-glightbox="description: .lightbox-desc-6" title="MACTI Forgejo"><img data-src="./figuras/macti_forgejo.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI Forgejo"></a></p>
+<p><a href="./figuras/macti_forgejo.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9" title="MACTI Forgejo"><img data-src="./figuras/macti_forgejo.png" class="quarto-figure quarto-figure-left" style="width:75.0%" alt="MACTI Forgejo"></a></p>
 <figcaption>MACTI Forgejo</figcaption>
 </figure>
 </div>
@@ -690,33 +837,33 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 </ul>
 <div class="fragment">
 <p><strong>Evaluación formativa</strong>.</p>
-<div class="quarto-layout-panel" data-layout-ncol="4" data-layout-nrow="2">
+<div class="quarto-layout-panel" data-layout-nrow="2" data-layout-ncol="4">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/macti_evaluacion_01.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img data-src="./figuras/macti_evaluacion_01.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
+<p><a href="./figuras/macti_evaluacion_01.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img data-src="./figuras/macti_evaluacion_01.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/macti_evaluacion_02.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img data-src="./figuras/macti_evaluacion_02.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
+<p><a href="./figuras/macti_evaluacion_02.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img data-src="./figuras/macti_evaluacion_02.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/macti_evaluacion_03.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img data-src="./figuras/macti_evaluacion_03.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
+<p><a href="./figuras/macti_evaluacion_03.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img data-src="./figuras/macti_evaluacion_03.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/macti_evaluacion_04.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img data-src="./figuras/macti_evaluacion_04.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
+<p><a href="./figuras/macti_evaluacion_04.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img data-src="./figuras/macti_evaluacion_04.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
 </figure>
 </div>
 </div>
@@ -725,28 +872,28 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/macti_evaluacion_05.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img data-src="./figuras/macti_evaluacion_05.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
+<p><a href="./figuras/macti_evaluacion_05.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img data-src="./figuras/macti_evaluacion_05.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/macti_evaluacion_06.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img data-src="./figuras/macti_evaluacion_06.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
+<p><a href="./figuras/macti_evaluacion_06.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img data-src="./figuras/macti_evaluacion_06.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/macti_evaluacion_07.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img data-src="./figuras/macti_evaluacion_07.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
+<p><a href="./figuras/macti_evaluacion_07.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img data-src="./figuras/macti_evaluacion_07.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/macti_evaluacion_08.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img data-src="./figuras/macti_evaluacion_08.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
+<p><a href="./figuras/macti_evaluacion_08.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img data-src="./figuras/macti_evaluacion_08.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
 </figure>
 </div>
 </div>
@@ -763,7 +910,7 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 <p><strong>Notebooks</strong>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/macti_material_introPython.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img data-src="./figuras/macti_material_introPython.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
+<p><a href="./figuras/macti_material_introPython.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img data-src="./figuras/macti_material_introPython.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
 </figure>
 </div>
 </div>
@@ -783,17 +930,17 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/thinking_writing.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img data-src="./figuras/thinking_writing.jpg" class="quarto-figure quarto-figure-center" style="width:75.0%"></a></p>
+<p><a href="./figuras/thinking_writing.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img data-src="./figuras/thinking_writing.jpg" class="quarto-figure quarto-figure-center" style="width:75.0%"></a></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/1st_rule_programming.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img data-src="./figuras/1st_rule_programming.jpg" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
+<p><a href="./figuras/1st_rule_programming.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img data-src="./figuras/1st_rule_programming.jpg" class="quarto-figure quarto-figure-center" style="width:50.0%"></a></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/my_own_code.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img data-src="./figuras/my_own_code.jpg" class="quarto-figure quarto-figure-center" style="width:65.0%"></a></p>
+<p><a href="./figuras/my_own_code.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img data-src="./figuras/my_own_code.jpg" class="quarto-figure quarto-figure-center" style="width:65.0%"></a></p>
 </figure>
 </div>
 </div>
@@ -802,13 +949,13 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/chat_gpt_add.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img data-src="./figuras/chat_gpt_add.jpg" class="quarto-figure quarto-figure-center" style="width:85.0%"></a></p>
+<p><a href="./figuras/chat_gpt_add.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img data-src="./figuras/chat_gpt_add.jpg" class="quarto-figure quarto-figure-center" style="width:85.0%"></a></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./figuras/AI_more_original_than_researchers.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img data-src="./figuras/AI_more_original_than_researchers.jpg" class="quarto-figure quarto-figure-center" style="width:85.0%"></a></p>
+<p><a href="./figuras/AI_more_original_than_researchers.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img data-src="./figuras/AI_more_original_than_researchers.jpg" class="quarto-figure quarto-figure-center" style="width:85.0%"></a></p>
 </figure>
 </div>
 </div>
@@ -833,7 +980,7 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 <li><p>GitHub</p></li>
 <li><p>ChatGPT</p></li>
 <li><p>Clonar el repositorio</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/repomacti/introduccion_python.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/repomacti/introduccion_python.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>Git y GitHub</p></li>
 </ul></li>
 </ul>
@@ -844,12 +991,15 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
 </div>
 </div>
 <div class="hidden" aria-hidden="true">
-<span class="glightbox-desc lightbox-desc-1">MACTI main</span>
-<span class="glightbox-desc lightbox-desc-2">MACTI menú</span>
-<span class="glightbox-desc lightbox-desc-3">MACTI IGEF</span>
-<span class="glightbox-desc lightbox-desc-4">MACTI Moodle</span>
-<span class="glightbox-desc lightbox-desc-5">MACTI Jupyterhub</span>
-<span class="glightbox-desc lightbox-desc-6">MACTI Forgejo</span>
+<span class="glightbox-desc lightbox-desc-1">Cálculo Diferencial, ESFM-IPN, IMB PC 5150, Microsoft BASIC</span>
+<span class="glightbox-desc lightbox-desc-2">Mecánica Clásica, FC-UNAM, APPLE II, AppleSoft BASIC</span>
+<span class="glightbox-desc lightbox-desc-3">Turbo Pascal</span>
+<span class="glightbox-desc lightbox-desc-4">MACTI main</span>
+<span class="glightbox-desc lightbox-desc-5">MACTI menú</span>
+<span class="glightbox-desc lightbox-desc-6">MACTI IGEF</span>
+<span class="glightbox-desc lightbox-desc-7">MACTI Moodle</span>
+<span class="glightbox-desc lightbox-desc-8">MACTI Jupyterhub</span>
+<span class="glightbox-desc lightbox-desc-9">MACTI Forgejo</span>
 </div>
 </section></section>
 
@@ -1006,7 +1156,7 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
         hideCursorTime: 5000,
 
         // Opens links in an iframe preview overlay
-        previewLinks: true,
+        previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
         transition: 'none',
@@ -1217,7 +1367,7 @@ Diera él, por dar una mano de coces al traidor de Galalón, al ama que tenía, 
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"loop":false,"closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","openEffect":"zoom"});
+    <script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","closeEffect":"zoom","openEffect":"zoom","loop":false});
     window.onload = () => {
       lightboxQuarto.on('slide_before_load', (data) => {
         const { slideIndex, slideNode, slideConfig, player, trigger } = data;
