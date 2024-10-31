@@ -28,28 +28,41 @@ format:
 
 # <font color="FireBrick"><b>Historia</b></font>
 
-## Why OOPS?{.scrollable}
+## Iniciación en la programación.
+
+<font style="font-size:35px; color:DarkSlateGray">
 
 ::: {layout-nrow=1 layout-ncol="2"}
-![Cálculo Diferencial, ESFM-IPN, IMB PC 5150, Microsoft BASIC](./figuras/esfm_ipn.jpg){fig-align="center"  width=100% .lightbox}
+![**Cálculo Diferencial**, ESFM-IPN, IBM PC 5150, Microsoft BASIC](./figuras/esfm_ipn.jpg){fig-align="center"  width=100% .lightbox}
 
-![Mecánica Clásica, FC-UNAM, APPLE II, AppleSoft BASIC](./figuras/prometeo.jpg){fig-align="center"  width=100% .lightbox}
+![**Mecánica Clásica**, FC-UNAM, APPLE II, AppleSoft BASIC](./figuras/prometeo.jpg){fig-align="center"  width=100% .lightbox}
 :::
-
-::::{.columns}
-:::{.column width="60%"}
-<font style="font-size:30px;">
-
-* **BASIC** (*Beginners' All-purpose Symbolic Instruction Code*), por J.G. Kemeny y T.E. Kurtz, Dartmouth College, **1963**.
-  - Objetivo: proporcionar una herraminta para estudiantes de áreas no científicas.
-  - Se popularizó en los años 70. 
-  - Múltiples dialectos: Microsoft BASIC y Applesoft BASIC. 
-  - Declinó en los 90 por la aparición de C y Pascal.
 
 </font>
 
+##  BASIC 
+<font style="font-size:35px;">
+
+**B***eginners'* **A***ll-purpose **S***ymbolic **I***nstruction **C***ode, por J.G. Kemeny y T.E. Kurtz, Dartmouth College, **1963**.
+
+</font>
+
+<font style="font-size:30px;">
+
+* Herramienta para estudiantes de áreas no científicas; se popularizó en los años 70; declinó en los 90s: aparición de C y Pascal.
+
+</font>
+
+::::{.columns}
+:::{.column width="50%"}
+
+<font style="font-size:35px; color:DarkSlateGray">
+
+![Mecánica Clásica, FC-UNAM, APPLE II, AppleSoft BASIC](./figuras/prometeo.jpg){fig-align="center"  width=50% .lightbox}
+
+</font>
 :::
-:::{.column width="40%"}
+:::{.column width="50%"}
 
 ```{.basic}
 10 INPUT "What is your name: "; U$
@@ -70,30 +83,24 @@ format:
 :::
 ::::
 
-::::{.columns}
-:::{.column width="60%"}
+## Turbo Pascal {.scrollable}
+
 <font style="font-size:30px;">
 
-* **Turbo Pascal**, por Anders Hejlsberg en la compañía [Borland](https://en.wikipedia.org/wiki/Borland).
-  - Software que incluía un compilador y un IDE(Integrated Development Environment). 
-  - Luego apareció Turbo C, haciendo a Borland una compañía lider.
+Software desarrollado por Anders Hejlsberg en la compañía [Borland](https://en.wikipedia.org/wiki/Borland) con un compilador y un IDE(Integrated Development Environment).
 
-![Turbo Pascal](./figuras/Turbo_Pascal_7.jpg){fig-align="center"  width=75% .lightbox}
+</font>
+
+::::{.columns}
+:::{.column width="50%"}
+<font style="font-size:35px; color:DarkSlateGray">
+
+![Turbo Pascal 7.0](./figuras/Turbo_Pascal_7.jpg){fig-align="center"  width=100% .lightbox}
 
 </font>
 
 :::
-:::{.column width="40%"}
-
-```{.pascal}
-program HelloWorld;
-begin
-  WriteLn('Hello World');
-end.
-```
-
-<br>
-
+:::{.column width="50%"}
 ```{.pascal}
 program exProcedure;
 var
@@ -105,7 +112,6 @@ begin
       m:= x
    else
       m:= y;
-   
    if z < m then
       m:= z;
 end; { end of procedure findMin }  
@@ -114,22 +120,410 @@ begin
    writeln(' Enter three numbers: ');
    readln( a, b, c);
    findMin(a, b, c, min); (* Procedure call *)
-   
    writeln(' Minimum: ', min);
 end.
 ```
 :::
 ::::
 
-
-
 ## Supercómputo en la UNAM.
 
-::: {layout-nrow=1 layout-ncol="2"}
-![Cálculo Diferencial, ESFM-IPN, IMB PC 5150, Microsoft BASIC](./figuras/esfm_ipn.jpg){fig-align="center"  width=100% .lightbox}
+<font style="font-size:35px; color:DarkSlateGray">
 
-![Mecánica Clásica, FC-UNAM, APPLE II, AppleSoft BASIC](./figuras/prometeo.jpg){fig-align="center"  width=100% .lightbox}
+::: {layout-nrow=1 layout-ncol="2"}
+![Cray YMP-4/64, 1992.](./figuras/cray_ymp.png){fig-align="center"  width=85% .lightbox}
+
+![Plan de becarios en supercómputo, 1ra Generación, 1993.](./figuras/becario_supercomputo.png){fig-align="center"  width=85% .lightbox}
 :::
+
+</font>
+
+<font style="font-size:35px">
+
+* FORTRAN 77 (*Formula Translating System*).
+* Lenguaje C, desarrollado por Dennis Ritchie 1969 y 1972 en los Laboratorios Bell.
+
+</font>
+
+## Convección Natural.{.scrollable}
+
+```{.fortran}
+      PROGRAM ROT                                                               
+CC    History:                                                                  
+CC    The program rot was originated at the Universidad Iberoamericana and      
+CC    is a modification of the program 3Dbox which in turn                      
+CC    is the last heir of a series of codes written by Professor K.T. Yang      
+CC    and his students over the last 15 years. The author of 3Dbox is Dr        
+CC    Devadata Mukutmoni.                                                      
+CC    In September 1991 the code was transferred to Solar Energy Laboratory     
+CC    of the University of Mexico.                                              
+CC    Comments added in Mexico are denoted by double C.                         
+C                                                               
+...                                                                            
+C     THIS PROGRAM SOLVES THREE DIMENSIONAL BUOYANCY DRIVEN FLOWS IN            
+C     A RECTANGULAR CAVITY.                                                     
+CC    THE CAVITY IS ASSUMED TO BE ROTATING ARROUND THE VECTOR OMEGA             
+...
+      common/bl1/ dx,dy,dz,dxy,dyz,dzx,vol,dtime,voldt,ra,pr,sorsum             
+      COMMON/BL7/ NI,NIP1,NIM1,NJ,NJP1,NJM1,NK,NKP1,NKM1,                       
+     &            NIP2,NJP2,NKP2,ITER,NNMAX                                     
+CC
+      common/bl31/ tod(24,24,24),uod(24,24,24),vod(24,24,24),                   
+     &             wod(24,24,24),pod(24,24,24)                                  
+      common/bl32/ t(24,24,24)  ,u(24,24,24)  ,v(24,24,24),                     
+     &             w(24,24,24)  ,p(24,24,24)                                    
+      common/bl33/ tpd(24,24,24),upd(24,24,24),vpd(24,24,24),                   
+     &             wpd(24,24,24),ppd(24,24,24)                                  
+      common/bl34/ smp(24,24,24),resorm(93),thot,tcool,                         
+     &             du(24,24,24),dv(24,24,24),                                   
+     &             dw(24,24,24),pp(24,24,24)                                    
+      common/bl36/ ap(24,24,24),
+     &             ae(24,24,24),aw(24,24,24),                                   
+     &             an(24,24,24),as(24,24,24),                                   
+     &             af(24,24,24),ab(24,24,24),
+     &             sp(24,24,24),su(24,24,24)                                             
+CC                                                                              
+      COMMON/BL101/GX1U                                                         
+      COMMON/BL102/RAR,OX,OY,OZ,OMEGAX0,OMEGAY0,OMAGS                           
+      COMMON/BL103/TA                                                           
+      COMMON/BL201/GY1U                                                         
+      COMMON/BL301/GZ1U                                                         
+CC                                                                              
+      common/mean/t_mean(24,24,24),u_mean(24,24,24),                            
+     &            v_mean(24,24,24),w_mean(24,24,24),                            
+     &            p_mean(24,24,24)                                              
+      COMMON/ASP/AX,AZ,EPS                                                      
+      COMMON/ERROR/IMAX                                                         
+      common/count/nt,nmax
+CC
+      DIMENSION UU(40000),VV(40000),WW(40000)                                   
+      DIMENSION VECTOR(3,24,24,24)
+CC    DIMENSION VORT1(3,24,24,24)
+CC    DIMENSION VORT(3,24,24,24)
+CC    DIMENSION FCOR(3,24,24,24)
+CC
+      DATA sormax,itmax/2.00,5/                                                 
+      DATA pi,roll/3.14159265359,2.0/   
+CC
+      CHARACTER*16 ARCH8, ARCH9, ARCH10, TIEMPO
+      CHARACTER*16 ARCH32, ARCH33, ARCH37
+      ARCH8 = 'TEMP.'
+      ARCH9 = 'VELC.'
+CC    ARCH10 = 'FCOR.'
+      ARCH32 = 'JTEMP.'
+      ARCH33 = 'JVELC.'
+CC    ARCH37 = 'VORT.'
+
+...
+
+c                                                                               
+c     FOR CONTINUING RUN, READ FROM DATASET    
+c 
+      if(krun .eq. 1) then
+        do 1370 k=1,nkp1
+        do 1370 j=1,njp1
+        do 1370 i=1,nip1
+         read(30,3030) tod(i,j,k),uod(i,j,k),vod(i,j,k),
+     &                            wod(i,j,k),pod(i,j,k)
+ 1370   continue
+      else
+         do 220 j=1,njp1                                                        
+           yy = (float(j) - 1.5) / float(nim1)                                  
+           do 220 i=1,nip1                                                      
+              do 220 k=1,nkp1                                                   
+                 uod(i,j,k) = 0.                                                
+                 u(i,j,k) = 0.                                                  
+                 upd(i,j,k) = 0.                                                
+                 vod(i,j,k) = 0.                                                
+                 v(i,j,k) = 0.                                                  
+                 vpd(i,j,k) = 0.                                                
+                 w(i,j,k) = 0.                                                  
+                 wpd(i,j,k) = 0.                                                
+                 wod(i,j,k) = 0.                                                
+                 pod(i,j,k) = 0.                                                
+                 p(i,j,k) = 0.                                                  
+                 ppd(i,j,k) = 0.                                                
+                 du(i,j,k) = 0.                                                 
+                 dv(i,j,k) = 0.                                                 
+                 dw(i,j,k) = 0.                                                 
+                 su(i,j,k) = 0.                                                 
+                 sp(i,j,k) = 0.                                                 
+                 pp(i,j,k) = 0.                                                 
+                 ap(i,j,k) = 0.                                                 
+                 aw(i,j,k) = 0.                                                 
+                 ae(i,j,k) = 0.                                                 
+                 as(i,j,k) = 0.                                                 
+                 smp(i,j,k) = 0.                                                
+CC               tod(i,j,k) = 0.5 - yy                                          
+                 tod(i,j,k) = 0.                                          
+                 t(i,j,k) = tod(i,j,k)                                          
+                 tpd(i,j,k) = tod(i,j,k)                                        
+                 T_MEAN(I,J,K) = 0.                                             
+                 U_MEAN(I,J,K) = 0.                                             
+                 V_MEAN(I,J,K) = 0.                                             
+                 W_MEAN(I,J,K) = 0.                                             
+                 P_MEAN(I,J,K) = 0.                                             
+  220         continue                                                    
+                 an(i,j,k) = 0.                                                       
+c                                                                               
+c        AMPLITUDE OF PERTURBATIONS                                             
+c                                                                               
+       A1 = 1. / AX                                                      
+       ROLL = 1.0
+       YPER = ROLL * XPER / AX                                           
+c
+c	 Defasamiento en las componentes de la velocidad
+c	 de la perturbacion para obtener un rollo simetrico.
+c
+       DF1 = 1.5
+       DF2 = 1.5
+c                                                                               
+c        U VELOCITY PERTURBATIONS                                               
+c                                                                               
+       do 230 k=2,nk                                                            
+          DO 230 J=2,NJ                                                         
+             DO 230 I=2,NI                                                      
+                U(I,J,K) = - XPER * COS(PI * DY * (FLOAT(J) - DF1))             
+     &                * SIN(ROLL * PI * DX * A1 * (FLOAT(I) - DF2))           
+                UOD(I,J,K) = U(I,J,K)                                           
+                UPD(I,J,K) = U(I,J,K)                                           
+ 230  CONTINUE                                                                  
+c                                                                               
+c        V VELOCITY PERTURBATIONS                                               
+c                                                                              
+       do 235 k=2,nk                                                            
+          DO 235 J=2,NJ                                                         
+             DO 235 I=2,NI                                                      
+                V(I,J,K) = YPER * SIN(PI * DY * (FLOAT(J) - DF2))               
+     &              * COS(ROLL * PI * DX * A1 * (FLOAT(I) - DF1))               
+                VOD(I,J,K) = V(I,J,K)                                           
+                VPD(I,J,K) = V(I,J,K)                                           
+ 235   continue                                                                 
+      endif                                                                     
+c                                                                               
+c          SET THE HOT AND COLD WALL TEMPERATURE                                
+c                                                                               
+      thot = 0.5                                                                
+      TCOOL = - 0.5                                                             
+c                                                                               
+c          SET THE VELOCITIES OUTSIDE THE COMPUTATIONAL                         
+c                DOMAIN TO ZERO                                                 
+c                                                                               
+      do 505 i=1,nip1                                                           
+         DO 505 J=1,NJP1                                                        
+            UOD(I,J,1) = 0.                                                     
+            UOD(I,J,NKP1) = 0.                                                  
+            VOD(I,J,1) = 0.                                                     
+            VOD(I,J,NKP1) = 0.                                                  
+            WOD(I,J,1) = 0.                                                     
+            WOD(I,J,2) = 0.                                                     
+            WOD(I,J,NKP1) = 0.                                                  
+  505 continue                                                                  
+      do 510 i=1,nip1                                                           
+         DO 510 K=1,NKP1                                                        
+            UOD(I,1,K) = 0.                                                     
+            UOD(I,NJP1,K) = 0.                                                  
+            VOD(I,1,K) = 0.                                                     
+            VOD(I,2,K) = 0.                                                     
+            VOD(I,NJP1,K) = 0.                                                  
+            WOD(I,1,K) = 0.                                                     
+            WOD(I,NJP1,K) = 0.                                                  
+  510 CONTINUE                                                                  
+      do 520 j=1,njp1                                                           
+         DO 520 K=1,NKP1                                                        
+            UOD(1,J,K) = 0.                                                     
+            UOD(2,J,K) = 0.                                                     
+            UOD(NIP1,J,K) = 0.                                                  
+            VOD(1,J,K) = 0.                                                     
+            VOD(NIP1,J,K) = 0.                                                  
+            WOD(1,J,K) = 0.                                                     
+            WOD(NIP1,J,K) = 0.                                                  
+  520 continue                                                                  
+c                                                                               
+c        INITIALISE u,v,w,t,p                                                   
+c                                                                               
+      do 210 k=1,nkp1                                                           
+         do 210 j=1,njp1                                                        
+            do 210 i=1,nip1                                                     
+               t(i,j,k) = tod(i,j,k)                                            
+               u(i,j,k) = uod(i,j,k)                                            
+               v(i,j,k) = vod(i,j,k)                                            
+               w(i,j,k) = wod(i,j,k)                                            
+               p(i,j,k) = pod(i,j,k)                                            
+  210 continue    
+
+...
+c                                                                               
+c    THE MAIN TIME MARCHING LOOP BEGINS HERE                                    
+c   
+
+...
+
+  300 continue                                                                  
+c                                                                               
+      nt = nt + 1                                                               
+CC                                                                              
+      PRINT *, 'TIME STEP =',NT     
+
+...
+
+      xtime = xtime + dtime                                                     
+c                                                                               
+c        START CALCULATIONS                                                     
+c  
+
+...
+
+      call calt                                                                 
+c                                                                               
+      do 2220 i=1,nip1                                                          
+         do 2220 k=1,nkp1                                                       
+            do 2220 j=2,nj                                                      
+               IF (T(I,J,K) .LT. TCOOL) T(I,J,K) = TCOOL                        
+               IF (T(I,J,K). GT. THOT) T(I,J,K) = THOT                          
+ 2220 continue                                     
+
+ ...
+
+ c                                                                               
+c        PRESSURE CORRECTION LOOP                                               
+c                                                                               
+  301 continue                                                                  
+      ITER = ITER + 1                                                           
+c                                                                               
+      call calu                                                                 
+c                                                                               
+      call calv                                                                 
+c                                                                               
+      call calw                                                                 
+c                                                                               
+      call calp                                                                 
+c                 
+
+...
+
+      if(resorm(iter) .le. sormax) go to 49                                     
+      if(iter .eq. 1) go to 302                                                 
+      if(resorm(iter) .le. resorm(iter-1)) go to 302                            
+      go to 304                                                                 
+  302 if(jterm .ge. 2) go to 37                                                 
+      source=resorm(iter)                                                       
+      go to 39                                                                  
+   37 if(resorm(iter) .le. source) go to 38                                     
+      go to 304                                                                 
+   38 source=resorm(iter)                                                       
+   39 continue                                                                  
+      do 23 k=1,nkp1                                                            
+         do 23 j=1,njp1                                                         
+            do 23 i=1,nip1                                                      
+               tpd(i,j,k) = t(i,j,k)                                            
+               upd(i,j,k) = u(i,j,k)                                            
+               vpd(i,j,k) = v(i,j,k)                                            
+               wpd(i,j,k) = w(i,j,k)                                            
+               ppd(i,j,k) = p(i,j,k)                                            
+   23 continue                                                                  
+      jjterm=0                                                                  
+      if(iter .eq. itmax) go to 49                                              
+      if(jterm .eq. 2) go to 35                                                 
+      if(iter .eq. 4) go to 29                                                  
+   35 continue                                                                  
+      if(jterm .eq. 3) go to 58                                                 
+      if(iter .eq. 7) go to 29                                                  
+   58 continue                                                                  
+      jjterm=0                                                                  
+      go to 301                                                                 
+  304 continue                                                                  
+      jjterm=jjterm+1                                                           
+      if(jterm .eq. 1) go to 41                                                 
+      if(jterm .eq. 2 .and. jjterm .eq. 1 .and. iter .ne. 5) go to 41           
+      go to 82                                                                  
+   41 continue                                                                  
+      do 40 k=1,nkp1                                                            
+         do 40 j=1,njp1                                                         
+            do 40 i=1,nip1                                                      
+               u(i,j,k) = upd(i,j,k)                                            
+               v(i,j,k) = vpd(i,j,k)                                            
+               w(i,j,k) = wpd(i,j,k)                                            
+               p(i,j,k) = ppd(i,j,k)                                            
+   40 continue                                                                  
+      if(iter .eq. itmax) go to 49                                              
+      go to 29                                                                  
+   82 continue                                                                  
+      do 43 k=1,nkp1                                                            
+         do 43 j=1,njp1                                                         
+            do 43 i=1,nip1                                                      
+               t(i,j,k) = tpd(i,j,k)                                            
+               u(i,j,k) = upd(i,j,k)                                            
+               v(i,j,k) = vpd(i,j,k)                                            
+               w(i,j,k) = wpd(i,j,k)                                            
+               p(i,j,k) = ppd(i,j,k)                                            
+   43 continue                                                                  
+      if(iter .eq. itmax) go to 49                                              
+      if((jterm .eq. 3 .and. iter .ne. 8) .or. jjterm .eq. 2) go to 49          
+      go to 301                                                                 
+   49 continue                                                                  
+c                                                                               
+      II = NIP1 / 3                                                             
+      JJ = NJP1 / 3                                                             
+      KK = NKP1 / 3                                                             
+      uu(nt) = u(ii,jj,kk)                                                      
+      vv(nt) = v(ii,jj,kk)                                                      
+      ww(nt) = w(ii,jj,kk)                                                      
+
+... 
+
+     go to 300
+
+CC  Hay que cerrar los archivos abiertos
+
+      CLOSE(12)
+      CLOSE(13)
+      CLOSE(14)
+      CLOSE(15)
+      CLOSE(16)
+      CLOSE(17)
+      CLOSE(18)
+      CLOSE(19)
+      CLOSE(20)
+      CLOSE(30)
+      CLOSE(31)
+      CLOSE(34)
+      CLOSE(35)
+      end             
+
+c *********************************************************************         
+      subroutine calt                                                           
+      common/bl1/dx,dy,dz,dxy,dyz,dzx,vol,dtime,voldt,ra,pr,sorsum              
+      common/bl7/ni,nip1,nim1,nj,njp1,njm1,nk,nkp1,nkm1                         
+     &  ,NIP2,NJP2,NKP2,ITER,NNMAX                                              
+      common/bl31/ tod(24,24,24),uod(24,24,24),vod(24,24,24),                   
+     &             wod(24,24,24),pod(24,24,24)                                  
+      common/bl32/ t(24,24,24)  ,u(24,24,24)  ,v(24,24,24),                     
+     &             w(24,24,24)  ,p(24,24,24)                                    
+      common/bl33/ tpd(24,24,24),upd(24,24,24),vpd(24,24,24),                   
+     &             wpd(24,24,24),ppd(24,24,24)                                  
+      common/bl34/smp(24,24,24),resorm(93),thot,tcool,                          
+     &     du(24,24,24),dv(24,24,24)                                            
+     &    ,dw(24,24,24),pp(24,24,24)                                            
+      common/bl36/ap(24,24,24),ae(24,24,24),                                    
+     &       aw(24,24,24),an(24,24,24),                                         
+     &        as(24,24,24),af(24,24,24),ab(24,24,24)                            
+     &   ,sp(24,24,24),su(24,24,24)                                             
+      common/mean/t_mean(24,24,24),u_mean(24,24,24),                            
+     &            v_mean(24,24,24),w_mean(24,24,24),                            
+     &            p_mean(24,24,24)                                              
+c                                                                               
+c         CALCULATE COEFFICIENTS                                                
+c                                                                               
+...
+```
+
+<font style="font-size:35px; color:DarkSlateGray">
+
+![Convección natural en una cavidad rotatoria, 1996.](./figuras/conveccion.png){fig-align="center"  width=75% .lightbox}
+
+</font>
+
 
 ## Simula
 
